@@ -1,5 +1,4 @@
-import { Component, inject, PLATFORM_ID, OnDestroy, afterNextRender, NgZone } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Component, OnDestroy, AfterViewInit, DestroyRef, inject } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -14,10 +13,12 @@ const SCRAMBLE_CHARS = 'АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',
 })
-export class LandingComponent implements OnDestroy {
-  private isBrowser: boolean;
+export class LandingComponent implements AfterViewInit, OnDestroy {
   private timers: ReturnType<typeof setTimeout | typeof setInterval>[] = [];
-  private scrambleStarted = false;
+  private styleObserver: MutationObserver | null = null;
+  private booted = false;
+
+  protected subtitleText = SUBTITLE_TEXT;
 
   protected items: { label: string; href: string }[] = [
     { label: 'Главная', href: '#hero' },
@@ -50,15 +51,16 @@ export class LandingComponent implements OnDestroy {
     },
   ];
 
-  private readonly platformId = inject(PLATFORM_ID);
-  private readonly zone = inject(NgZone);
-
   constructor() {
-    this.isBrowser = isPlatformBrowser(this.platformId);
+    inject(DestroyRef).onDestroy(() => {
+      this.styleObserver?.disconnect();
+      this.clearTimers();
+    });
+  }
 
-    if (this.isBrowser) {
-      afterNextRender(() => this.zone.runOutsideAngular(() => this.boot()));
-    }
+  ngAfterViewInit(): void {
+    this.boot();
+    this.watchStyleChanges();
   }
 
   // ─── Boot ────────────────────────────────────────────────
@@ -71,7 +73,12 @@ export class LandingComponent implements OnDestroy {
 
     if (!logo || !subtitle || !button || !socials) return;
 
-    // Hero timeline
+    this.booted = true;
+
+    // Kill old tweens before creating new ones
+    gsap.killTweensOf([logo, subtitle, button, socials]);
+    ScrollTrigger.getAll().forEach(t => t.kill());
+
     gsap.set(logo, { filter: 'blur(20px)', opacity: 0 });
     gsap.set(subtitle, { opacity: 0 });
     gsap.set(button, { opacity: 0, y: 20 });
@@ -84,10 +91,8 @@ export class LandingComponent implements OnDestroy {
     tl.to(button, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 1.2);
     tl.to(socials, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 1.4);
 
-    // Scramble — plain setTimeout, no GSAP dependency
     this.delay(() => this.startScramble(subtitle), 1100);
 
-    // Scroll animations — separate timer to avoid SSR timing issues
     this.delay(() => {
       ScrollTrigger.refresh(true);
       this.initRevealOnScroll();
@@ -97,6 +102,28 @@ export class LandingComponent implements OnDestroy {
     }, 200);
   }
 
+  // ─── Watch style HMR ────────────────────────────────────
+
+  private watchStyleChanges(): void {
+    let refreshTimeout: ReturnType<typeof setTimeout> | null = null;
+
+    const scheduleRefresh = () => {
+      if (refreshTimeout) clearTimeout(refreshTimeout);
+      refreshTimeout = setTimeout(() => {
+        ScrollTrigger.refresh(true);
+      }, 100);
+    };
+
+    this.styleObserver = new MutationObserver(scheduleRefresh);
+
+    this.styleObserver.observe(document.head, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+      attributes: true,
+    });
+  }
+
   // ─── Helpers ─────────────────────────────────────────────
 
   private delay(fn: () => void, ms: number): void {
@@ -104,12 +131,17 @@ export class LandingComponent implements OnDestroy {
     this.timers.push(id);
   }
 
+  private clearTimers(): void {
+    this.timers.forEach(t => {
+      clearInterval(t as unknown as number);
+      clearTimeout(t as unknown as number);
+    });
+    this.timers = [];
+  }
+
   // ─── Scramble text ───────────────────────────────────────
 
   private startScramble(el: HTMLElement): void {
-    if (this.scrambleStarted) return;
-    this.scrambleStarted = true;
-
     el.textContent = '';
 
     const spans: HTMLSpanElement[] = [];
@@ -214,21 +246,17 @@ export class LandingComponent implements OnDestroy {
   // ─── Click effects ──────────────────────────────────────
 
   private initClickEffects(): void {
-    // Main CTA button
     const mainBtn = document.querySelector<HTMLElement>('.main__content__button');
     if (mainBtn) this.pressEffect(mainBtn, 0.93);
 
-    // Social icons
     document.querySelectorAll<HTMLElement>('.social').forEach(el => {
       this.pressEffect(el, 0.85);
     });
 
-    // Card "Подробнее" buttons
     document.querySelectorAll<HTMLElement>('.info__button').forEach(el => {
       this.pressEffect(el, 0.9);
     });
 
-    // Card items
     document.querySelectorAll<HTMLElement>('.show__content__item').forEach(el => {
       this.pressEffect(el, 0.97);
     });
@@ -262,13 +290,9 @@ export class LandingComponent implements OnDestroy {
   // ─── Cleanup ─────────────────────────────────────────────
 
   ngOnDestroy(): void {
-    this.timers.forEach(t => {
-      clearInterval(t as unknown as number);
-      clearTimeout(t as unknown as number);
-    });
-    if (this.isBrowser) {
-      ScrollTrigger.getAll().forEach(t => t.kill());
-      gsap.killTweensOf('*');
-    }
+    this.clearTimers();
+    this.styleObserver?.disconnect();
+    ScrollTrigger.getAll().forEach(t => t.kill());
+    gsap.killTweensOf('*');
   }
 }

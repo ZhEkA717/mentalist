@@ -51,6 +51,45 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     },
   ];
 
+  protected ribbonItems = [
+    {
+      id: 1,
+      icon: 'assets/images/image_1.png',
+      description: 'Самый титулованный \n' +
+        'менталист СНГ'
+    },
+    {
+      id: 2,
+      icon: 'assets/images/image_2.png',
+      description: '15+ лет \n' +
+        'на сцене'
+    },
+    {
+      id: 3,
+      icon: 'assets/images/image_3.png',
+      description: 'Создатель авторских \n' +
+        'шоу и эффектов'
+    },
+    {
+      id: 4,
+      icon: 'assets/images/image_4.png',
+      description: 'Консультант\n' +
+        'ТВ-проектов'
+    },
+    {
+      id: 5,
+      icon: 'assets/images/image_5.png',
+      description: 'Дипломированный \n' +
+        'психолог'
+    },
+    {
+      id: 6,
+      icon: 'assets/images/image_6.png',
+      description: 'Спикер международных\n' +
+        'фестивалей'
+    }
+  ]
+
   constructor() {
     inject(DestroyRef).onDestroy(() => {
       this.styleObserver?.disconnect();

@@ -219,12 +219,16 @@
 
   }
 
-  .promo {
-    width: 100%;
-    height: 844px;
+  .promo-show-wrapper {
     background-image: url("/assets/images/background_2.webp");
     background-size: cover;
     background-position-x: center;
+    height: 1500px;
+  }
+
+  .promo {
+    width: 100%;
+    height: 750px;
 
     &__content {
       display: flex;
@@ -232,7 +236,6 @@
       justify-content: center;
       width: 100%;
       height: 100%;
-      gap: 32px;
 
       &__title {
         background-image: linear-gradient(89.11deg, #80724C -17.31%, #E6CC89 93.14%);
@@ -247,6 +250,7 @@
       }
 
       &__wrapper {
+        margin-top: 32px;
         display: flex;
         gap: 30px;
 
@@ -277,6 +281,7 @@
       }
 
       &__footer {
+        margin-top: 100px;
         align-self: center;
         font-weight: 600;
         font-style: Italic;
@@ -297,10 +302,6 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 770px;
-    background-image: url("/assets/images/background_3.webp");
-    background-size: cover;
-    background-position-x: center;
 
     &__content {
       display: flex;
@@ -477,8 +478,38 @@
 
   .ribbon {
     width: 100%;
-    height: 151px;
     background: linear-gradient(180deg, #531317 0%, #3A0D10 120.13%);
+    display: grid;
+    place-items: center;
+
+    &__content {
+      &__items {
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      &__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        text-align: center;
+
+        p {
+          font-weight: 300;
+          font-size: 12px;
+          line-height: 100%;
+          letter-spacing: 0;
+          text-align: center;
+          vertical-align: middle;
+          text-transform: uppercase;
+          color: #FFFFFF;
+        }
+      }
+    }
   }
 
   .about {

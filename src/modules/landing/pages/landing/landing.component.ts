@@ -90,6 +90,89 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     }
   ]
 
+  protected sliderItems = [
+    'assets/images/IMG_1.png',
+    'assets/images/IMG_2.png',
+    'assets/images/IMG_3.png',
+    'assets/images/IMG_4.png',
+    'assets/images/IMG_5.png',
+    'assets/images/IMG_6.png',
+    'assets/images/IMG_7.png',
+    'assets/images/IMG_8.png',
+    'assets/images/IMG_9.png',
+    'assets/images/IMG_10.png',
+    'assets/images/IMG_11.png',
+    'assets/images/IMG_12.png',
+    'assets/images/IMG_13.png',
+    'assets/images/IMG_14.png',
+    'assets/images/IMG_15.png',
+    'assets/images/IMG_16.png',
+  ];
+
+  protected currentSlideIndex = 0;
+
+  protected get totalSlides(): number {
+    return this.sliderItems.length;
+  }
+
+  protected prevSlide(): void {
+    this.currentSlideIndex =
+      (this.currentSlideIndex - 1 + this.totalSlides) % this.totalSlides;
+  }
+
+  protected nextSlide(): void {
+    this.currentSlideIndex =
+      (this.currentSlideIndex + 1) % this.totalSlides;
+  }
+
+  protected goToSlide(index: number): void {
+    this.currentSlideIndex = index;
+  }
+
+  protected getSliderStyle(index: number): Record<string, string> {
+    const diff = index - this.currentSlideIndex;
+    const total = this.totalSlides;
+
+    let normalizedDiff = diff;
+    if (diff > total / 2) normalizedDiff = diff - total;
+    if (diff < -total / 2) normalizedDiff = diff + total;
+
+    const absDiff = Math.abs(normalizedDiff);
+
+    if (absDiff === 0) {
+      return {
+        transform: `translateX(0) scale(1)`,
+        opacity: '1',
+        zIndex: '3',
+        width: '425px',
+        height: '283px',
+      };
+    }
+
+    if (absDiff === 1) {
+      const direction = normalizedDiff > 0 ? 1 : -1;
+      const xOffset = direction * (425 / 2 + 244 / 2 + 16);
+      return {
+        transform: `translateX(${xOffset}px) scale(${244 / 425})`,
+        opacity: '0.85',
+        zIndex: '2',
+        width: '244px',
+        height: '163px',
+      };
+    }
+
+    const direction = normalizedDiff > 0 ? 1 : -1;
+    const xOffset =
+      direction * ((425 / 2 + 244 / 2 + 16) + (244 / 2 + 16) * (absDiff - 1));
+    return {
+      transform: `translateX(${xOffset}px) scale(0.6)`,
+      opacity: '0',
+      zIndex: '1',
+      width: '244px',
+      height: '163px',
+    };
+  }
+
   constructor() {
     inject(DestroyRef).onDestroy(() => {
       this.styleObserver?.disconnect();

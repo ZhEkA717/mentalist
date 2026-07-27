@@ -31,6 +31,7 @@
               }
             ],
             "styles": [
+              "src/taiga-styles.less",
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
@@ -49,8 +50,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "10kB",
-                  "maximumError": "15kB"
+                  "maximumWarning": "30kB",
+                  "maximumError": "40kB"
                 }
               ],
               "outputHashing": "all"

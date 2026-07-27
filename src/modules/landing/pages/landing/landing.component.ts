@@ -1,7 +1,8 @@
-import { Component, OnDestroy, AfterViewInit, DestroyRef, inject, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy} from '@angular/core';
+import {gsap} from 'gsap';
+import {ScrollTrigger} from 'gsap/ScrollTrigger';
+import {GalleryComponent} from '../../components/gallery/gallery.component';
+import {CarouselComponent} from '../../components/carousel/carousel.component';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +14,11 @@ const SCRAMBLE_CHARS = 'АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ
   standalone: true,
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',
+  imports: [
+    GalleryComponent,
+    CarouselComponent
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LandingComponent implements AfterViewInit, OnDestroy {
   private timers: ReturnType<typeof setTimeout | typeof setInterval>[] = [];
@@ -109,110 +115,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     'assets/images/IMG_15.png',
     'assets/images/IMG_16.png',
   ];
-
-  protected currentSlideIndex = 0;
-
-  protected get totalSlides(): number {
-    return this.sliderItems.length;
-  }
-
-  protected prevSlide(): void {
-    this.currentSlideIndex =
-      (this.currentSlideIndex - 1 + this.totalSlides) % this.totalSlides;
-  }
-
-  protected nextSlide(): void {
-    this.currentSlideIndex =
-      (this.currentSlideIndex + 1) % this.totalSlides;
-  }
-
-  protected goToSlide(index: number): void {
-    this.currentSlideIndex = index;
-  }
-
-  protected getSliderStyle(index: number): Record<string, string> {
-    const diff = index - this.currentSlideIndex;
-    const total = this.totalSlides;
-
-    let normalizedDiff = diff;
-    if (diff > total / 2) normalizedDiff = diff - total;
-    if (diff < -total / 2) normalizedDiff = diff + total;
-
-    const absDiff = Math.abs(normalizedDiff);
-
-    if (absDiff === 0) {
-      return {
-        transform: `translateX(0) scale(1)`,
-        opacity: '1',
-        zIndex: '3',
-        width: '425px',
-        height: '283px',
-      };
-    }
-
-    if (absDiff === 1) {
-      const direction = normalizedDiff > 0 ? 1 : -1;
-      const xOffset = direction * (425 / 2 + 244 / 2 + 16);
-      return {
-        transform: `translateX(${xOffset}px) scale(${244 / 425})`,
-        opacity: '0.85',
-        zIndex: '2',
-        width: '244px',
-        height: '163px',
-      };
-    }
-
-    const direction = normalizedDiff > 0 ? 1 : -1;
-    const xOffset =
-      direction * ((425 / 2 + 244 / 2 + 16) + (244 / 2 + 16) * (absDiff - 1));
-    return {
-      transform: `translateX(${xOffset}px) scale(0.6)`,
-      opacity: '0',
-      zIndex: '1',
-      width: '244px',
-      height: '163px',
-    };
-  }
-
-  protected galleryOpen = false;
-  protected galleryIndex = 0;
-
-  protected openGallery(index: number): void {
-    this.galleryIndex = index;
-    this.galleryOpen = true;
-    document.body.style.overflow = 'hidden';
-  }
-
-  protected closeGallery(): void {
-    this.galleryOpen = false;
-    document.body.style.overflow = '';
-  }
-
-  protected galleryPrev(): void {
-    this.galleryIndex =
-      (this.galleryIndex - 1 + this.totalSlides) % this.totalSlides;
-  }
-
-  protected galleryNext(): void {
-    this.galleryIndex =
-      (this.galleryIndex + 1) % this.totalSlides;
-  }
-
-  @HostListener('document:keydown', ['$event'])
-  onKeydown(event: KeyboardEvent): void {
-    if (!this.galleryOpen) return;
-    switch (event.key) {
-      case 'Escape':
-        this.closeGallery();
-        break;
-      case 'ArrowLeft':
-        this.galleryPrev();
-        break;
-      case 'ArrowRight':
-        this.galleryNext();
-        break;
-    }
-  }
 
   constructor() {
     inject(DestroyRef).onDestroy(() => {

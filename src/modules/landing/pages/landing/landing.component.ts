@@ -1,4 +1,5 @@
-import { Component, OnDestroy, AfterViewInit, DestroyRef, inject } from '@angular/core';
+import { Component, OnDestroy, AfterViewInit, DestroyRef, inject, HostListener } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -171,6 +172,46 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       width: '244px',
       height: '163px',
     };
+  }
+
+  protected galleryOpen = false;
+  protected galleryIndex = 0;
+
+  protected openGallery(index: number): void {
+    this.galleryIndex = index;
+    this.galleryOpen = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  protected closeGallery(): void {
+    this.galleryOpen = false;
+    document.body.style.overflow = '';
+  }
+
+  protected galleryPrev(): void {
+    this.galleryIndex =
+      (this.galleryIndex - 1 + this.totalSlides) % this.totalSlides;
+  }
+
+  protected galleryNext(): void {
+    this.galleryIndex =
+      (this.galleryIndex + 1) % this.totalSlides;
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydown(event: KeyboardEvent): void {
+    if (!this.galleryOpen) return;
+    switch (event.key) {
+      case 'Escape':
+        this.closeGallery();
+        break;
+      case 'ArrowLeft':
+        this.galleryPrev();
+        break;
+      case 'ArrowRight':
+        this.galleryNext();
+        break;
+    }
   }
 
   constructor() {

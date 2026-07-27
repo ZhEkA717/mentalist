@@ -245,6 +245,7 @@
                 <div
                   class="carousel__slide"
                   [style]="getSliderStyle(i)"
+                  (click)="openGallery(i)"
                 >
                   <img [src]="item" [alt]="'photo ' + (i + 1)" />
                 </div>
@@ -284,4 +285,27 @@
       </div>
     </div>
   </section>
+  @if (galleryOpen) {
+    <div class="gallery" (click)="closeGallery()">
+      <button class="gallery__close" (click)="closeGallery(); $event.stopPropagation()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="gallery__arrow gallery__arrow--left" (click)="galleryPrev(); $event.stopPropagation()">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="gallery__content" (click)="$event.stopPropagation()">
+        <img [src]="sliderItems[galleryIndex]" [alt]="'photo ' + (galleryIndex + 1)" class="gallery__image" />
+        <div class="gallery__counter">{{ galleryIndex + 1 }} / {{ totalSlides }}</div>
+      </div>
+      <button class="gallery__arrow gallery__arrow--right" (click)="galleryNext(); $event.stopPropagation()">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  }
 </div>

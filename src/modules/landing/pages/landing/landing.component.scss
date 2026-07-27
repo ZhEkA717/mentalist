@@ -785,6 +785,25 @@
     }
   }
 
+  .ribbon2 {
+    width: 100%;
+    background: linear-gradient(180deg, #531317 0%, #3A0D10 120.13%);
+    display: grid;
+    place-items: center;
+    height: 150px;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    padding: 0 16px;
+
+    span {
+
+      white-space: nowrap;
+      display: grid;
+      place-items: center;
+      @include title-block;
+    }
+  }
+
 
 }
 

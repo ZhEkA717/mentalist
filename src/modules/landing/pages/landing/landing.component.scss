@@ -1,3 +1,84 @@
+// ============================================
+// Миксин: gradient-button
+// Создает кнопку с заливкой градиентом при ховере
+// ============================================
+@mixin gradient-button(
+  $text-color: #DFC784,
+  $hover-text-color: #FFFFFF,
+  $border-color: rgba(223, 199, 132, 0.4),
+  $hover-border-color: rgb(212, 175, 100),
+  $gradient-start: #503F1B,
+  $gradient-end: #DFC784,
+  $padding-y: 20px,
+  $padding-x: 40px,
+  $font-size: 24px,
+  $line-height: 30px,
+  $letter-spacing: -0.25px,
+  $border-radius: 66px,
+  $transition-duration: 0.35s
+) {
+  // Основные стили
+  padding: $padding-y $padding-x;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+
+  background: transparent;
+  color: $text-color;
+
+  font-weight: 600;
+  font-size: $font-size;
+  line-height: $line-height;
+  letter-spacing: $letter-spacing;
+  text-transform: uppercase;
+
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  cursor: pointer;
+
+  transition:
+    color $transition-duration ease,
+    border-color $transition-duration ease,
+    transform 0.15s ease;
+
+  // Псевдоэлемент с градиентом
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(268.68deg, $gradient-start -11.79%, $gradient-end 102.68%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: inherit;
+    z-index: 0;
+  }
+
+  // Контент поверх заливки
+  span {
+    position: relative;
+    z-index: 1;
+  }
+
+  // Hover
+  &:hover {
+    color: $hover-text-color;
+    border-color: $hover-border-color;
+
+    &::before {
+      transform: scaleX(1);
+    }
+  }
+
+  // Active
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
 .landing {
   display: block;
   position: relative;
@@ -107,56 +188,10 @@
       }
 
       &__button {
+        @include gradient-button;
         margin-left: 48px;
         align-self: flex-start;
         margin-top: 80px;
-        padding: 20px 40px;
-        position: relative;
-        overflow: hidden;
-        display: flex;
-        white-space: nowrap;
-        background: transparent;
-        color: #DFC784;
-        font-weight: 600;
-        font-size: 24px;
-        line-height: 30px;
-        letter-spacing: -0.25px;
-        vertical-align: middle;
-        text-transform: uppercase;
-        border: 1px solid rgba(223, 199, 132, 0.4);
-        border-radius: 66px;
-        cursor: pointer;
-        transition: color 0.35s ease, border-color 0.35s ease, transform 0.15s ease;
-
-        &::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(268.68deg, #503F1B -11.79%, #DFC784 102.68%);
-          transform: scaleX(0);
-          transform-origin: left;
-          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          border-radius: inherit;
-          z-index: 0;
-        }
-
-        span {
-          position: relative;
-          z-index: 1;
-        }
-
-        &:hover {
-          color: #FFFFFF;
-          border-color: rgb(212, 175, 100);
-
-          &::before {
-            transform: scaleX(1);
-          }
-        }
-
-        &:active {
-          transform: scale(0.95);
-        }
       }
 
       &__socials {
@@ -517,6 +552,137 @@
     background-image: url("/assets/images/background_4.webp");
     background-size: cover;
     background-position-x: center;
+
+    &__content {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 75px;
+      align-items: flex-end;
+      padding-top: 74px;
+
+      &__title {
+        background-image: linear-gradient(89.11deg, #80724C -17.31%, #E6CC89 93.14%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-weight: 700;
+        font-size: 40px;
+        font-style: italic;
+        line-height: 100%;
+        letter-spacing: 0;
+        text-transform: uppercase;
+        width: 785px;
+
+        p:last-child {
+          text-align: right;
+        }
+      }
+
+      &__info {
+        width: 721px;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+
+        .title {
+          color: #FFFFFF;
+          font-size: 32px;
+          font-weight: 600;
+          text-transform: uppercase;
+        }
+
+        .subtitle {
+          color: #E6CC89;
+          font-size: 20px;
+          font-weight: 600;
+          white-space: nowrap;
+          letter-spacing: -0.25px;
+          line-height: 30px;
+        }
+
+        .line {
+          background: linear-gradient(90deg, transparent, rgb(227, 205, 161), transparent);
+          width: 100%;
+          height: 4px;
+        }
+
+        .description {
+          color: #FFFFFF;
+          font-size: 20px;
+          font-weight: 400;
+          line-height: 28.8px;
+          display: flex;
+          flex-direction: column;
+          gap: 32px;
+        }
+
+        .button {
+          @include gradient-button;
+          width: 373px;
+          align-self: flex-end;
+          margin-top: 25px;
+        }
+      }
+    }
+  }
+
+  .lectures {
+    height: 899px;
+    background-image: url("/assets/images/background_5.webp");
+    background-size: cover;
+    background-position-x: center;
+
+    &__content {
+      display: flex;
+
+      &__left,
+      &__right {
+        width: 100%;
+
+        .title {
+          margin-top: 92px;
+          background-image: linear-gradient(89.11deg, #80724C -17.31%, #E6CC89 93.14%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          font-weight: 700;
+          font-size: 40px;
+          line-height: 100%;
+          letter-spacing: 0;
+          text-transform: uppercase;
+        }
+
+        .subtitle {
+          font-size: 20px;
+          font-weight: 400;
+          color: #FFFFFF;
+          line-height: 28.8px;
+          margin-top: 437px;
+        }
+
+        .button {
+          margin-top: 50px;
+          @include gradient-button;
+        }
+      }
+
+      &__right {
+        display: flex;
+        flex-direction: column;
+        align-content: flex-end;
+
+        .title,
+        .subtitle {
+          text-align: right;
+        }
+
+        .button {
+          align-self: flex-end;
+        }
+
+      }
+    }
   }
 }
 

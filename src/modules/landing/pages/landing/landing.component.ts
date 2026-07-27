@@ -1,8 +1,8 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy} from '@angular/core';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
-import {GalleryComponent} from '../../components/gallery/gallery.component';
 import {CarouselComponent} from '../../components/carousel/carousel.component';
+import {MarqueeDirective} from '../../directives/marquee.directive';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,8 +15,8 @@ const SCRAMBLE_CHARS = 'АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',
   imports: [
-    GalleryComponent,
-    CarouselComponent
+    CarouselComponent,
+    MarqueeDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

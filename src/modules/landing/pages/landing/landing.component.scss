@@ -506,11 +506,29 @@
     place-items: center;
 
     &__content {
+      overflow: hidden;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &.marquee-active {
+        justify-content: flex-start;
+      }
+
       &__items {
+        width: 1200px;
         height: 150px;
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        &.marquee-track {
+          width: max-content;
+          justify-content: flex-start;
+          animation: marquee 35s linear infinite;
+          column-gap: 40px;
+        }
       }
 
       &__item {
@@ -522,12 +540,12 @@
         text-align: center;
 
         p {
+          width: 200px;
           font-weight: 300;
           font-size: 12px;
           line-height: 100%;
           letter-spacing: 0;
           text-align: center;
-          vertical-align: middle;
           text-transform: uppercase;
           color: #FFFFFF;
         }
@@ -784,27 +802,48 @@
       }
     }
   }
-
   .ribbon2 {
     width: 100%;
     background: linear-gradient(180deg, #531317 0%, #3A0D10 120.13%);
-    display: grid;
-    place-items: center;
     height: 150px;
-    overflow-x: scroll;
-    scrollbar-width: none;
     padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    span {
+    &__track {
+      display: flex;
+      align-items: center;
+      width: max-content;
+      will-change: transform;
 
-      white-space: nowrap;
-      display: grid;
-      place-items: center;
-      @include title-block;
+      &.marquee-track {
+        animation: marquee 30s linear infinite;
+        column-gap: 100px;
+      }
+
+      span {
+        white-space: nowrap;
+        display: inline-grid;
+        place-items: center;
+        @include title-block;
+      }
+    }
+
+    &.marquee-active {
+      justify-content: flex-start;
     }
   }
 
 
+}
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

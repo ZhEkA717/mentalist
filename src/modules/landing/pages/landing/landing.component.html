@@ -224,7 +224,70 @@
             </div>
             <ng-container *ngTemplateOutlet="socials"></ng-container>
           </div>
-          <div class="main__right"></div>
+          <div class="main__right">
+            <div class="contacts__form">
+              <form [formGroup]="form" class="contacts__form__content reveal-on-scroll">
+                <div class="contacts__form__title reveal-on-scroll">
+                  ОСТАВИТЬ ЗАЯВКУ
+                  <div class="contacts__form__line"></div>
+                </div>
+                <div class="contacts__form__row">
+                  <div class="form-field">
+                    <input id="name" formControlName="name" placeholder=" " />
+                    <label for="name">Ваше имя</label>
+                  </div>
+                  <div class="form-field">
+                    <input id="phone" formControlName="phone" placeholder=" " />
+                    <label for="phone">Телефон или Telegram</label>
+                  </div>
+                </div>
+                <div class="contacts__form__row">
+                  <div class="form-field form-field--date">
+                    <input id="eventDate" [value]="formatDate(form.get('eventDate')?.value ?? null)" placeholder=" " readonly tabindex="-1" />
+                    <label for="eventDate">Дата мероприятия</label>
+                    <button type="button" class="form-field__icon" (click)="toggleCalendar()">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M3 10H21" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M8 2V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M16 2V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </button>
+                    @if (calendarOpen) {
+                    <div class="calendar-overlay">
+                      <tui-calendar
+                        [(month)]="calendarMonth"
+                        [value]="form.get('eventDate')!.value"
+                        (dayClick)="onDayClick($event)"
+                      ></tui-calendar>
+                    </div>
+                    <div class="calendar-backdrop" (click)="closeCalendar()"></div>
+                    }
+                  </div>
+                  <div class="form-field">
+                    <input id="city" formControlName="city" placeholder=" " />
+                    <label for="city">Город</label>
+                  </div>
+                </div>
+                <div class="contacts__form__row">
+                  <div class="form-field">
+                    <input id="eventType" formControlName="eventType" placeholder=" " />
+                    <label for="eventType">Тип мероприятия</label>
+                  </div>
+                </div>
+                <div class="contacts__form__row">
+                  <div class="form-field form-field--textarea">
+                    <textarea id="comment" formControlName="comment" placeholder=" "></textarea>
+                    <label for="comment">Комментарий</label>
+                  </div>
+                </div>
+                <button class="contacts__form__submit reveal-on-scroll" type="submit">
+                  <span>отправить заявку</span>
+                </button>
+                <p class="contacts__form__disclaimer reveal-on-scroll">Нажимая кнопку, вы соглашаетесь на<br>обработку персональных данных</p>
+              </form>
+            </div>
+          </div>
         </div>
         <div class="contacts__footer">
           <p>Шоу менталиста для корпоративных, частных и свадебных мероприятий в России, Беларуси и других странах</p>

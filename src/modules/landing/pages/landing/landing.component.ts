@@ -1,9 +1,12 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy} from '@angular/core';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
+import {NgTemplateOutlet} from '@angular/common';
+import {TuiCalendar} from '@taiga-ui/core/components/calendar';
+import {TuiDay, TuiMonth} from '@taiga-ui/cdk/date-time';
 import {CarouselComponent} from '../../components/carousel/carousel.component';
 import {MarqueeDirective} from '../../directives/marquee.directive';
-import {NgTemplateOutlet} from '@angular/common';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +19,8 @@ const SCRAMBLE_CHARS = 'АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',
   imports: [
+    ReactiveFormsModule,
+    TuiCalendar,
     CarouselComponent,
     MarqueeDirective,
     NgTemplateOutlet,
@@ -28,6 +33,46 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   private booted = false;
 
   protected subtitleText = SUBTITLE_TEXT;
+
+  readonly form = new FormGroup({
+    name: new FormControl(''),
+    phone: new FormControl(''),
+    eventDate: new FormControl<TuiDay | null>(null),
+    city: new FormControl(''),
+    eventType: new FormControl(''),
+    comment: new FormControl(''),
+  });
+
+  protected calendarOpen = false;
+  protected calendarMonth = new TuiMonth(new Date().getFullYear(), new Date().getMonth());
+
+  protected toggleCalendar(): void {
+    this.calendarOpen = !this.calendarOpen;
+    if (this.calendarOpen) {
+      const date = this.form.get('eventDate')?.value;
+      if (date) {
+        this.calendarMonth = new TuiMonth(date.year, date.month);
+      }
+    }
+  }
+
+  protected closeCalendar(): void {
+    this.calendarOpen = false;
+  }
+
+  protected onDayClick(day: TuiDay): void {
+    this.form.get('eventDate')?.setValue(day);
+    this.calendarOpen = false;
+  }
+
+  protected formatDate(day: TuiDay | null): string {
+    if (!day) return '';
+    const months = [
+      'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+      'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря',
+    ];
+    return `${day.day} ${months[day.month]} ${day.year}`;
+  }
 
   protected items: { label: string; href: string }[] = [
     { label: 'Главная', href: '#hero' },

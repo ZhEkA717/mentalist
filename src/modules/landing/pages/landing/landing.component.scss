@@ -842,6 +842,195 @@
       @include title-block;
     }
 
+    .main__right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &__form {
+      padding-top: 24px;
+      width: 100%;
+      max-width: 640px;
+
+      &__title {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        margin-bottom: 24px;
+        @include title-block;
+        width: 204px;
+        font-size: 20px;
+        letter-spacing: -0.25px;
+        font-weight: 600;
+      }
+
+      &__line {
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, rgba(223, 199, 132, 0) 0%, #DFC784 50%, rgba(223, 199, 132, 0) 100%);
+      }
+
+      &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 0 24px;
+      }
+
+      &__row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+
+        &:has(.form-field:only-child) {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .form-field {
+        position: relative;
+        width: 100%;
+
+        input,
+        textarea {
+          width: 100%;
+          border: none;
+          border-bottom: 1px solid rgba(223, 199, 132, 0.4);
+          background: transparent;
+          color: #FFFFFF;
+          font-size: 16px;
+          line-height: 24px;
+          padding: 10px 0 4px;
+          outline: none;
+          font-family: inherit;
+          transition: border-color 0.3s ease;
+          box-sizing: border-box;
+
+          &:focus {
+            border-bottom-color: #DFC784;
+          }
+        }
+
+        textarea {
+          resize: none;
+          overflow-y: auto;
+          min-height: 40px;
+          scrollbar-width: thin;
+          scrollbar-color: #DFC784 transparent;
+        }
+
+        textarea::-webkit-scrollbar {
+          width: 4px;
+        }
+
+        textarea::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        textarea::-webkit-scrollbar-thumb {
+          background: #DFC784;
+          border-radius: 2px;
+        }
+
+        label {
+          position: absolute;
+          left: 0;
+          top: 10px;
+          color: #DFC784;
+          font-size: 16px;
+          line-height: 24px;
+          pointer-events: none;
+          transition: all 0.3s ease;
+          z-index: 1;
+        }
+
+        input:focus + label,
+        input:not(:placeholder-shown) + label,
+        textarea:focus + label,
+        textarea:not(:placeholder-shown) + label {
+          top: -6px;
+          font-size: 12px;
+          line-height: 16px;
+        }
+
+        &--textarea {
+          textarea {
+            min-height: 60px;
+          }
+        }
+
+        &--date {
+          input {
+            padding-right: 36px;
+            cursor: default;
+          }
+        }
+
+        &__icon {
+          position: absolute;
+          right: 0;
+          bottom: 4px;
+          background: none;
+          border: none;
+          color: #FFFFFF;
+          cursor: pointer;
+          padding: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &:hover {
+            color: #DFC784;
+          }
+        }
+      }
+
+      .calendar-overlay {
+        position: absolute;
+        top: calc(100% + 4px);
+        left: 0;
+        z-index: 100;
+        border-radius: 8px;
+        background: #1a1a1a;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+
+        ::ng-deep {
+          tui-calendar-spin {
+            color: #DFC784;
+          }
+        }
+      }
+
+      .calendar-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 99;
+      }
+
+      &__submit {
+        @include gradient-button(
+          $font-size: 18px,
+          $line-height: 24px
+        );
+        margin-top: 4px;
+        width: 388px;
+        display: flex;
+        align-self: center;
+      }
+
+      &__disclaimer {
+        text-align: center;
+        font-weight: 300;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.5);
+        margin-top: 4px;
+      }
+    }
+
     &__footer {
       margin-top: 40px;
       display: block;

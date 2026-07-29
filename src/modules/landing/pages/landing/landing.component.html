@@ -5,14 +5,14 @@
         <ul class="header__nav__items">
           @for (item of items; track item.label) {
             <li class="header__nav__item">
-              <a [href]="item.href">{{ item.label }}</a>
+              <a [href]="item.href" (click)="scrollTo($event, item.href.slice(1))">{{ item.label }}</a>
             </li>
           }
         </ul>
       </nav>
     </div>
   </header>
-  <section class="main">
+  <section class="main" id="hero">
     <div class="container">
       <div class="main__content">
         <div class="main__content__logo">
@@ -27,7 +27,7 @@
     </div>
   </section>
   <div class="promo-show-wrapper">
-    <section class="promo">
+    <section class="promo" id="promo">
       <div class="container">
         <div class="promo__content">
           <div class="promo__content__title reveal-on-scroll">Уникальное шоу<br>
@@ -53,7 +53,7 @@
         </div>
       </div>
     </section>
-    <section class="show">
+    <section class="show" id="shows">
       <div class="container">
         <div class="show__content">
           <div class="show__content__title reveal-on-scroll">ВЫСТУПЛЕНИЯ</div>
@@ -94,7 +94,7 @@
       }
     </div>
   </section>
-  <section class="about">
+  <section class="about" id="about">
     <div class="container">
       <div class="about__content">
         <div class="about__content__title reveal-on-scroll">
@@ -121,7 +121,7 @@
 
     </div>
   </section>
-  <section class="lectures">
+  <section class="lectures" id="lectures">
     <div class="container">
       <div class="lectures__content">
       <div class="lectures__content__left">
@@ -149,7 +149,7 @@
       </div>
     </div>
   </section>
-  <section class="media">
+  <section class="media" id="media">
     <div class="container">
       <div class="media__content">
         <div class="media__content__header">
@@ -187,7 +187,7 @@
       <span>ШОУ ДЛЯ МЕРОПРИЯТИЙ · МОСКВА · САНКТ-ПЕТЕРБУРГ · МИНСК · ВЕСЬ МИР</span>
     </div>
   </section>
-  <section class="contacts">
+  <section class="contacts" id="contacts">
     <div class="container">
       <div class="contacts__content">
         <div class="contacts__title reveal-on-scroll">Расскажите о вашем событии</div>

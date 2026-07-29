@@ -31,12 +31,12 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   protected items: { label: string; href: string }[] = [
     { label: 'Главная', href: '#hero' },
-    { label: 'Выступления', href: '#about-show' },
-    { label: 'Авторские шоу', href: '#shows' },
-    { label: 'Лекции', href: '#about' },
-    { label: 'Об александре', href: '#contact' },
-    { label: 'Медиа', href: '#contact' },
-    { label: 'Контакты', href: '#contact' },
+    { label: 'Авторские шоу', href: '#promo' },
+    { label: 'Выступления', href: '#shows' },
+    { label: 'Об александре', href: '#about' },
+    { label: 'Лекции', href: '#lectures' },
+    { label: 'Медиа', href: '#media' },
+    { label: 'Контакты', href: '#contacts' },
   ];
 
   protected cards = [
@@ -128,6 +128,17 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.boot();
     this.watchStyleChanges();
+  }
+
+  // ─── Smooth scroll ────────────────────────────────────────
+
+  protected scrollTo(event: Event, id: string): void {
+    event.preventDefault();
+    const el = document.getElementById(id);
+    if (!el) return;
+    const headerOffset = 70;
+    const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+    window.scrollTo({ top, behavior: 'smooth' });
   }
 
   // ─── Boot ────────────────────────────────────────────────

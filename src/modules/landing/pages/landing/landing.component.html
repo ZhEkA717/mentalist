@@ -226,7 +226,7 @@
           </div>
           <div class="main__right">
             <div class="contacts__form">
-              <form [formGroup]="form" class="contacts__form__content reveal-on-scroll">
+              <form [formGroup]="form" (ngSubmit)="onSubmit()" class="contacts__form__content reveal-on-scroll">
                 <div class="contacts__form__title reveal-on-scroll">
                   ОСТАВИТЬ ЗАЯВКУ
                   <div class="contacts__form__line"></div>
@@ -281,9 +281,15 @@
                     <label for="comment">Комментарий</label>
                   </div>
                 </div>
-                <button class="contacts__form__submit reveal-on-scroll" type="submit">
+                <button class="contacts__form__submit reveal-on-scroll" type="submit" [disabled]="submitting()">
                   <span>отправить заявку</span>
                 </button>
+                @if (submitSuccess()) {
+                  <p class="contacts__form__success">Спасибо! Заявка отправлена. Я свяжусь с вами в ближайшее время.</p>
+                }
+                @if (submitError(); as error) {
+                  <p class="contacts__form__error">{{ error }}</p>
+                }
                 <p class="contacts__form__disclaimer reveal-on-scroll">Нажимая кнопку, вы соглашаетесь на<br>обработку персональных данных</p>
               </form>
             </div>

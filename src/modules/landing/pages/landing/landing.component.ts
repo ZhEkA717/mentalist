@@ -1,5 +1,5 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy} from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, signal} from '@angular/core';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {NgTemplateOutlet} from '@angular/common';
@@ -7,6 +7,7 @@ import {TuiCalendar} from '@taiga-ui/core/components/calendar';
 import {TuiDay, TuiMonth} from '@taiga-ui/cdk/date-time';
 import {CarouselComponent} from '../../components/carousel/carousel.component';
 import {MarqueeDirective} from '../../directives/marquee.directive';
+import {TelegramService, RequestForm} from '../../services/telegram.service';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,15 +33,20 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   private styleObserver: MutationObserver | null = null;
   private booted = false;
 
+  private telegram = inject(TelegramService);
+
   protected subtitleText = SUBTITLE_TEXT;
+  protected submitting = signal(false);
+  protected submitSuccess = signal(false);
+  protected submitError = signal('');
 
   readonly form = new FormGroup({
-    name: new FormControl(''),
-    phone: new FormControl(''),
+    name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    phone: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     eventDate: new FormControl<TuiDay | null>(null),
-    city: new FormControl(''),
-    eventType: new FormControl(''),
-    comment: new FormControl(''),
+    city: new FormControl('', { nonNullable: true }),
+    eventType: new FormControl('', { nonNullable: true }),
+    comment: new FormControl('', { nonNullable: true }),
   });
 
   protected calendarOpen = false;
@@ -184,6 +190,34 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     const headerOffset = 70;
     const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
     window.scrollTo({ top, behavior: 'smooth' });
+  }
+
+  protected async onSubmit(): Promise<void> {
+    if (this.form.invalid || this.submitting()) return;
+
+    this.submitting.set(true);
+    this.submitError.set('');
+    this.submitSuccess.set(false);
+
+    try {
+      const raw = this.form.getRawValue();
+      const data: RequestForm = {
+        name: raw.name,
+        phone: raw.phone,
+        eventDate: raw.eventDate ? this.formatDate(raw.eventDate) : '',
+        city: raw.city,
+        eventType: raw.eventType,
+        comment: raw.comment,
+      };
+
+      await this.telegram.submitForm(data);
+      this.submitSuccess.set(true);
+      this.form.reset();
+    } catch {
+      this.submitError.set('Не удалось отправить заявку. Попробуйте позже или напишите в Telegram.');
+    } finally {
+      this.submitting.set(false);
+    }
   }
 
   // ─── Boot ────────────────────────────────────────────────

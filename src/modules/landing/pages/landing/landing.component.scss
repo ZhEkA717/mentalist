@@ -1001,7 +1001,47 @@
 
         ::ng-deep {
           tui-calendar-spin {
+            color: #ffffff;
+          }
+
+          tui-calendar-spin button[tuiLink] {
             color: #DFC784;
+          }
+
+          tui-spin-button .t-button {
+            color: #ffffff;
+          }
+
+          tui-calendar-year .t-cell {
+            color: #ffffff;
+          }
+
+          tui-calendar-year .t-cell_today {
+            color: #DFC784;
+          }
+
+          tui-calendar-year .t-cell[data-range=active] {
+            color: #ffffff;
+          }
+
+          tui-calendar-year .t-cell[data-range=active]:after {
+            background: #DFC784;
+          }
+
+          tui-calendar-sheet .t-cell {
+            color: #ffffff;
+          }
+
+          tui-calendar-sheet .t-cell[data-type=weekend] {
+            color: #e53935;
+          }
+
+          tui-calendar-sheet .t-row_weekday {
+            color: rgba(255, 255, 255, 0.6);
+          }
+
+          tui-calendar-sheet .t-cell[data-range=active]:after {
+            background: #DFC784;
           }
         }
       }

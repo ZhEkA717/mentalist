@@ -3,6 +3,7 @@ import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {CarouselComponent} from '../../components/carousel/carousel.component';
 import {MarqueeDirective} from '../../directives/marquee.directive';
+import {NgTemplateOutlet} from '@angular/common';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,6 +18,7 @@ const SCRAMBLE_CHARS = 'АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ
   imports: [
     CarouselComponent,
     MarqueeDirective,
+    NgTemplateOutlet,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -134,7 +136,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     const logo = document.querySelector<HTMLElement>('.main__content__logo');
     const subtitle = document.querySelector<HTMLElement>('.main__content__subtitle');
     const button = document.querySelector<HTMLElement>('.main__content__button');
-    const socials = document.querySelector<HTMLElement>('.main__content__socials');
+    const socials = document.querySelector<HTMLElement>('.socials');
 
     if (!logo || !subtitle || !button || !socials) return;
 
@@ -324,6 +326,10 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
     document.querySelectorAll<HTMLElement>('.show__content__item').forEach(el => {
       this.pressEffect(el, 0.97);
+    });
+
+    document.querySelectorAll<HTMLElement>('.about__content__info .button, .lectures__content .button, .main__left__button').forEach(el => {
+      this.pressEffect(el, 0.93);
     });
   }
 

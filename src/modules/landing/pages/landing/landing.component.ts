@@ -8,6 +8,7 @@ import {TuiDay, TuiMonth} from '@taiga-ui/cdk/date-time';
 import {CarouselComponent} from '../../components/carousel/carousel.component';
 import {MarqueeDirective} from '../../directives/marquee.directive';
 import {TelegramService, RequestForm} from '../../services/telegram.service';
+import {TuiLoader} from '@taiga-ui/core';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,6 +26,7 @@ const SCRAMBLE_CHARS = 'АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ
     CarouselComponent,
     MarqueeDirective,
     NgTemplateOutlet,
+    TuiLoader,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

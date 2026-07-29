@@ -281,15 +281,11 @@
                     <label for="comment">Комментарий</label>
                   </div>
                 </div>
+
                 <button class="contacts__form__submit reveal-on-scroll" type="submit" [disabled]="submitting()">
                   <span>отправить заявку</span>
+                  <tui-loader [overlay]="true" [loading]="submitting()" class="centered-loader"></tui-loader>
                 </button>
-                @if (submitSuccess()) {
-                  <p class="contacts__form__success">Спасибо! Заявка отправлена. Я свяжусь с вами в ближайшее время.</p>
-                }
-                @if (submitError(); as error) {
-                  <p class="contacts__form__error">{{ error }}</p>
-                }
                 <p class="contacts__form__disclaimer reveal-on-scroll">Нажимая кнопку, вы соглашаетесь на<br>обработку персональных данных</p>
               </form>
             </div>

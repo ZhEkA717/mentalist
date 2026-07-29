@@ -874,10 +874,11 @@
       }
 
       &__content {
+        margin-top: 24px;
         display: flex;
         flex-direction: column;
         gap: 8px;
-        padding: 0 24px;
+        padding: 0 24px 0 65px;
       }
 
       &__row {
@@ -958,7 +959,7 @@
 
         &--textarea {
           textarea {
-            min-height: 60px;
+            max-height: 86px;
           }
         }
 

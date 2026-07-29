@@ -1,4 +1,4 @@
-import {AfterViewInit, Directive, ElementRef, Input} from '@angular/core';
+import {AfterViewInit, Directive, ElementRef, input} from '@angular/core';
 
 @Directive({
   selector: '[appMarquee]',
@@ -9,7 +9,8 @@ export class MarqueeDirective implements AfterViewInit {
     return this.el.nativeElement;
   }
 
-  @Input() appMarquee?: string;
+  readonly appMarquee = input<string>();
+  readonly marqueeMode = input<'always' | 'mobile'>('always');
 
   constructor(private el: ElementRef<HTMLElement>) {}
 
@@ -17,9 +18,10 @@ export class MarqueeDirective implements AfterViewInit {
     this.host.style.overflow = 'hidden';
 
     requestAnimationFrame(() => {
-      const track = this.appMarquee
-        ? this.host.querySelector<HTMLElement>(this.appMarquee)
-        : (this.host.firstElementChild as HTMLElement);
+      const selector = this.appMarquee();
+      const track: HTMLElement | null = selector
+        ? this.host.querySelector<HTMLElement>(selector)
+        : (this.host.firstElementChild as HTMLElement | null);
 
       if (!track) return;
 
@@ -32,6 +34,16 @@ export class MarqueeDirective implements AfterViewInit {
         this.host.classList.add('marquee-active');
         track.classList.add('marquee-track');
       };
+
+      if (this.marqueeMode() === 'always') {
+        activate();
+        return;
+      }
+
+      if (window.innerWidth <= 1200) {
+        activate();
+        return;
+      }
 
       const check = (): void => {
         if (track.scrollWidth > this.host.clientWidth) {

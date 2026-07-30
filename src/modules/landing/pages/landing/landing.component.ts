@@ -9,6 +9,7 @@ import {CarouselComponent} from '../../components/carousel/carousel.component';
 import {MarqueeDirective} from '../../directives/marquee.directive';
 import {TelegramService, RequestForm} from '../../services/telegram.service';
 import {TuiLoader} from '@taiga-ui/core';
+import {TuiNotificationService} from '@taiga-ui/core/components/notification';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -36,11 +37,10 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   private booted = false;
 
   private telegram = inject(TelegramService);
+  private readonly notifications = inject(TuiNotificationService);
 
   protected subtitleText = SUBTITLE_TEXT;
   protected submitting = signal(false);
-  protected submitSuccess = signal(false);
-  protected submitError = signal('');
 
   readonly form = new FormGroup({
     name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -189,8 +189,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     event.preventDefault();
     const el = document.getElementById(id);
     if (!el) return;
-    const headerOffset = 70;
-    const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+    const top = el.getBoundingClientRect().top + window.scrollY;
     window.scrollTo({ top, behavior: 'smooth' });
   }
 
@@ -198,8 +197,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     if (this.form.invalid || this.submitting()) return;
 
     this.submitting.set(true);
-    this.submitError.set('');
-    this.submitSuccess.set(false);
 
     try {
       const raw = this.form.getRawValue();
@@ -213,10 +210,23 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       };
 
       await this.telegram.submitForm(data);
-      this.submitSuccess.set(true);
       this.form.reset();
+      this.notifications.open('Заявка успешно отправлена!', {
+        label: 'Готово',
+        autoClose: 5000,
+        block: 'start',
+        inline: 'end',
+      }).subscribe()
     } catch {
-      this.submitError.set('Не удалось отправить заявку. Попробуйте позже или напишите в Telegram.');
+      this.notifications.open(
+        'Не удалось отправить заявку. Попробуйте позже или напишите в Telegram.',
+        {
+          label: 'Ошибка',
+          autoClose: 7000,
+          block: 'start',
+          inline: 'end',
+        },
+      ).subscribe()
     } finally {
       this.submitting.set(false);
     }

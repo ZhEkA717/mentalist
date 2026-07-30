@@ -10,6 +10,7 @@ import {MarqueeDirective} from '../../directives/marquee.directive';
 import {TelegramService, RequestForm} from '../../services/telegram.service';
 import {TuiLoader} from '@taiga-ui/core';
 import {TuiNotificationService} from '@taiga-ui/core/components/notification';
+import {catchError, EMPTY, finalize} from 'rxjs';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -198,7 +199,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     window.scrollTo({ top, behavior: 'smooth' });
   }
 
-  protected async onSubmit(): Promise<void> {
+  protected onSubmit(): void {
     if (this.submitting()) return;
 
     if (this.form.invalid) {
@@ -219,37 +220,42 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
     this.submitting.set(true);
 
-    try {
-      const raw = this.form.getRawValue();
-      const data: RequestForm = {
-        name: raw.name,
-        phone: raw.phone,
-        eventDate: raw.eventDate ? this.formatDate(raw.eventDate) : '',
-        city: raw.city,
-        eventType: raw.eventType,
-        comment: raw.comment,
-      };
+    const raw = this.form.getRawValue();
+    const data: RequestForm = {
+      name: raw.name,
+      phone: raw.phone,
+      eventDate: raw.eventDate ? this.formatDate(raw.eventDate) : '',
+      city: raw.city,
+      eventType: raw.eventType,
+      comment: raw.comment,
+    };
 
-      await this.telegram.submitForm(data);
-      this.form.reset();
-      this.notifications.open(this.successTpl(), {
-        autoClose: 5000,
-        block: 'start',
-        inline: 'end',
-        closable: false,
-        icon: '',
-      }).subscribe();
-    } catch {
-      this.notifications.open(this.errorTpl(), {
-        autoClose: 7000,
-        block: 'start',
-        inline: 'end',
-        closable: false,
-        icon: '',
-      }).subscribe();
-    } finally {
-      this.submitting.set(false);
-    }
+    this.telegram.submitForm(data)
+      .pipe(
+        finalize(() => {
+          this.submitting.set(false);
+        }),
+        catchError(() => {
+          this.notifications.open(this.errorTpl(), {
+            autoClose: 7000,
+            block: 'start',
+            inline: 'end',
+            closable: false,
+            icon: '',
+          }).subscribe();
+          return EMPTY;
+        })
+      )
+      .subscribe(() => {
+        this.form.reset();
+        this.notifications.open(this.successTpl(), {
+          autoClose: 5000,
+          block: 'start',
+          inline: 'end',
+          closable: false,
+          icon: '',
+        }).subscribe();
+      });
   }
 
   // ─── Boot ────────────────────────────────────────────────

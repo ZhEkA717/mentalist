@@ -34,7 +34,7 @@ export class TelegramService {
       responseType: 'text',
     }).pipe(
       timeout(10000),
-      delay(1000),
+      delay(300),
     )
   }
 }

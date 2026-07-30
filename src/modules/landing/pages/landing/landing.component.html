@@ -319,6 +319,16 @@
   </div>
 </ng-template>
 
+<ng-template #validationNotification>
+  <div class="landing-notification landing-notification--info">
+    <div class="landing-notification__icon">!</div>
+    <div class="landing-notification__text">
+      <div class="landing-notification__label">Внимание</div>
+      <div class="landing-notification__message landing-notification__message_valid">{{ validationMessage() }}</div>
+    </div>
+  </div>
+</ng-template>
+
 
 <ng-template #socials>
   <div class="socials">

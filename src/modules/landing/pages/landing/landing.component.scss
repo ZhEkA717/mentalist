@@ -1206,6 +1206,14 @@
     }
   }
 
+  &--info {
+    border-left-color: #5c9ce6;
+
+    .landing-notification__icon {
+      color: #5c9ce6;
+    }
+  }
+
   &__icon {
     font-size: 20px;
     font-weight: 700;
@@ -1239,7 +1247,8 @@
     color: rgba(255, 255, 255, 0.85);
     white-space: nowrap;
 
-    &_err {
+    &_err,
+    &_valid {
       white-space: wrap;
     }
   }

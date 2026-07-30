@@ -41,9 +41,11 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   protected successTpl = viewChild<TemplateRef<unknown>>('successNotification');
   protected errorTpl = viewChild<TemplateRef<unknown>>('errorNotification');
+  protected validationTpl = viewChild<TemplateRef<unknown>>('validationNotification');
 
   protected subtitleText = SUBTITLE_TEXT;
   protected submitting = signal(false);
+  protected validationMessage = signal('');
 
   readonly form = new FormGroup({
     name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -197,7 +199,23 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   }
 
   protected async onSubmit(): Promise<void> {
-    if (this.form.invalid || this.submitting()) return;
+    if (this.submitting()) return;
+
+    if (this.form.invalid) {
+      const missing: string[] = [];
+      if (this.form.get('name')?.hasError('required')) missing.push('Имя');
+      if (this.form.get('phone')?.hasError('required')) missing.push('Телефон или Telegram');
+
+      this.validationMessage.set(`Пожалуйста, заполните: ${missing.join(', ')}`);
+      this.notifications.open(this.validationTpl(), {
+        autoClose: 6000,
+        block: 'start',
+        inline: 'end',
+        closable: true,
+        icon: '',
+      }).subscribe();
+      return;
+    }
 
     this.submitting.set(true);
 

@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, signal} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, signal, TemplateRef, viewChild} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
@@ -38,6 +38,9 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   private telegram = inject(TelegramService);
   private readonly notifications = inject(TuiNotificationService);
+
+  protected successTpl = viewChild<TemplateRef<unknown>>('successNotification');
+  protected errorTpl = viewChild<TemplateRef<unknown>>('errorNotification');
 
   protected subtitleText = SUBTITLE_TEXT;
   protected submitting = signal(false);
@@ -211,22 +214,21 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
       await this.telegram.submitForm(data);
       this.form.reset();
-      this.notifications.open('Заявка успешно отправлена!', {
-        label: 'Готово',
+      this.notifications.open(this.successTpl(), {
         autoClose: 5000,
         block: 'start',
         inline: 'end',
-      }).subscribe()
+        closable: false,
+        icon: '',
+      }).subscribe();
     } catch {
-      this.notifications.open(
-        'Не удалось отправить заявку. Попробуйте позже или напишите в Telegram.',
-        {
-          label: 'Ошибка',
-          autoClose: 7000,
-          block: 'start',
-          inline: 'end',
-        },
-      ).subscribe()
+      this.notifications.open(this.errorTpl(), {
+        autoClose: 7000,
+        block: 'start',
+        inline: 'end',
+        closable: false,
+        icon: '',
+      }).subscribe();
     } finally {
       this.submitting.set(false);
     }

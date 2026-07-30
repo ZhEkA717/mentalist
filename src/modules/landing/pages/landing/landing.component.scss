@@ -1169,3 +1169,78 @@
     }
   }
 }
+
+// ─── Notifications ──────────────────────────────────
+
+::ng-deep [tuiAppearance][data-appearance=info] {
+  padding: 0 !important;
+}
+
+::ng-deep .landing-notification {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: #1a1a1a;
+  border-left: 4px solid #DFC784;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  font-family: Montserrat, sans-serif;
+  min-width: 280px;
+  max-width: 380px;
+
+  &--success {
+    border-left-color: #DFC784;
+
+    .landing-notification__icon {
+      color: #DFC784;
+    }
+  }
+
+  &--error {
+    border-left-color: #e53935;
+
+    .landing-notification__icon {
+      color: #e53935;
+    }
+  }
+
+  &__icon {
+    font-size: 20px;
+    font-weight: 700;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #DFC784;
+  }
+
+  &__message {
+    font-size: 14px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.85);
+    white-space: nowrap;
+
+    &_err {
+      white-space: wrap;
+    }
+  }
+}

@@ -299,6 +299,26 @@
   </section>
 </div>
 
+<ng-template #successNotification>
+  <div class="landing-notification landing-notification--success">
+    <div class="landing-notification__icon">✓</div>
+    <div class="landing-notification__text">
+      <div class="landing-notification__label">Готово</div>
+      <div class="landing-notification__message">Заявка успешно отправлена!</div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #errorNotification>
+  <div class="landing-notification landing-notification--error">
+    <div class="landing-notification__icon">✕</div>
+    <div class="landing-notification__text">
+      <div class="landing-notification__label">Ошибка</div>
+      <div class="landing-notification__message landing-notification__message_err">Не удалось отправить заявку. Попробуйте позже или напишите в Telegram.</div>
+    </div>
+  </div>
+</ng-template>
+
 
 <ng-template #socials>
   <div class="socials">

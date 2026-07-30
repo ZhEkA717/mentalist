@@ -1,9 +1,9 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
-import { firebaseConfig, cloudflareWorkerUrl } from '../../../app/config';
-import {Observable, forkJoin, map, timer, delay} from 'rxjs';
+import {inject, Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {initializeApp} from 'firebase/app';
+import {addDoc, collection, getFirestore} from 'firebase/firestore';
+import {cloudflareWorkerUrl, firebaseConfig} from '../../../app/config';
+import {delay, Observable, timeout} from 'rxjs';
 
 export interface RequestForm {
   name: string;
@@ -33,6 +33,7 @@ export class TelegramService {
     return this.http.post(cloudflareWorkerUrl, data, {
       responseType: 'text',
     }).pipe(
+      timeout(10000),
       delay(1000),
     )
   }

@@ -82,6 +82,7 @@
   // Active
   &:active {
     transform: scale(0.95);
+    transition: transform 0.1s ease;
   }
 }
 
@@ -1101,10 +1102,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  //.landing .main__content__logo,
-  //.landing .main__content__subtitle,
-  //.landing .main__content__button,
-  ////.landing .socials,
   .landing .reveal-on-scroll,
   .landing .dim-on-scroll {
     opacity: 1 !important;
@@ -1251,5 +1248,18 @@
     &_valid {
       white-space: wrap;
     }
+  }
+}
+
+// ─── Press animation ────────────────────────────────
+
+.social,
+.info__button,
+.show__content__item,
+.form-field__icon {
+  transition: transform 0.15s ease;
+
+  &:active {
+    transform: scale(0.9);
   }
 }

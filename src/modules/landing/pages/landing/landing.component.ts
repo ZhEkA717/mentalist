@@ -293,7 +293,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       this.initRevealOnScroll();
       this.initDimOnScroll();
       this.initCardFlip();
-      this.initClickEffects();
     }, 200);
   }
 
@@ -436,54 +435,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
         onLeaveBack: () => gsap.to(inner, { rotateY: 180, duration: 0.8, ease: 'power2.inOut' }),
       });
     });
-  }
-
-  // ─── Click effects ──────────────────────────────────────
-
-  private initClickEffects(): void {
-    const mainBtn = document.querySelector<HTMLElement>('.main__content__button');
-    if (mainBtn) this.pressEffect(mainBtn, 0.93);
-
-    document.querySelectorAll<HTMLElement>('.social').forEach(el => {
-      this.pressEffect(el, 0.85);
-    });
-
-    document.querySelectorAll<HTMLElement>('.info__button').forEach(el => {
-      this.pressEffect(el, 0.9);
-    });
-
-    document.querySelectorAll<HTMLElement>('.show__content__item').forEach(el => {
-      this.pressEffect(el, 0.97);
-    });
-
-    document.querySelectorAll<HTMLElement>('.about__content__info .button, .lectures__content .button, .main__left__button').forEach(el => {
-      this.pressEffect(el, 0.93);
-    });
-  }
-
-  private pressEffect(el: HTMLElement, scale: number): void {
-    const onDown = () => {
-      gsap.to(el, {
-        scale,
-        duration: 0.12,
-        ease: 'power2.in',
-        overwrite: true,
-      });
-    };
-
-    const onUp = () => {
-      gsap.to(el, {
-        scale: 1,
-        duration: 0.35,
-        ease: 'elastic.out(1, 0.4)',
-        overwrite: true,
-      });
-    };
-
-    el.addEventListener('pointerdown', onDown);
-    el.addEventListener('pointerup', onUp);
-    el.addEventListener('pointerleave', onUp);
-    el.addEventListener('pointercancel', onUp);
   }
 
   // ─── Cleanup ─────────────────────────────────────────────

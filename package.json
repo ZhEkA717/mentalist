@@ -6,6 +6,7 @@
     "env": "node scripts/load-env.js",
     "start": "node scripts/load-env.js && ng serve",
     "build": "node scripts/load-env.js && ng build",
+    "deploy": "npm run build && firebase deploy --only hosting",
     "watch": "node scripts/load-env.js && ng build --watch --configuration development",
     "test": "ng test"
   },

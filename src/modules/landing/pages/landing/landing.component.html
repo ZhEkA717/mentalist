@@ -154,7 +154,7 @@
       <div class="media__content">
         <div class="media__content__header">
           <div class="title reveal-on-scroll">МЕДИА</div>
-          <button class="button reveal-on-scroll">
+          <button class="button">
             <span>смотреть все материалы</span>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -198,12 +198,14 @@
               помогу подобрать формат, который<br>
               произведёт нужное впечатление. </p>
             <div>
-              <button class="main__left__button reveal-on-scroll">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M19.2,4.4L2.9,10.7c-1.1,0.4-1.1,1.1-0.2,1.3l4.1,1.3l1.6,4.8c0.2,0.5,0.1,0.7,0.6,0.7c0.4,0,0.6-0.2,0.8-0.4c0.1-0.1,1-1,2-2l4.2,3.1c0.8,0.4,1.3,0.2,1.5-0.7l2.8-13.1C20.6,4.6,19.9,4,19.2,4.4z M17.1,7.4l-7.8,7.1L9,17.8L7.4,13l9.2-5.8C17,6.9,17.4,7.1,17.1,7.4z" fill="currentColor"/>
-                </svg>
-                <span>написать в telegram</span>
-              </button>
+              <a href="https://t.me/alex_shishuk" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">
+                <button class="main__left__button reveal-on-scroll">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19.2,4.4L2.9,10.7c-1.1,0.4-1.1,1.1-0.2,1.3l4.1,1.3l1.6,4.8c0.2,0.5,0.1,0.7,0.6,0.7c0.4,0,0.6-0.2,0.8-0.4c0.1-0.1,1-1,2-2l4.2,3.1c0.8,0.4,1.3,0.2,1.5-0.7l2.8-13.1C20.6,4.6,19.9,4,19.2,4.4z M17.1,7.4l-7.8,7.1L9,17.8L7.4,13l9.2-5.8C17,6.9,17.4,7.1,17.1,7.4z" fill="currentColor"/>
+                  </svg>
+                  <span>написать в telegram</span>
+                </button>
+              </a>
               <span class="main__left__button-note reveal-on-scroll">Самый быстрый способ связаться</span>
             </div>
             <div class="left__contacts">
@@ -211,14 +213,14 @@
                 <img src="/assets/icons/phone-icon.svg" alt="phone-icon">
                 <div class="wrap">
                   <div class="wrap__title">Россия</div>
-                  <div class="wrap__phone">+7 (915) 442-28-54</div>
+                  <a href="tel:+79154422854" class="wrap__phone">+7 (915) 442-28-54</a>
                 </div>
               </div>
               <div class="contacts__phone">
                 <img src="/assets/icons/phone-icon.svg" alt="phone-icon">
                 <div class="wrap">
                   <div class="wrap__title">Беларусь</div>
-                  <div class="wrap__phone">+375 (29) 857-60-57</div>
+                  <a href="tel:+375298576057" class="wrap__phone">+375 (29) 857-60-57</a>
                 </div>
               </div>
             </div>
@@ -332,7 +334,7 @@
 
 <ng-template #socials>
   <div class="socials">
-    <a href="https://instagram.com" target="_blank" rel="noopener" class="social" aria-label="Instagram">
+    <a href="https://www.instagram.com/alex.shishuk?igsh=ejdjcnQ2NGN3NHBy&utm_source=qr" target="_blank" rel="noopener" class="social" aria-label="Instagram">
       <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip-ig)">
           <path
@@ -349,7 +351,7 @@
         </defs>
       </svg>
     </a>
-    <a href="https://t.me" target="_blank" rel="noopener" class="social" aria-label="Telegram">
+    <a href="https://t.me/alex_shishuk" target="_blank" rel="noopener" class="social" aria-label="Telegram">
       <svg width="39" height="40" viewBox="0 0 39 40" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip-tg)">
           <path fill-rule="evenodd" clip-rule="evenodd"
@@ -363,14 +365,14 @@
         </defs>
       </svg>
     </a>
-    <a href="https://youtube.com" target="_blank" rel="noopener" class="social" aria-label="YouTube">
+    <a href="https://youtube.com/@alex.shishuk?si=4k2Dg59bYOBsN-2H" target="_blank" rel="noopener" class="social" aria-label="YouTube">
       <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M39.6016 12.0001C39.6016 12.0001 39.2109 9.24225 38.0078 8.03131C36.4844 6.43756 34.7812 6.42975 34 6.336C28.4063 5.92975 20.0078 5.92975 20.0078 5.92975H19.9922C19.9922 5.92975 11.5938 5.92975 6 6.336C5.21875 6.42975 3.51562 6.43756 1.99219 8.03131C0.789063 9.24225 0.40625 12.0001 0.40625 12.0001C0.40625 12.0001 0 15.2422 0 18.4766V21.5079C0 24.7422 0.398437 27.9844 0.398437 27.9844C0.398437 27.9844 0.789062 30.7423 1.98437 31.9532C3.50781 33.5469 5.50781 33.4923 6.39844 33.6641C9.60156 33.9688 20 34.0626 20 34.0626C20 34.0626 28.4063 34.0469 34 33.6485C34.7812 33.5548 36.4844 33.5469 38.0078 31.9532C39.2109 30.7423 39.6016 27.9844 39.6016 27.9844C39.6016 27.9844 40 24.7501 40 21.5079V18.4766C40 15.2422 39.6016 12.0001 39.6016 12.0001ZM15.8672 25.1876V13.9454L26.6719 19.586L15.8672 25.1876Z"
           fill="currentColor" />
       </svg>
     </a>
-    <a href="https://vk.com" target="_blank" rel="noopener" class="social" aria-label="VK">
+    <a href="https://vk.ru/alex.shishuk" target="_blank" rel="noopener" class="social" aria-label="VK">
       <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip-vk)">
           <path fill-rule="evenodd" clip-rule="evenodd"

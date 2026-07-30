@@ -129,7 +129,7 @@
           АВТОРСКИЕ ШОУ
         </div>
         <div class="subtitle reveal-on-scroll">
-          Авторские ментальные шоу, театральные проекты и программы, созданные на пересечении<br>психологии, фокусов и иллюзий
+          Авторские ментальные шоу, театральные проекты<br>и программы, созданные на пересечении<br>психологии, фокусов и иллюзий
         </div>
         <div class="button reveal-on-scroll">
           <span>СМОТРЕТЬ АВТОРСКИЕ ШОУ</span>
@@ -140,7 +140,7 @@
           ЛЕКЦИИ
         </div>
         <div class="subtitle reveal-on-scroll">
-          Интерактивные лекции и тренинги о психологии восприятия, профайлинге, невербальном<br>поведении, гипнозе и ментализме
+          Интерактивные лекции и тренинги о психологии<br>восприятия, профайлинге, невербальном<br>поведении, гипнозе и ментализме
         </div>
         <div class="button reveal-on-scroll">
           <span>подробнее о лекциях</span>
@@ -228,8 +228,8 @@
           </div>
           <div class="main__right">
             <div class="contacts__form">
-              <form [formGroup]="form" (ngSubmit)="onSubmit()" class="contacts__form__content reveal-on-scroll">
-                <div class="contacts__form__title reveal-on-scroll">
+              <form [formGroup]="form" (ngSubmit)="onSubmit()" class="contacts__form__content">
+                <div class="contacts__form__title">
                   ОСТАВИТЬ ЗАЯВКУ
                   <div class="contacts__form__line"></div>
                 </div>
@@ -284,16 +284,16 @@
                   </div>
                 </div>
 
-                <button class="contacts__form__submit reveal-on-scroll" type="submit" [disabled]="submitting()">
+                <button class="contacts__form__submit" type="submit" [disabled]="submitting()">
                   <span>отправить заявку</span>
                   <tui-loader [overlay]="true" [loading]="submitting()" class="centered-loader"></tui-loader>
                 </button>
-                <p class="contacts__form__disclaimer reveal-on-scroll">Нажимая кнопку, вы соглашаетесь на<br>обработку персональных данных</p>
+                <p class="contacts__form__disclaimer ">Нажимая кнопку, вы соглашаетесь на<br>обработку персональных данных</p>
               </form>
             </div>
           </div>
         </div>
-        <div class="contacts__footer">
+        <div class="contacts__footer reveal-on-scroll">
           <p>Шоу менталиста для корпоративных, частных и свадебных мероприятий в России, Беларуси и других странах</p>
         </div>
       </div>

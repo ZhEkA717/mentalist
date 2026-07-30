@@ -81,8 +81,8 @@
 
   // Active
   &:active {
-    transform: scale(0.95);
-    transition: transform 0.1s ease;
+    scale: 0.95 !important;
+    transition: scale 0.1s ease;
   }
 }
 
@@ -1257,9 +1257,9 @@
 .info__button,
 .show__content__item,
 .form-field__icon {
-  transition: transform 0.15s ease;
+  transition: scale 0.15s ease;
 
   &:active {
-    transform: scale(0.9);
+    scale: 0.9;
   }
 }

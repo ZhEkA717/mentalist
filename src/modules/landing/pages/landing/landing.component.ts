@@ -1,4 +1,5 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, signal, TemplateRef, viewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnDestroy, signal, TemplateRef, viewChild} from '@angular/core';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
@@ -11,6 +12,7 @@ import {TelegramService, RequestForm} from '../../services/telegram.service';
 import {TuiLoader} from '@taiga-ui/core';
 import {TuiNotificationService} from '@taiga-ui/core/components/notification';
 import {catchError, EMPTY, finalize} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,12 +41,23 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   private telegram = inject(TelegramService);
   private readonly notifications = inject(TuiNotificationService);
+  private readonly sanitizer = inject(DomSanitizer);
+  private readonly activatedRoute = inject(ActivatedRoute);
 
   protected successTpl = viewChild<TemplateRef<unknown>>('successNotification');
   protected errorTpl = viewChild<TemplateRef<unknown>>('errorNotification');
   protected validationTpl = viewChild<TemplateRef<unknown>>('validationNotification');
 
   protected readonly currentYear = new Date().getFullYear();
+  private readonly isRuDomain =  this.activatedRoute.snapshot.queryParams['ru'] || window.location.hostname.endsWith('.ru');
+  private readonly videoUrls: Array<{youtube: string; vk: string}> = [
+    {youtube: 'https://www.youtube.com/embed/sNIPgihatyU', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239035&hash=9ae4ca3a7f22cc57&hd=4'},
+    {youtube: 'https://www.youtube.com/embed/X3jvY2xpmfc', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239034&hash=69a23c2952842a28&hd=4'},
+    {youtube: 'https://www.youtube.com/embed/YulDfOQiDk8', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239036&hash=26ddd6f8d47e1ba1&hd=4'},
+  ];
+  protected readonly videos = computed(() =>
+    this.videoUrls.map(v => this.sanitizer.bypassSecurityTrustResourceUrl(this.isRuDomain ? v.vk : v.youtube)),
+  );
   protected subtitleText = SUBTITLE_TEXT;
   protected submitting = signal(false);
   protected validationMessage = signal('');
@@ -68,6 +81,17 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       if (date) {
         this.calendarMonth = new TuiMonth(date.year, date.month);
       }
+    }
+  }
+
+  protected toggleFullscreen(event: Event): void {
+    const container = (event.currentTarget as HTMLElement).closest('.video-container');
+    if (!container) return;
+
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      container.requestFullscreen();
     }
   }
 

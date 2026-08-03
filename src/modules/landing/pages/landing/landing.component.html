@@ -166,16 +166,16 @@
         </div>
         <div class="line"></div>
         <div class="media__content__videos">
-          @for (video of [1,2,3]; track video) {
+          @for (video of videos(); track $index) {
             <div class="video-container">
-              <video class="video" src="#">
-
-              </video>
-              <div class="play-container">
-                <svg class="play" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1 0.5L15.5 9L1 17.5V0.5Z" stroke="#DFC784" stroke-linejoin="round"/>
-                </svg>
-              </div>
+              <iframe
+                class="video"
+                [src]="video"
+                title="Видео шоу менталиста"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
             </div>
           }
         </div>

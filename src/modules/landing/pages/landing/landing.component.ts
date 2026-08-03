@@ -14,7 +14,7 @@ import {catchError, EMPTY, finalize} from 'rxjs';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SUBTITLE_TEXT = 'Менталист • Психологический иллюзионист • дипломированный психолог • гипнотизёр';
+const SUBTITLE_TEXT = 'Менталист • Психологический иллюзионист • Дипломированный психолог • Гипнотизёр';
 const SCRAMBLE_CHARS = 'АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ абвгдежзиклмнопрстуфхцчшщэюя';
 
 @Component({
@@ -44,6 +44,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   protected errorTpl = viewChild<TemplateRef<unknown>>('errorNotification');
   protected validationTpl = viewChild<TemplateRef<unknown>>('validationNotification');
 
+  protected readonly currentYear = new Date().getFullYear();
   protected subtitleText = SUBTITLE_TEXT;
   protected submitting = signal(false);
   protected validationMessage = signal('');
@@ -90,9 +91,9 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   protected items: { label: string; href: string }[] = [
     { label: 'Главная', href: '#hero' },
-    { label: 'Авторские шоу', href: '#promo' },
     { label: 'Выступления', href: '#shows' },
     { label: 'Об александре', href: '#about' },
+    { label: 'Авторские шоу', href: '#lectures' },
     { label: 'Лекции', href: '#lectures' },
     { label: 'Медиа', href: '#media' },
     { label: 'Контакты', href: '#contacts' },
@@ -339,6 +340,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     el.textContent = '';
 
     const spans: HTMLSpanElement[] = [];
+    let bulletCount = 0;
     for (let i = 0; i < SUBTITLE_TEXT.length; i++) {
       const span = document.createElement('span');
       span.className = 'scramble-char';
@@ -346,8 +348,13 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       span.textContent = (ch === ' ' || ch === '•')
         ? (ch === ' ' ? '\u00A0' : ch)
         : SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-      span.style.display = 'inline-block';
       el.appendChild(span);
+      if (ch === '•') {
+        bulletCount++;
+        if (bulletCount === 2) {
+          el.appendChild(document.createElement('br'));
+        }
+      }
       spans.push(span);
     }
 
@@ -387,7 +394,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
           ease: 'power2.out',
           scrollTrigger: {
             trigger: el,
-            start: 'top 85%',
+            start: 'top 100%',
             toggleActions: 'play none none none',
           },
         }

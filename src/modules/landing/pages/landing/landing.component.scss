@@ -186,20 +186,20 @@
       height: 100%;
 
       &__subtitle {
+        display: inline-flex;
+        flex-wrap: wrap;
         max-height: 60px;
         overflow: hidden;
         padding-left: 48px;
         margin-top: 24px;
-        font-weight: 600;
-        font-size: 21px;
+        font-weight: 700;
+        font-size: 26px;
         line-height: 30px;
-        letter-spacing: -0.25px;
-        text-transform: capitalize;
+
         color: #E6CC89;
 
         .scramble-char {
           display: inline-block;
-
           &.resolved {
             color: #E6CC89;
           }
@@ -573,6 +573,7 @@
         .button {
           margin-top: 50px;
           @include gradient-button;
+          background: linear-gradient(#4B1115, #040300);
         }
       }
 
@@ -758,7 +759,7 @@
     background-position-x: center;
 
     &__content {
-      padding-top: 76px;
+      padding-top: 75px;
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -793,6 +794,7 @@
         @include gradient-button;
         display: flex;
         gap: 10px;
+        background: linear-gradient(#4B1115, #040300);
       }
 
       &__button-note {
@@ -808,9 +810,11 @@
       .left__contacts {
         display: flex;
         flex-direction: column;
-        gap: 18px;
+        gap: 9px;
 
-        .contacts__phone {
+
+        .contacts__phone,
+        .contacts__message {
           display: flex;
           gap: 17px;
           align-items: flex-end;
@@ -836,6 +840,13 @@
             }
           }
         }
+        .contacts__message {
+          margin-top: 7px;
+          display: flex;
+          gap: 9px;
+          align-items: flex-start;
+        }
+
       }
     }
 
@@ -851,7 +862,6 @@
     }
 
     &__form {
-      padding-top: 24px;
       width: 100%;
       max-width: 640px;
 
@@ -1080,7 +1090,7 @@
     }
 
     &__footer {
-      margin-top: 40px;
+      margin-top: 27px;
       display: block;
       text-align: center;
       width: 100%;
@@ -1089,6 +1099,24 @@
       font-size: 16px;
       line-height: 28.8px;
       text-transform: uppercase;
+
+      &__note {
+        margin-top: 70px;
+        display: flex;
+        flex-direction: column;
+        font-weight: 300;
+        color: #ffffff;
+        font-size: 10px;
+
+
+        p, a {
+          line-height: 1.2
+        }
+
+        a:last-child {
+          text-decoration: underline;
+        }
+      }
     }
   }
 }

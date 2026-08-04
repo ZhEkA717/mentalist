@@ -3,7 +3,7 @@ import {
   Directive,
   effect,
   ElementRef,
-  inject,
+  inject, Injector,
   input,
   NgZone,
   OnDestroy,
@@ -18,6 +18,7 @@ import {convertToBoolean} from './utils';
 })
 export class SitUiWheelSmithDirective implements AfterViewInit, OnDestroy {
   elementRef: ElementRef | null = null;
+  protected injector = inject(Injector);
   protected platformId = inject<Record<string, unknown>>(PLATFORM_ID);
   private ngZone = inject(NgZone);
   private targetScroll = 0;
@@ -31,6 +32,7 @@ export class SitUiWheelSmithDirective implements AfterViewInit, OnDestroy {
   });
 
   constructor() {
+    this.elementRef = this.injector.get(ElementRef);
     effect(() => {
       if (this.enabled()) {
         this.subscribe();

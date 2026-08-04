@@ -760,6 +760,7 @@
       }
 
       &__videos {
+        overscroll-behavior-x: contain;
         margin-top: 73px;
         display: flex;
         gap: 24px;
@@ -884,6 +885,14 @@
     background-size: cover;
     background-position-x: center;
 
+    @media(max-width: 1024px) {
+      height: fit-content;
+    }
+
+    @media(max-width: 1400px) {
+      background: black;
+    }
+
     &__content {
       padding-top: 75px;
       display: flex;
@@ -997,6 +1006,12 @@
       width: 100%;
       max-width: 640px;
 
+
+      @media(max-width: 1024px) {
+        max-width: 450px;
+      }
+
+
       &__title {
         display: flex;
         flex-direction: column;
@@ -1022,6 +1037,12 @@
         flex-direction: column;
         gap: 8px;
         padding: 0 24px 0 65px;
+
+        @media(max-width: 1400px) {
+          border: 1px solid #E3CB88;
+          border-radius: 24px;
+          padding: 32px 45px;
+        }
       }
 
       &__row {
@@ -1031,6 +1052,11 @@
 
         &:has(.form-field:only-child) {
           grid-template-columns: 1fr;
+        }
+
+        @media(max-width: 1024px) {
+          grid-template-columns: 1fr;
+          gap: 8px;
         }
       }
 
@@ -1059,9 +1085,11 @@
         }
 
         textarea {
+          transform: translateY(10px);
           resize: none;
           overflow-y: auto;
           min-height: 40px;
+
           scrollbar-width: thin;
           scrollbar-color: #DFC784 transparent;
         }
@@ -1102,7 +1130,7 @@
 
         &--textarea {
           textarea {
-            max-height: 86px;
+            max-height: 76px;
           }
         }
 
@@ -1200,7 +1228,7 @@
           $font-size: 18px,
           $line-height: 24px
         );
-        margin-top: 4px;
+        margin-top: 14px;
         width: 388px;
         display: flex;
         gap: 10px;
@@ -1234,6 +1262,7 @@
 
       &__note {
         margin-top: 70px;
+        margin-bottom: 24px;
         display: flex;
         flex-direction: column;
         font-weight: 300;

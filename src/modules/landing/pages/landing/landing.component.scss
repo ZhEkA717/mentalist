@@ -902,7 +902,7 @@
     background-position-x: center;
 
     @media(max-width: 1024px) {
-      height: fit-content;
+      height: 960px;
     }
 
     @media(max-width: 1400px) {
@@ -1283,6 +1283,10 @@
         margin-top: 25px;
       }
 
+      p:first-child {
+        font-size: 15px;
+      }
+
       &__note {
         margin-top: 70px;
         margin-bottom: 24px;
@@ -1294,7 +1298,7 @@
 
 
         p, a {
-          line-height: 1.2
+          line-height: 1.2;
         }
 
         a:last-child {

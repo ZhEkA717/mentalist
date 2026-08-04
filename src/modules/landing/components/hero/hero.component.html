@@ -1,0 +1,14 @@
+<section class="main" id="hero">
+  <div class="container">
+    <div class="main__content">
+      <div class="main__content__logo" #logo>
+        <img src="/assets/images/logo.png" alt="logo">
+      </div>
+      <p class="main__content__subtitle" #subtitle>{{ subtitleText }}</p>
+      <button (click)="scrollTo($event, 'contacts')" style="margin-bottom: 24px;" class="main__content__button" #button>
+        <span>обсудить мероприятие</span>
+      </button>
+      <app-socials style="padding-left: 48px; align-self: flex-start; width: 450px;" />
+    </div>
+  </div>
+</section>

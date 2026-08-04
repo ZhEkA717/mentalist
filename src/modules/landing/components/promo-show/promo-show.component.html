@@ -1,0 +1,58 @@
+<div class="promo-show-wrapper">
+  <section class="promo" id="promo">
+    <div class="container">
+      <div class="promo__content">
+        <div class="promo__content__title reveal-on-scroll">Уникальное шоу<br>
+          психологических иллюзий
+        </div>
+        <div class="promo__content__wrapper">
+          <div class="text">
+            <div class="text__title reveal-on-scroll">Это не просто выступление ФОКУСНИКА!</div>
+            <div class="text__description reveal-on-scroll">Сочетание иллюзий и психологии позволяет мне читать мысли зрителей,
+              предсказывать их решения и создавать яркое интерактивное шоу с индивидуальным походом. Это современный,
+              интеллигентный и эмоциональный формат, который удивляет, вовлекает и делает гостей частью происходящего.
+              Главное — незабываемые эмоции, которые остаются с каждым зрителем и заставляют обсуждать ваше мероприятие
+              ещё долго после его завершения.
+            </div>
+          </div>
+          <div class="promo__content__image">
+            <img src="/assets/images/promo.png" alt="promo" class="dim-on-scroll">
+          </div>
+        </div>
+        <div class="promo__content__footer reveal-on-scroll">
+          Я знаю, как управлять вниманием, восприятием и эмоциями людей!
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="show" id="shows">
+    <div class="container">
+      <div class="show__content">
+        <div class="show__content__title reveal-on-scroll">ВЫСТУПЛЕНИЯ</div>
+        <div class="show__content__items">
+          @for (card of cards; track card.id) {
+            <div class="show__content__item dim-on-scroll">
+              <div class="card-inner">
+                <div class="card-front">
+                  <img [src]="card.img" [alt]="'card' + card.id" />
+                  <div class="info">
+                    <p class="info__title">{{ card.title }}</p>
+                    <p class="info__description">{{ card.description }}</p>
+                    <button class="info__button">
+                      <span>Подробнее</span>
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-back-design">
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

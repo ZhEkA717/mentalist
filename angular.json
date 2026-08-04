@@ -38,7 +38,8 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "public"
+                "public",
+                "src/shared/styles"
               ]
             }
           },

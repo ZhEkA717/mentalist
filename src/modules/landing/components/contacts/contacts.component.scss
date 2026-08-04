@@ -1,0 +1,505 @@
+@use 'mixins';
+
+:host {
+  display: block;
+}
+
+.container {
+  height: 100%;
+  margin: auto;
+  max-width: 1200px;
+
+  @media (max-width: 1400px) { max-width: 1100px; }
+  @media (max-width: 1280px) { max-width: 1000px; }
+  @media (max-width: 1024px) { max-width: 900px; }
+}
+
+.contacts {
+  height: 903px;
+  background-image: url("/assets/images/background_6.webp");
+  background-size: cover;
+  background-position-x: center;
+
+  @media(max-width: 1024px) {
+    height: 960px;
+  }
+
+  @media(max-width: 1400px) {
+    background-image: url("/assets/images/background-contacts.webp");
+  }
+
+  &__content {
+    padding-top: 75px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  &__main {
+    margin-top: 60px;
+    display: flex;
+
+    @media(max-width: 1400px) {
+      margin-top: 35px;
+    }
+
+    .socials {
+      padding-left: 0;
+      width: auto;
+    }
+  }
+
+  .main__left {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    min-width: 388px;
+    max-width: 514px;
+
+    &__description {
+      white-space: nowrap;
+      color: #FFFFFF;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 28.8px;
+      letter-spacing: 0;
+    }
+
+    &__button {
+      @include mixins.gradient-button;
+      display: flex;
+      gap: 10px;
+      background: linear-gradient(#4B1115, #040300);
+    }
+
+    &__button-note {
+      display: block;
+      width: 388px;
+      margin-top: 16px;
+      text-align: center;
+      font-weight: 300;
+      font-size: 12px;
+      color: #E3CB88;
+    }
+
+    .left__contacts {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+
+      .contacts__phone,
+      .contacts__message {
+        display: flex;
+        gap: 17px;
+        align-items: flex-end;
+
+        &__img {
+          width: 32px;
+          height: 32px;
+          display: grid;
+          place-items: center;
+        }
+
+        .wrap {
+          display: flex;
+          flex-direction: column;
+
+          &__title {
+            color: #E3CB88;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 30px;
+            letter-spacing: -0.25px;
+          }
+
+          &__phone {
+            color: #FFFFFF;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 30px;
+            letter-spacing: 0;
+          }
+        }
+      }
+      .contacts__message {
+        margin-top: 7px;
+        display: flex;
+        align-items: flex-start;
+      }
+    }
+  }
+
+  &__title {
+    @include mixins.title-block;
+  }
+
+  .main__right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__form {
+    width: 100%;
+    max-width: 640px;
+
+    @media(max-width: 1024px) {
+      max-width: 450px;
+    }
+
+    &__title {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+      @include mixins.title-block;
+      width: 204px;
+      font-size: 20px;
+      letter-spacing: -0.25px;
+      font-weight: 600;
+    }
+
+    &__line {
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, rgba(223, 199, 132, 0) 0%, #DFC784 50%, rgba(223, 199, 132, 0) 100%);
+    }
+
+    &__content {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 0 24px 0 65px;
+
+      @media(max-width: 1400px) {
+        border: 1px solid #E3CB88;
+        border-radius: 24px;
+        padding: 32px 45px;
+      }
+    }
+
+    &__row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+
+      &:has(.form-field:only-child) {
+        grid-template-columns: 1fr;
+      }
+
+      @media(max-width: 1024px) {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+    }
+
+    .form-field {
+      position: relative;
+      width: 100%;
+
+      input,
+      textarea {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid rgba(223, 199, 132, 0.4);
+        background: transparent;
+        color: #FFFFFF;
+        font-size: 16px;
+        line-height: 24px;
+        padding: 10px 0 4px;
+        outline: none;
+        font-family: inherit;
+        transition: border-color 0.3s ease;
+        box-sizing: border-box;
+
+        &:focus {
+          border-bottom-color: #DFC784;
+        }
+      }
+
+      textarea {
+        transform: translateY(10px);
+        resize: none;
+        overflow-y: auto;
+        min-height: 40px;
+
+        scrollbar-width: thin;
+        scrollbar-color: #DFC784 transparent;
+      }
+
+      textarea::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      textarea::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      textarea::-webkit-scrollbar-thumb {
+        background: #DFC784;
+        border-radius: 2px;
+      }
+
+      label {
+        position: absolute;
+        left: 0;
+        top: 10px;
+        color: #DFC784;
+        font-size: 16px;
+        line-height: 24px;
+        pointer-events: none;
+        transition: all 0.3s ease;
+        z-index: 1;
+      }
+
+      input:focus + label,
+      input:not(:placeholder-shown) + label,
+      textarea:focus + label,
+      textarea:not(:placeholder-shown) + label {
+        top: -6px;
+        font-size: 12px;
+        line-height: 16px;
+      }
+
+      &--textarea {
+        textarea {
+          max-height: 76px;
+        }
+      }
+
+      &--date {
+        input {
+          padding-right: 36px;
+          cursor: default;
+        }
+      }
+
+      &__icon {
+        position: absolute;
+        right: 0;
+        bottom: 4px;
+        background: none;
+        border: none;
+        color: #FFFFFF;
+        cursor: pointer;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          color: #DFC784;
+        }
+      }
+    }
+
+    .calendar-overlay {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      z-index: 100;
+      border-radius: 8px;
+      background: #1a1a1a;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+
+      ::ng-deep {
+        tui-calendar-spin {
+          color: #ffffff;
+        }
+
+        tui-calendar-spin button[tuiLink] {
+          color: #DFC784;
+        }
+
+        tui-spin-button .t-button {
+          color: #DFC784;
+        }
+
+        tui-calendar-year .t-cell {
+          color: #ffffff;
+        }
+
+        tui-calendar-year .t-cell_today {
+          color: #DFC784;
+        }
+
+        tui-calendar-year .t-cell[data-range=active] {
+          color: #ffffff;
+        }
+
+        tui-calendar-year .t-cell[data-range=active]:after {
+          background: #DFC784;
+        }
+
+        tui-calendar-sheet .t-cell {
+          color: #ffffff;
+        }
+
+        tui-calendar-sheet .t-cell[data-type=weekend] {
+          color: #e53935;
+        }
+
+        tui-calendar-sheet .t-row_weekday {
+          color: rgba(255, 255, 255, 0.6);
+        }
+
+        tui-calendar-sheet .t-cell[data-range=active]:after {
+          background: #DFC784;
+        }
+      }
+    }
+
+    .calendar-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 99;
+    }
+
+    &__submit {
+      @include mixins.gradient-button(
+        $font-size: 18px,
+        $line-height: 24px
+      );
+      margin-top: 14px;
+      width: 388px;
+      display: flex;
+      gap: 10px;
+      align-self: center;
+    }
+
+    &__submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    &__disclaimer {
+      text-align: center;
+      font-weight: 300;
+      font-size: 12px;
+      color: #E3CB88;
+      margin-top: 4px;
+    }
+  }
+
+  &__footer {
+    display: block;
+    text-align: center;
+    width: 100%;
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 28.8px;
+    text-transform: uppercase;
+
+    @media (max-width: 1400px) {
+      margin-top: 25px;
+    }
+
+    p:first-child {
+      font-size: 15px;
+    }
+
+    &__note {
+      margin-top: 70px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      font-weight: 300;
+      color: #ffffff;
+      font-size: 10px;
+
+      p, a {
+        line-height: 1.2;
+      }
+
+      a:last-child {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+::ng-deep [tuiAppearance][data-appearance=info] {
+  padding: 0 !important;
+}
+
+::ng-deep .landing-notification {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: #1a1a1a;
+  border-left: 4px solid #DFC784;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  font-family: Montserrat, sans-serif;
+  min-width: 280px;
+  max-width: 380px;
+
+  &--success {
+    border-left-color: #DFC784;
+
+    .landing-notification__icon {
+      color: #DFC784;
+    }
+  }
+
+  &--error {
+    border-left-color: #e53935;
+
+    .landing-notification__icon {
+      color: #e53935;
+    }
+  }
+
+  &--info {
+    border-left-color: #5c9ce6;
+
+    .landing-notification__icon {
+      color: #5c9ce6;
+    }
+  }
+
+  &__icon {
+    font-size: 20px;
+    font-weight: 700;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #DFC784;
+  }
+
+  &__message {
+    font-size: 14px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.85);
+    white-space: nowrap;
+
+    &_err,
+    &_valid {
+      white-space: wrap;
+    }
+  }
+}

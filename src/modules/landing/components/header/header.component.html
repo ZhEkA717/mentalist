@@ -1,0 +1,13 @@
+<header class="header">
+  <div class="container">
+    <nav class="header__nav">
+      <ul class="header__nav__items">
+        @for (item of items(); track item.label) {
+          <li class="header__nav__item">
+            <a [href]="item.href" (click)="scrollTo($event, item.href.slice(1))">{{ item.label }}</a>
+          </li>
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

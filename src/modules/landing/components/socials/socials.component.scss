@@ -1,0 +1,58 @@
+@use 'mixins';
+
+:host {
+  display: block;
+}
+
+.socials {
+  display: flex;
+  justify-content: center;
+  gap: 62px;
+}
+
+.social {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  border: 1px solid rgba(223, 199, 132, 0.3);
+  border-radius: 50%;
+  color: #DFC784;
+  cursor: pointer;
+  transition: color 0.35s ease, border-color 0.35s ease, transform 0.15s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(268.68deg, #503F1B -11.79%, #DFC784 102.68%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: inherit;
+    z-index: 0;
+  }
+
+  svg {
+    position: relative;
+    z-index: 1;
+    width: 28px;
+    height: 28px;
+  }
+
+  &:hover {
+    color: #0a0a0a;
+    border-color: rgb(212, 175, 100);
+
+    &::before {
+      transform: scaleX(1);
+    }
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}

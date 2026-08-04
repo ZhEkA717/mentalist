@@ -1,0 +1,32 @@
+<section class="media" id="media">
+  <div class="container">
+    <div class="media__content">
+      <div class="media__content__header">
+        <div class="title reveal-on-scroll">МЕДИА</div>
+        <button class="button">
+          <span>смотреть все материалы</span>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="media__content__slider">
+        <app-carousel [sliderItems]="sliderItems"></app-carousel>
+      </div>
+      <div class="line"></div>
+      <div class="media__content__videos" [appWheelSmith]="true" #videosSection>
+        @for (video of videos(); track $index) {
+          <div class="video-container" #videoContainer>
+            <iframe
+              class="video"
+              [src]="video"
+              title="Видео шоу менталиста"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
+            ></iframe>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

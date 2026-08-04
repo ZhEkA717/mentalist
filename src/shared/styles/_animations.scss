@@ -1,0 +1,34 @@
+// ─── Keyframes ────────────────────────────────────
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+// ─── Accessibility ────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .landing .reveal-on-scroll,
+  .landing .dim-on-scroll {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+}
+
+// ─── Press animation ──────────────────────────────
+
+.social,
+.info__button,
+.show__content__item,
+.form-field__icon {
+  transition: scale 0.15s ease;
+
+  &:active {
+    scale: 0.9;
+  }
+}

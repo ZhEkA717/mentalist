@@ -1,0 +1,74 @@
+@use 'mixins';
+
+:host {
+  display: block;
+}
+
+.container {
+  height: 100%;
+  margin: auto;
+  max-width: 1200px;
+
+  @media (max-width: 1400px) { max-width: 1100px; }
+  @media (max-width: 1280px) { max-width: 1000px; }
+  @media (max-width: 1024px) { max-width: 900px; }
+}
+
+.lectures {
+  height: 899px;
+  background-image: url("/assets/images/background_5.webp");
+  background-size: cover;
+  background-position-x: center;
+
+  @media(max-width: 1024px) {
+    background-image: url("/assets/images/background-shows.webp");
+  }
+
+  &__content {
+    display: flex;
+
+    &__left,
+    &__right {
+      width: 100%;
+
+      .title {
+        @include mixins.title-block;
+        margin-top: 92px;
+        text-transform: uppercase;
+      }
+
+      .subtitle {
+        font-size: 20px;
+        font-weight: 400;
+        color: #FFFFFF;
+        line-height: 28.8px;
+        margin-top: 437px;
+
+        @media(max-width: 1024px) {
+          font-size: 18px;
+        }
+      }
+
+      .button {
+        margin-top: 50px;
+        @include mixins.gradient-button;
+        background: linear-gradient(#4B1115, #040300);
+      }
+    }
+
+    &__right {
+      display: flex;
+      flex-direction: column;
+      align-content: flex-end;
+
+      .title,
+      .subtitle {
+        text-align: right;
+      }
+
+      .button {
+        align-self: flex-end;
+      }
+    }
+  }
+}

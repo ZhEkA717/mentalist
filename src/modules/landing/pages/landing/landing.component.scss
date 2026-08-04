@@ -347,6 +347,11 @@
     flex-direction: column;
     width: 100%;
 
+    @media (max-width: 1024px) {
+      max-width: 100%;
+    }
+
+
     &__content {
       display: flex;
       flex-direction: column;
@@ -357,6 +362,7 @@
       @media (max-width: 1024px) {
         padding-top: 32px;
         gap: 30px;
+        overflow: hidden;
       }
 
       &__title {
@@ -371,6 +377,10 @@
         @media (max-width: 1280px) {
           gap: 24px;
         }
+
+        @media (max-width: 1024px) {
+          height: 500px;
+        }
       }
 
       &__item {
@@ -379,6 +389,12 @@
         height: 450px;
         perspective: 1000px;
         cursor: pointer;
+
+        @media (max-width: 1024px) {
+          flex-shrink: 0;
+          width: 280px;
+          height: 400px;
+        }
 
         .card-inner {
           position: relative;
@@ -621,12 +637,12 @@
 
   .lectures {
     height: 899px;
-    background-image: url("/assets/images/background_5.webp");
+
     background-size: cover;
     background-position-x: center;
 
     @media(max-width: 1024px) {
-      background-position-x: -420px;
+      background-image: url("/assets/images/background-shows.webp");
     }
 
     &__content {
@@ -890,7 +906,7 @@
     }
 
     @media(max-width: 1400px) {
-      background: black;
+      background-image: url("/assets/images/background-contacts.webp");
     }
 
     &__content {
@@ -903,6 +919,10 @@
     &__main {
       margin-top: 60px;
       display: flex;
+
+      @media(max-width: 1400px) {
+        margin-top: 35px;
+      }
 
       .socials {
         padding-left: 0;
@@ -1250,7 +1270,6 @@
     }
 
     &__footer {
-      margin-top: 27px;
       display: block;
       text-align: center;
       width: 100%;
@@ -1259,6 +1278,10 @@
       font-size: 16px;
       line-height: 28.8px;
       text-transform: uppercase;
+
+      @media (max-width: 1400px) {
+        margin-top: 25px;
+      }
 
       &__note {
         margin-top: 70px;

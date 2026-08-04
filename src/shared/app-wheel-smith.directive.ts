@@ -13,10 +13,10 @@ import {isPlatformBrowser} from '@angular/common';
 import {convertToBoolean} from './utils';
 
 @Directive({
-  selector: '[sitUiWheelSmith]',
+  selector: '[appWheelSmith]',
   standalone: true,
 })
-export class SitUiWheelSmithDirective implements AfterViewInit, OnDestroy {
+export class AppWheelSmithDirective implements AfterViewInit, OnDestroy {
   elementRef: ElementRef | null = null;
   protected injector = inject(Injector);
   protected platformId = inject<Record<string, unknown>>(PLATFORM_ID);
@@ -28,7 +28,7 @@ export class SitUiWheelSmithDirective implements AfterViewInit, OnDestroy {
 
   enabled = input(false, {
     transform: convertToBoolean,
-    alias: 'sitUiWheelSmith',
+    alias: 'appWheelSmith',
   });
 
   constructor() {
@@ -74,12 +74,9 @@ export class SitUiWheelSmithDirective implements AfterViewInit, OnDestroy {
 
     const native = this.elementRef?.nativeElement;
     const maxScroll = native.scrollWidth - native.clientWidth;
-    const sensitivity = 2.0; // чем больше — тем сильнее отклик
+    const sensitivity = 2.0;
 
-    // добавляем к целевому скроллу
     this.targetScroll += e.deltaY * sensitivity;
-
-    // ограничиваем
     this.targetScroll = Math.max(0, Math.min(this.targetScroll, maxScroll));
 
     if (!this.animating) {
@@ -92,7 +89,6 @@ export class SitUiWheelSmithDirective implements AfterViewInit, OnDestroy {
 
     const native = this.elementRef?.nativeElement;
 
-    // сглаженное движение
     this.currentScroll += (this.targetScroll - this.currentScroll) * 0.9;
 
     native.scrollLeft = this.currentScroll;

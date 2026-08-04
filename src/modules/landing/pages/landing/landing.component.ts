@@ -13,6 +13,7 @@ import {TuiLoader} from '@taiga-ui/core';
 import {TuiNotificationService} from '@taiga-ui/core/components/notification';
 import {catchError, EMPTY, finalize} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
+import {SitUiWheelSmithDirective} from '../../../../shared/sit-ui-wheel-smith.directive';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,6 +32,7 @@ const SCRAMBLE_CHARS = 'АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ
     MarqueeDirective,
     NgTemplateOutlet,
     TuiLoader,
+    SitUiWheelSmithDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

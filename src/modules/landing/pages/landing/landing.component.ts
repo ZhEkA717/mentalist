@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, signal} from '@angular/core';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {MarqueeDirective} from '../../directives/marquee.directive';
@@ -32,6 +32,21 @@ gsap.registerPlugin(ScrollTrigger);
 export class LandingComponent implements AfterViewInit, OnDestroy {
   private styleObserver: MutationObserver | null = null;
 
+  protected showPromo = signal(false);
+  protected showAbout = signal(false);
+  protected showLectures = signal(false);
+  protected showMedia = signal(false);
+  protected showContacts = signal(false);
+
+  private readonly sectionOrder = ['shows', 'about', 'lectures', 'media', 'contacts'];
+  private sectionSignals: Record<string, () => void> = {
+    shows: () => this.showPromo.set(true),
+    about: () => this.showAbout.set(true),
+    lectures: () => this.showLectures.set(true),
+    media: () => this.showMedia.set(true),
+    contacts: () => this.showContacts.set(true),
+  };
+
   protected items: {label: string; href: string}[] = [
     {label: 'Главная', href: '#hero'},
     {label: 'Выступления', href: '#shows'},
@@ -57,12 +72,26 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  protected onSectionClick(id: string): void {
+    const targetIndex = this.sectionOrder.indexOf(id);
+    this.sectionOrder.forEach((key, i) => {
+      if (i <= targetIndex) {
+        this.sectionSignals[key]?.();
+      }
+    });
+
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({behavior: 'smooth'});
+      }
+    })
+  }
+
   ngAfterViewInit(): void {
     this.watchStyleChanges();
     setTimeout(() => {
       ScrollTrigger.refresh(true);
-      this.initRevealOnScroll();
-      this.initDimOnScroll();
     }, 200);
   }
 
@@ -83,44 +112,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       subtree: true,
       characterData: true,
       attributes: true,
-    });
-  }
-
-  private initRevealOnScroll(): void {
-    gsap.utils.toArray<HTMLElement>('.reveal-on-scroll').forEach((el) => {
-      gsap.fromTo(el,
-        {opacity: 0, y: 26},
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 100%',
-            toggleActions: 'play none none none',
-          },
-        }
-      );
-    });
-  }
-
-  private initDimOnScroll(): void {
-    gsap.utils.toArray<HTMLElement>('.dim-on-scroll').forEach((el) => {
-      ScrollTrigger.create({
-        trigger: el,
-        start: 'top bottom',
-        end: 'bottom top',
-        onUpdate: (self) => {
-          const inView = self.progress > 0.15 && self.progress < 0.85;
-          gsap.to(el, {
-            opacity: inView ? 1 : 0.7,
-            filter: inView ? 'brightness(1)' : 'brightness(0.7)',
-            duration: 0.5,
-            overwrite: true,
-          });
-        },
-      });
     });
   }
 

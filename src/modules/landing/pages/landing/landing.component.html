@@ -1,7 +1,11 @@
 <div class="landing">
-  <app-header [items]="items" />
-  <app-hero />
-  <app-promo-show />
+  <app-header [items]="items" (sectionClick)="onSectionClick($event)" />
+  <app-hero (sectionClick)="onSectionClick($event)" />
+  @defer (on viewport; when showPromo(); prefetch when false) {
+    <app-promo-show />
+  } @placeholder {
+    <div></div>
+  }
   <section class="ribbon" id="ribbon" appMarquee marqueeMode="always">
     <div class="ribbon__content__items">
       @for (item of ribbonItems; track item.id) {
@@ -12,13 +16,29 @@
       }
     </div>
   </section>
-  <app-about />
-  <app-lectures />
-  <app-media />
+  @defer (on viewport; when showAbout(); prefetch when false) {
+    <app-about />
+  } @placeholder {
+    <div></div>
+  }
+  @defer (on viewport; when showLectures(); prefetch when false) {
+    <app-lectures />
+  } @placeholder {
+    <div></div>
+  }
+  @defer (on viewport; when showMedia(); prefetch when false) {
+    <app-media />
+  } @placeholder {
+    <div></div>
+  }
   <section class="ribbon2" id="ribbon2" appMarquee>
     <div class="ribbon2__track">
       <span>ШОУ ДЛЯ МЕРОПРИЯТИЙ · МОСКВА · САНКТ-ПЕТЕРБУРГ · МИНСК · ВЕСЬ МИР</span>
     </div>
   </section>
-  <app-contacts />
+  @defer (on viewport; when showContacts(); prefetch when false) {
+    <app-contacts />
+  } @placeholder {
+    <div></div>
+  }
 </div>

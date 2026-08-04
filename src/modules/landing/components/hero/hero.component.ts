@@ -23,6 +23,7 @@ export class HeroSectionComponent implements AfterViewInit {
   socialsContainer = viewChild<ElementRef<HTMLElement>>('socialsContainer');
 
   bootComplete = output<void>();
+  sectionClick = output<string>();
 
   ngAfterViewInit(): void {
     this.boot();
@@ -30,10 +31,7 @@ export class HeroSectionComponent implements AfterViewInit {
 
   protected scrollTo(event: Event, id: string): void {
     event.preventDefault();
-    const el = document.getElementById(id);
-    if (!el) return;
-    const top = el.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({top, behavior: 'smooth'});
+    this.sectionClick.emit(id);
   }
 
   private boot(): void {

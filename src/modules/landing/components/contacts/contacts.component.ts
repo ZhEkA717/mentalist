@@ -1,4 +1,4 @@
-import {Component, computed, inject, signal, TemplateRef, viewChild} from '@angular/core';
+import {AfterViewInit, Component, computed, DestroyRef, ElementRef, inject, OnDestroy, signal, TemplateRef, viewChild} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TuiCalendar} from '@taiga-ui/core/components/calendar';
 import {TuiDay, TuiMonth} from '@taiga-ui/cdk/date-time';
@@ -7,6 +7,9 @@ import {TuiNotificationService} from '@taiga-ui/core/components/notification';
 import {catchError, EMPTY, finalize} from 'rxjs';
 import {TelegramService, RequestForm} from '../../services/telegram.service';
 import {SocialsComponent} from '../socials/socials.component';
+import {gsap} from 'gsap';
+import {ScrollTrigger} from 'gsap/ScrollTrigger';
+import {initRevealOnScroll} from '../../utils/scroll-animations';
 
 @Component({
   selector: 'app-contacts',
@@ -15,9 +18,10 @@ import {SocialsComponent} from '../socials/socials.component';
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.scss',
 })
-export class ContactsSectionComponent {
+export class ContactsSectionComponent implements AfterViewInit, OnDestroy {
   private telegram = inject(TelegramService);
   private readonly notifications = inject(TuiNotificationService);
+  private readonly el = inject(ElementRef);
 
   protected successTpl = viewChild<TemplateRef<unknown>>('successNotification');
   protected errorTpl = viewChild<TemplateRef<unknown>>('errorNotification');
@@ -38,6 +42,15 @@ export class ContactsSectionComponent {
 
   protected calendarOpen = false;
   protected calendarMonth = new TuiMonth(new Date().getFullYear(), new Date().getMonth());
+
+  ngAfterViewInit(): void {
+    initRevealOnScroll(this.el.nativeElement);
+  }
+
+  ngOnDestroy(): void {
+    ScrollTrigger.getAll().forEach(t => t.kill());
+    gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
+  }
 
   protected toggleCalendar(): void {
     this.calendarOpen = !this.calendarOpen;

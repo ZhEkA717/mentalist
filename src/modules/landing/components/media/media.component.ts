@@ -1,10 +1,11 @@
-import {AfterViewInit, Component, computed, DestroyRef, ElementRef, inject, signal, viewChild, viewChildren} from '@angular/core';
+import {AfterViewInit, Component, computed, DestroyRef, ElementRef, inject, OnDestroy, signal, viewChild, viewChildren} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {CarouselComponent} from '../../components/carousel/carousel.component';
 import {AppWheelSmithDirective} from '../../../../shared/app-wheel-smith.directive';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
+import {initRevealOnScroll} from '../../utils/scroll-animations';
 
 @Component({
   selector: 'app-media',
@@ -13,10 +14,11 @@ import {ScrollTrigger} from 'gsap/ScrollTrigger';
   templateUrl: './media.component.html',
   styleUrl: './media.component.scss',
 })
-export class MediaSectionComponent implements AfterViewInit {
+export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   private readonly sanitizer = inject(DomSanitizer);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly isRuDomain = this.activatedRoute.snapshot.queryParams['ru'] || window.location.hostname.endsWith('.ru');
+  private readonly el = inject(ElementRef);
 
   protected videoContainers = viewChildren<ElementRef<HTMLElement>>('videoContainer');
   protected videosSection = viewChild<ElementRef<HTMLElement>>('videosSection');
@@ -51,7 +53,13 @@ export class MediaSectionComponent implements AfterViewInit {
   ];
 
   ngAfterViewInit(): void {
+    initRevealOnScroll(this.el.nativeElement);
     setTimeout(() => this.initScrollToSecondVideo(), 2200);
+  }
+
+  ngOnDestroy(): void {
+    ScrollTrigger.getAll().forEach(t => t.kill());
+    gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
   }
 
   private initScrollToSecondVideo(): void {

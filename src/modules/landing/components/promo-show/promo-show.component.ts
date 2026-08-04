@@ -1,16 +1,17 @@
-import {AfterViewInit, Component} from '@angular/core';
-import {AppWheelSmithDirective} from '../../../../shared/app-wheel-smith.directive';
+import {AfterViewInit, Component, ElementRef, inject, OnDestroy} from '@angular/core';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
+import {initRevealOnScroll, initDimOnScroll} from '../../utils/scroll-animations';
 
 @Component({
   selector: 'app-promo-show',
   standalone: true,
-  imports: [AppWheelSmithDirective],
   templateUrl: './promo-show.component.html',
   styleUrls: ['./promo-show.component.scss']
 })
-export class PromoShowSectionComponent implements AfterViewInit {
+export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
+  private readonly el = inject(ElementRef);
+
   protected cards = [
     {
       id: 1,
@@ -33,11 +34,19 @@ export class PromoShowSectionComponent implements AfterViewInit {
   ];
 
   ngAfterViewInit(): void {
+    const container = this.el.nativeElement;
+    initRevealOnScroll(container);
+    initDimOnScroll(container);
     setTimeout(() => this.initCardFlip(), 2200);
   }
 
+  ngOnDestroy(): void {
+    ScrollTrigger.getAll().forEach(t => t.kill());
+    gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll, .dim-on-scroll'));
+  }
+
   private initCardFlip(): void {
-    gsap.utils.toArray<HTMLElement>('.show__content__item').forEach((card) => {
+    gsap.utils.toArray<HTMLElement>('.show__content__item', this.el.nativeElement).forEach((card) => {
       const inner = card.querySelector('.card-inner') as HTMLElement;
       if (!inner) return;
 

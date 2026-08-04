@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core';
+import {Component, input, output} from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -8,12 +8,10 @@ import {Component, input} from '@angular/core';
 })
 export class HeaderComponent {
   items = input.required<{ label: string; href: string }[]>();
+  sectionClick = output<string>();
 
   protected scrollTo(event: Event, id: string): void {
     event.preventDefault();
-    const el = document.getElementById(id);
-    if (!el) return;
-    const top = el.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({top, behavior: 'smooth'});
+    this.sectionClick.emit(id);
   }
 }

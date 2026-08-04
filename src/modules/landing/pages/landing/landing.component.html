@@ -15,12 +15,12 @@
   <section class="main" id="hero">
     <div class="container">
       <div class="main__content">
-        <div class="main__content__logo">
+        <div class="main__content__logo" #logo>
           <img src="/assets/images/logo.png" alt="logo">
         </div>
-        <p class="main__content__subtitle">{{ subtitleText }}</p>
+        <p class="main__content__subtitle" #subtitle>{{ subtitleText }}</p>
 
-        <button (click)="scrollTo($event, 'contacts')" style="margin-bottom: 24px;" class="main__content__button"><span>обсудить мероприятие</span></button>
+        <button (click)="scrollTo($event, 'contacts')" style="margin-bottom: 24px;" class="main__content__button" #button><span>обсудить мероприятие</span></button>
         <ng-container *ngTemplateOutlet="socials"></ng-container>
       </div>
 
@@ -165,7 +165,7 @@
           <app-carousel [sliderItems]="sliderItems"></app-carousel>
         </div>
         <div class="line"></div>
-        <div class="media__content__videos">
+        <div class="media__content__videos" #videosSection>
           @for (video of videos(); track $index) {
             <div class="video-container" #videoContainer>
               <iframe
@@ -350,7 +350,7 @@
 
 
 <ng-template #socials>
-  <div class="socials">
+  <div class="socials" #socialsContainer>
     <a href="https://www.instagram.com/alex.shishuk?igsh=ejdjcnQ2NGN3NHBy&utm_source=qr" target="_blank" rel="noopener" class="social" aria-label="Instagram">
       <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip-ig)">

@@ -48,6 +48,11 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   protected errorTpl = viewChild<TemplateRef<unknown>>('errorNotification');
   protected validationTpl = viewChild<TemplateRef<unknown>>('validationNotification');
   protected videoContainers = viewChildren<ElementRef<HTMLElement>>('videoContainer');
+  protected logo = viewChild<ElementRef<HTMLElement>>('logo');
+  protected subtitle = viewChild<ElementRef<HTMLElement>>('subtitle');
+  protected button = viewChild<ElementRef<HTMLElement>>('button');
+  protected socials = viewChild<ElementRef<HTMLElement>>('socialsContainer');
+  protected videosSection = viewChild<ElementRef<HTMLElement>>('videosSection');
 
   protected readonly currentYear = new Date().getFullYear();
   private readonly isRuDomain =  this.activatedRoute.snapshot.queryParams['ru'] || window.location.hostname.endsWith('.ru');
@@ -297,10 +302,10 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   // ─── Boot ────────────────────────────────────────────────
 
   private boot(): void {
-    const logo = document.querySelector<HTMLElement>('.main__content__logo');
-    const subtitle = document.querySelector<HTMLElement>('.main__content__subtitle');
-    const button = document.querySelector<HTMLElement>('.main__content__button');
-    const socials = document.querySelector<HTMLElement>('.socials');
+    const logo = this.logo()?.nativeElement;
+    const subtitle = this.subtitle()?.nativeElement;
+    const button = this.button()?.nativeElement;
+    const socials = this.socials()?.nativeElement;
 
     if (!logo || !subtitle || !button || !socials) return;
 
@@ -462,7 +467,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   // ─── Card flip ───────────────────────────────────────────
 
   private initScrollToSecondVideo(): void {
-    const el = document.querySelector('.media__content__videos');
+    const el = this.videosSection()?.nativeElement;
     if (!el) return;
 
     let triggered = false;

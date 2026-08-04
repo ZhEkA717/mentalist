@@ -96,6 +96,11 @@
   line-height: 100%;
   letter-spacing: 0;
   text-transform: uppercase;
+
+
+  @media(max-width: 1280px) {
+    font-weight: 600;
+  }
 }
 
 .landing {
@@ -106,6 +111,18 @@
     height: 100%;
     margin: auto;
     max-width: 1200px;
+
+    @media (max-width: 1400px) {
+      max-width: 1100px;
+    }
+
+    @media (max-width: 1280px) {
+      max-width: 1000px;
+    }
+
+    @media (max-width: 1024px) {
+      max-width: 900px;
+    }
   }
 
   .header {
@@ -221,11 +238,20 @@
     background-size: cover;
     background-position-x: center;
     height: 1500px;
+
+    @media(max-width: 1024px) {
+      background-position-x: -90px;
+    }
+
   }
 
   .promo {
     width: 100%;
     height: 750px;
+
+    @media(max-width: 1024px) {
+      height: 850px;
+    }
 
     &__content {
       display: flex;
@@ -236,6 +262,18 @@
 
       &__title {
         @include title-block;
+
+        @media(max-width: 1280px) {
+          br {
+            display: none;
+          }
+        }
+
+        @media(max-width: 1024px) {
+          br {
+            display: block;
+          }
+        }
       }
 
       &__wrapper {
@@ -243,12 +281,20 @@
         display: flex;
         gap: 30px;
 
+        @media(max-width: 1024px) {
+          flex-direction: column;
+        }
+
 
         .text {
           width: 515px;
           display: flex;
           flex-direction: column;
           gap: 24px;
+
+          @media(max-width: 1024px) {
+            width: 100%;
+          }
 
           &__title {
             font-weight: 600;
@@ -269,6 +315,14 @@
         }
       }
 
+      &__image {
+        @media(max-width: 1024px) {
+          width: 100%;
+          display: grid;
+          place-items: center;
+        }
+      }
+
       &__footer {
         @include title-block;
         margin-top: 100px;
@@ -279,6 +333,11 @@
         line-height: 28.8px;
         letter-spacing: 0;
         text-align: justify;
+
+        @media(max-width: 1024px) {
+          margin-top: 24px;
+          text-align: center;
+        }
       }
     }
   }
@@ -295,6 +354,11 @@
       padding-top: 64px;
       align-items: center;
 
+      @media (max-width: 1024px) {
+        padding-top: 32px;
+        gap: 30px;
+      }
+
       &__title {
         @include title-block;
       }
@@ -303,6 +367,10 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 76px;
+
+        @media (max-width: 1280px) {
+          gap: 24px;
+        }
       }
 
       &__item {
@@ -490,6 +558,10 @@
         text-transform: uppercase;
         width: 785px;
 
+        @media(max-width: 1024px) {
+          width: 750px;
+        }
+
         p:last-child {
           text-align: right;
         }
@@ -500,6 +572,10 @@
         display: flex;
         flex-direction: column;
         gap: 22px;
+
+        @media(max-width: 1024px) {
+          width: 670px;
+        }
 
         .title {
           color: #FFFFFF;
@@ -549,6 +625,10 @@
     background-size: cover;
     background-position-x: center;
 
+    @media(max-width: 1024px) {
+      background-position-x: -420px;
+    }
+
     &__content {
       display: flex;
 
@@ -568,6 +648,10 @@
           color: #FFFFFF;
           line-height: 28.8px;
           margin-top: 437px;
+
+          @media(max-width: 1024px) {
+            font-size: 18px;
+          }
         }
 
         .button {
@@ -598,6 +682,14 @@
   .media {
     height: 900px;
     background: #000000;
+
+    //@media (max-width: 1024px) {
+    //  .container {
+    //    padding: 0 24px;
+    //    max-width: 100%;
+    //  }
+    //}
+
 
     &__content {
       padding-top: 70px;
@@ -670,17 +762,51 @@
       &__videos {
         margin-top: 73px;
         display: flex;
-        justify-content: space-between;
+        gap: 24px;
+
+        @media (max-width: 1280px) {
+          gap: 12px;
+        }
+
+        @media (max-width: 1024px) {
+          overflow-x: scroll;
+          height: 250px;
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+        }
 
         .video-container {
           position: relative;
+          width: 100%;
+          height: 215px;
+
+          @media (max-width: 1400px) {
+            height: 200px;
+          }
+
+          @media (max-width: 1280px) {
+            height: 185px;
+          }
+
+          @media (max-width: 1024px) {
+            height: 230px;
+          }
         }
 
         .video {
-          width: 380px;
-          height: 215px;
+          width: 100%;
+          height: 100%;
           border-radius: 16px;
           border: 1px solid #E3CDA1;
+
+          @media (max-width: 1024px) {
+            width: 400px;
+            height: 225px;
+          }
         }
 
         .play-container {

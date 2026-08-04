@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnDestroy, signal, TemplateRef, viewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, computed, DestroyRef, ElementRef, inject, OnDestroy, signal, TemplateRef, viewChild, viewChildren} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {gsap} from 'gsap';
@@ -47,6 +47,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   protected successTpl = viewChild<TemplateRef<unknown>>('successNotification');
   protected errorTpl = viewChild<TemplateRef<unknown>>('errorNotification');
   protected validationTpl = viewChild<TemplateRef<unknown>>('validationNotification');
+  protected videoContainers = viewChildren<ElementRef<HTMLElement>>('videoContainer');
 
   protected readonly currentYear = new Date().getFullYear();
   private readonly isRuDomain =  this.activatedRoute.snapshot.queryParams['ru'] || window.location.hostname.endsWith('.ru');
@@ -224,6 +225,16 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     window.scrollTo({ top, behavior: 'smooth' });
   }
 
+  protected scrollToSecondVideo(): void {
+    const containers = this.videoContainers();
+    if (containers.length < 2) return;
+    const el = containers[1].nativeElement;
+    const parent = el.parentElement;
+    if (!parent) return;
+    const offset = el.offsetLeft - (parent.clientWidth - el.offsetWidth) / 2 - 48;
+    parent.scrollTo({ left: offset, behavior: 'smooth' });
+  }
+
   protected onSubmit(): void {
     if (this.submitting()) return;
 
@@ -318,6 +329,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       this.initRevealOnScroll();
       this.initDimOnScroll();
       this.initCardFlip();
+      this.initScrollToSecondVideo();
     }, 200);
   }
 
@@ -448,6 +460,23 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   }
 
   // ─── Card flip ───────────────────────────────────────────
+
+  private initScrollToSecondVideo(): void {
+    const el = document.querySelector('.media__content__videos');
+    if (!el) return;
+
+    let triggered = false;
+
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 100%',
+      onEnter: () => {
+        if (triggered) return;
+        triggered = true;
+        this.scrollToSecondVideo();
+      },
+    });
+  }
 
   private initCardFlip(): void {
     gsap.utils.toArray<HTMLElement>('.show__content__item').forEach((card) => {

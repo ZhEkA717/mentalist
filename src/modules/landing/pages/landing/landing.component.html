@@ -43,7 +43,7 @@
                 ещё долго после его завершения.
               </div>
             </div>
-            <div class="promo__image">
+            <div class="promo__content__image">
               <img src="/assets/images/promo.png" alt="promo" class="dim-on-scroll">
             </div>
           </div>
@@ -167,7 +167,7 @@
         <div class="line"></div>
         <div class="media__content__videos">
           @for (video of videos(); track $index) {
-            <div class="video-container">
+            <div class="video-container" #videoContainer>
               <iframe
                 class="video"
                 [src]="video"

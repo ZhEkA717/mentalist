@@ -677,8 +677,8 @@
         }
 
         .video {
-          width: 315px;
-          height: 181px;
+          width: 380px;
+          height: 215px;
           border-radius: 16px;
           border: 1px solid #E3CDA1;
         }
@@ -819,6 +819,13 @@
           gap: 17px;
           align-items: flex-end;
 
+          &__img {
+            width: 32px;
+            height: 32px;
+            display: grid;
+            place-items: center;
+          }
+
           .wrap {
             display: flex;
             flex-direction: column;
@@ -843,7 +850,6 @@
         .contacts__message {
           margin-top: 7px;
           display: flex;
-          gap: 9px;
           align-items: flex-start;
         }
 

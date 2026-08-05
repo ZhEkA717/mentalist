@@ -51,8 +51,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     {label: 'Главная', href: '#hero'},
     {label: 'Выступления', href: '#shows'},
     {label: 'Об александре', href: '#about'},
-    {label: 'Авторские шоу', href: '#lectures'},
-    {label: 'Лекции', href: '#lectures'},
+    {label: 'Шоу и лекции', href: '#lectures'},
     {label: 'Медиа', href: '#media'},
     {label: 'Контакты', href: '#contacts'},
   ];
@@ -83,7 +82,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     setTimeout(() => {
       const el = document.getElementById(id);
       if (el) {
-        el.scrollIntoView({behavior: 'smooth'});
+        el.scrollIntoView({behavior: 'smooth', block: 'center'});
       }
     })
   }

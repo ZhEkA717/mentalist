@@ -4,10 +4,51 @@
       <ul class="header__nav__items">
         @for (item of items(); track item.label) {
           <li class="header__nav__item">
-            <a [href]="item.href" (click)="scrollTo($event, item.href.slice(1))">{{ item.label }}</a>
+            <a [href]="item.href"
+               [class.active]="activeSection() === item.href.slice(1)"
+               (click)="scrollTo($event, item.href.slice(1))">{{ item.label }}</a>
           </li>
         }
       </ul>
     </nav>
+
+    <button
+      class="burger"
+      [class.burger--hidden]="menuOpen()"
+      (click)="toggleMenu()"
+      type="button"
+    >
+      <svg width="28" height="20" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect class="burger__line burger__line--1" x="0" y="0" width="28" height="2" rx="1" fill="white"/>
+        <rect class="burger__line burger__line--2" x="0" y="9" width="28" height="2" rx="1" fill="white"/>
+        <rect class="burger__line burger__line--3" x="0" y="18" width="28" height="2" rx="1" fill="white"/>
+      </svg>
+    </button>
   </div>
 </header>
+
+<div
+  *tuiPopup="menuOpen()"
+  class="drawer"
+  [class.drawer--closing]="closing()"
+>
+  <nav class="drawer__nav">
+    <ul class="drawer__nav__items">
+      @for (item of items(); track item.label) {
+        <li class="drawer__nav__item">
+          <a [href]="item.href"
+             [class.active]="activeSection() === item.href.slice(1)"
+             (click)="scrollTo($event, item.href.slice(1))">{{ item.label }}</a>
+        </li>
+      }
+    </ul>
+  </nav>
+  <div
+    class="drawer__handle"
+    (touchstart)="onHandleTouchStart($event)"
+    (touchmove)="onHandleTouchMove($event)"
+    (touchend)="onHandleTouchEnd()"
+  >
+    <span class="drawer__handle__bar"></span>
+  </div>
+</div>

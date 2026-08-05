@@ -11,6 +11,16 @@
   width: 100%;
   z-index: 10;
   background: linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
+
+  @media(max-width: 950px) {
+    height: 70px;
+    padding: 0 24px;
+
+    .container {
+      display: flex;
+      align-items: center;
+    }
+  }
 }
 
 .container {
@@ -29,6 +39,10 @@
   @media (max-width: 1024px) {
     max-width: 900px;
   }
+
+  @media (max-width: 950px) {
+    max-width: 100%;
+  }
 }
 
 .header__nav__items {
@@ -44,7 +58,7 @@
   line-height: 100%;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: #FFFFFF;
+  color: #ffffff;
   list-style-type: none;
 
   a {
@@ -56,6 +70,14 @@
     opacity: 0.8;
     transition: opacity 0.3s ease;
     white-space: nowrap;
+
+    &.active {
+      opacity: 1;
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
 
     &:hover {
       opacity: 1;
@@ -77,5 +99,188 @@
     &:hover::after {
       transform: scaleX(1);
     }
+  }
+}
+
+// Burger button
+.burger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 11;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+
+  &--hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  svg {
+    overflow: visible;
+  }
+}
+
+.burger__line {
+  transform-origin: center;
+  animation: burgerBreathe 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.burger__line--1 { animation-delay: 0s; }
+.burger__line--2 { animation-delay: 0.4s; }
+.burger__line--3 { animation-delay: 0.8s; }
+
+@keyframes burgerBreathe {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scaleX(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scaleX(1.08);
+  }
+}
+
+// Drawer
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  inline-size: 100%;
+  block-size: 100dvh;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  animation: drawerSlideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: -1;
+  }
+}
+
+.drawer--closing {
+  animation: drawerSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes drawerSlideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes drawerSlideUp {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+.drawer__nav {
+  padding: 40px 30px 0;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.drawer__handle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 0 24px;
+  touch-action: none;
+  cursor: grab;
+  margin-top: auto;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.drawer__handle__bar {
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.drawer__nav__items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+  text-align: center;
+}
+
+.drawer__nav__item {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #ffffff;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    display: inline-block;
+    padding: 16px 0;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    position: relative;
+
+    &.active {
+      opacity: 1;
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+
+    &:hover {
+      opacity: 1;
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: -10%;
+      width: 120%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgb(227, 205, 161), transparent);
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+}
+
+@media (max-width: 950px) {
+  .header__nav {
+    display: none;
+  }
+
+  .burger {
+    display: flex;
   }
 }

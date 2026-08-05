@@ -66,6 +66,8 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   ];
 
   constructor() {
+    history.replaceState(null, '', '/#hero');
+
     inject(DestroyRef).onDestroy(() => {
       this.styleObserver?.disconnect();
     });
@@ -88,6 +90,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    window.scrollTo(0, 0);
     this.watchStyleChanges();
     setTimeout(() => {
       ScrollTrigger.refresh(true);

@@ -1,4 +1,5 @@
-import {AfterViewInit, Component, ElementRef, inject, OnDestroy} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, inject, OnDestroy, signal} from '@angular/core';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {initRevealOnScroll, initDimOnScroll} from '../../utils/scroll-animations';
@@ -11,6 +12,12 @@ import {initRevealOnScroll, initDimOnScroll} from '../../utils/scroll-animations
 })
 export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   private readonly el = inject(ElementRef);
+  private readonly sanitizer = inject(DomSanitizer);
+
+  protected videoOpen = signal(false);
+  protected videoUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+    'https://vk.com/video_ext.php?oid=-65614643&id=456239031'
+  );
 
   protected cards = [
     {
@@ -38,6 +45,14 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
     initRevealOnScroll(container);
     initDimOnScroll(container);
     setTimeout(() => this.initCardFlip(), 2200);
+  }
+
+  protected openVideo(): void {
+    this.videoOpen.set(true);
+  }
+
+  protected closeVideo(): void {
+    this.videoOpen.set(false);
   }
 
   ngOnDestroy(): void {

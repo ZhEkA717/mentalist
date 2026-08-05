@@ -15,8 +15,14 @@
               ещё долго после его завершения.
             </div>
           </div>
-          <div class="promo__content__image">
+          <div class="promo__content__image" (click)="openVideo()">
             <img src="/assets/images/promo.png" alt="promo" class="dim-on-scroll">
+            <div class="promo__content__image-overlay">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="24" cy="24" r="23" stroke="white" stroke-width="2" opacity="0.8"/>
+                <path d="M19 15L35 24L19 33V15Z" fill="white" opacity="0.9"/>
+              </svg>
+            </div>
           </div>
         </div>
         <div class="promo__content__footer reveal-on-scroll">
@@ -56,3 +62,15 @@
     </div>
   </section>
 </div>
+
+@if (videoOpen()) {
+  <div class="video-backdrop" (click)="closeVideo()"></div>
+  <div class="video-overlay">
+    <button class="video-overlay__close" (click)="closeVideo()">✕</button>
+    <iframe
+      [src]="videoUrl"
+      allow="autoplay; fullscreen; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+}

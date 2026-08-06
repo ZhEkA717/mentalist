@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, inject, OnDestroy, signal} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, inject, OnDestroy, signal, viewChild, viewChildren} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
@@ -14,6 +14,8 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   private readonly el = inject(ElementRef);
   private readonly sanitizer = inject(DomSanitizer);
 
+  protected videoContainers = viewChildren<ElementRef<HTMLElement>>('videoContainer');
+  protected videosSection = viewChild<ElementRef<HTMLElement>>('videosSection');
   protected videoOpen = signal(false);
   protected videoUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
     'https://vk.com/video_ext.php?oid=-65614643&id=456239031'

@@ -12,6 +12,10 @@
   @media (max-width: 1400px) { max-width: 1100px; }
   @media (max-width: 1280px) { max-width: 1000px; }
   @media (max-width: 1024px) { max-width: 900px; }
+  @media (max-width: 950px) {
+    max-width: 80%;
+    padding: 0 24px;
+  }
 }
 
 .contacts {
@@ -20,13 +24,18 @@
   background-size: cover;
   background-position-x: center;
 
+  @media(max-width: 1400px) {
+    background-image: url("/assets/images/background-contacts.webp");
+  }
+
   @media(max-width: 1024px) {
     height: 960px;
   }
 
-  @media(max-width: 1400px) {
-    background-image: url("/assets/images/background-contacts.webp");
+  @media(max-width: 950px) {
+    height: auto;
   }
+
 
   &__content {
     padding-top: 75px;
@@ -43,6 +52,11 @@
       margin-top: 35px;
     }
 
+    @media (max-width: 950px) {
+      flex-direction: column;
+      gap: 24px;
+    }
+
     .socials {
       padding-left: 0;
       width: auto;
@@ -56,6 +70,15 @@
     min-width: 388px;
     max-width: 514px;
 
+    @media (max-width: 950px) {
+      min-width: 100%;
+      max-width: 100%;
+
+      app-socials {
+        align-self: auto !important;
+      }
+    }
+
     &__description {
       white-space: nowrap;
       color: #FFFFFF;
@@ -63,6 +86,22 @@
       font-size: 20px;
       line-height: 28.8px;
       letter-spacing: 0;
+
+      @media (max-width: 950px) {
+        white-space: wrap;
+        br {
+          display: none;
+
+        }
+      }
+    }
+
+    &__button-wrapper {
+      @media (max-width: 950px) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
     }
 
     &__button {
@@ -89,6 +128,7 @@
 
       .contacts__phone,
       .contacts__message {
+        width: 300px;
         display: flex;
         gap: 17px;
         align-items: flex-end;
@@ -122,11 +162,14 @@
         }
       }
       .contacts__message {
+        width: 300px;
         margin-top: 7px;
         display: flex;
         align-items: flex-start;
       }
     }
+
+
   }
 
   &__title {
@@ -146,6 +189,10 @@
 
     @media(max-width: 1024px) {
       max-width: 450px;
+    }
+
+    @media (max-width: 950px) {
+      max-width: 100%;
     }
 
     &__title {
@@ -193,6 +240,12 @@
         grid-template-columns: 1fr;
         gap: 8px;
       }
+
+      @media(max-width: 1024px) {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+
     }
 
     .form-field {

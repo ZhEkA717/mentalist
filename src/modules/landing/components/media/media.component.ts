@@ -85,7 +85,9 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
     const el = containers[1].nativeElement;
     const parent = el.parentElement;
     if (!parent) return;
-    const offset = el.offsetLeft - (parent.clientWidth - el.offsetWidth) / 2 - 48;
-    parent.scrollTo({left: offset, behavior: 'smooth'});
+    const parentRect = parent.getBoundingClientRect();
+    const childRect = el.getBoundingClientRect();
+    const offset = parent.scrollLeft + childRect.left - parentRect.left - parent.clientWidth / 2 + childRect.width / 2;
+    parent.scrollTo({ left: Math.max(0, offset), behavior: 'smooth'});
   }
 }

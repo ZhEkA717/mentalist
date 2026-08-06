@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ElementRef, inject} from '@angular/core';
 
 @Component({
   selector: 'app-socials',
@@ -6,4 +6,6 @@ import {Component} from '@angular/core';
   templateUrl: './socials.component.html',
   styleUrl: './socials.component.scss'
 })
-export class SocialsComponent {}
+export class SocialsComponent {
+  public elementRef: ElementRef<HTMLElement> = inject(ElementRef);
+}

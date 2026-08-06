@@ -12,6 +12,10 @@
   @media (max-width: 1400px) { max-width: 1100px; }
   @media (max-width: 1280px) { max-width: 1000px; }
   @media (max-width: 1024px) { max-width: 900px; }
+  @media (max-width: 950px) {
+    max-width: 100%;
+    padding: 0 24px;
+  }
 }
 
 .lectures {
@@ -35,6 +39,10 @@
         @include mixins.title-block;
         margin-top: 92px;
         text-transform: uppercase;
+
+        @media (max-width: 900px) {
+          font-size: 36px;
+        }
       }
 
       .subtitle {
@@ -47,12 +55,24 @@
         @media(max-width: 1024px) {
           font-size: 18px;
         }
+
+        @media (max-width: 900px) {
+          font-size: 16px;
+        }
+
+        @media (max-width: 825px) {
+          font-size: 15px;
+        }
       }
 
       .button {
         margin-top: 50px;
         @include mixins.gradient-button;
         background: linear-gradient(#4B1115, #040300);
+
+        @media (max-width: 900px) {
+          font-size: 20px;
+        }
       }
     }
 

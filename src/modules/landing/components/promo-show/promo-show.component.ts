@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ElementRef, inject, OnDestroy, signal} from '@
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
-import {initRevealOnScroll, initDimOnScroll} from '../../utils/scroll-animations';
+import {initDimOnScroll, initRevealOnScroll} from '../../utils/scroll-animations';
 
 @Component({
   selector: 'app-promo-show',

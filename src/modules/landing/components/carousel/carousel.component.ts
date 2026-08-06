@@ -15,12 +15,40 @@ export class CarouselComponent {
   sliderItems = input<string[]>([]);
   protected currentSlideIndex = 0;
 
+  private touchStartX = 0;
+  private touchStartY = 0;
+  private blockedClick = false;
   galleryOpen = false;
   galleryIndex = 0;
 
   protected openGallery(index: number): void {
+    if (this.blockedClick) {
+      this.blockedClick = false;
+      return;
+    }
     this.galleryIndex = index;
     this.galleryOpen = true;
+  }
+
+  protected onTouchStart(event: TouchEvent): void {
+    this.touchStartX = event.touches[0].clientX;
+    this.touchStartY = event.touches[0].clientY;
+  }
+
+  protected onTouchCancel(): void {
+    this.touchStartX = 0;
+    this.touchStartY = 0;
+  }
+
+  protected onTouchEnd(event: TouchEvent): void {
+    const dx = event.changedTouches[0].clientX - this.touchStartX;
+    const dy = event.changedTouches[0].clientY - this.touchStartY;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+      this.blockedClick = true;
+      if (dx < 0) this.nextSlide();
+      else this.prevSlide();
+      setTimeout(() => (this.blockedClick = false), 60);
+    }
   }
 
   protected get totalSlides(): number {

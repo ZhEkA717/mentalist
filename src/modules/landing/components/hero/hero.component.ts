@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, output, viewChild} from '@angular/core';
+import {afterNextRender, AfterViewInit, Component, ElementRef, output, viewChild} from '@angular/core';
 import {SocialsComponent} from '../socials/socials.component';
 import {gsap} from 'gsap';
 
@@ -20,7 +20,7 @@ export class HeroSectionComponent implements AfterViewInit {
   logo = viewChild<ElementRef<HTMLElement>>('logo');
   subtitle = viewChild<ElementRef<HTMLElement>>('subtitle');
   button = viewChild<ElementRef<HTMLElement>>('button');
-  socialsContainer = viewChild<ElementRef<HTMLElement>>('socialsContainer');
+  socialsComponent = viewChild<SocialsComponent>('socialsComponent');
 
   bootComplete = output<void>();
   sectionClick = output<string>();
@@ -38,7 +38,7 @@ export class HeroSectionComponent implements AfterViewInit {
     const logoEl = this.logo()?.nativeElement;
     const subtitleEl = this.subtitle()?.nativeElement;
     const buttonEl = this.button()?.nativeElement;
-    const socialsEl = this.socialsContainer()?.nativeElement;
+    const socialsEl = this.socialsComponent()?.elementRef.nativeElement;
 
     if (!logoEl || !subtitleEl || !buttonEl || !socialsEl) return;
 

@@ -4,7 +4,12 @@
       <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </button>
-  <div class="carousel__viewport">
+  <div
+    class="carousel__viewport"
+    (touchstart)="onTouchStart($event)"
+    (touchend)="onTouchEnd($event)"
+    (touchcancel)="onTouchCancel()"
+  >
     @for (item of sliderItems(); track item; let i = $index) {
       <div
         class="carousel__slide"

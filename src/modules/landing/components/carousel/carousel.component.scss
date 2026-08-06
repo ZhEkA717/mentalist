@@ -21,6 +21,7 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    touch-action: pan-y;
   }
 
   &__slide {
@@ -98,5 +99,15 @@
       background: #E6CC89;
       border-color: #E6CC89;
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel__arrow {
+    display: none;
+  }
+
+  .carousel__dots {
+    display: none;
   }
 }

@@ -12,6 +12,10 @@
   @media (max-width: 1400px) { max-width: 1100px; }
   @media (max-width: 1280px) { max-width: 1000px; }
   @media (max-width: 1024px) { max-width: 900px; }
+  @media (max-width: 950px) {
+    max-width: 100%;
+    padding: 0 24px;
+  }
 }
 
 .about {
@@ -40,6 +44,14 @@
         width: 750px;
       }
 
+      @media (max-width: 924px) {
+        width: 700px;
+      }
+
+      @media (max-width: 800px) {
+        width: 650px;
+      }
+
       p:last-child {
         text-align: right;
       }
@@ -55,11 +67,27 @@
         width: 670px;
       }
 
+      @media (max-width: 924px) {
+        width: 640px;
+      }
+
+      @media (max-width: 850px) {
+        width: 600px;
+      }
+
+      @media (max-width: 800px) {
+        width: 570px;
+      }
+
       .title {
         color: #FFFFFF;
         font-size: 32px;
         font-weight: 600;
         text-transform: uppercase;
+
+        @media (max-width: 850px) {
+          font-size: 30px;
+        }
       }
 
       .subtitle {
@@ -69,6 +97,10 @@
         white-space: nowrap;
         letter-spacing: -0.25px;
         line-height: 30px;
+
+        @media (max-width: 850px) {
+          font-size: 18px;
+        }
       }
 
       .line {
@@ -83,6 +115,10 @@
         display: flex;
         flex-direction: column;
         gap: 32px;
+
+        @media (max-width: 850px) {
+          font-size: 18px;
+        }
       }
 
       .button {

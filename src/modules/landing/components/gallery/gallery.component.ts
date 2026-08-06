@@ -23,7 +23,31 @@ export class GalleryComponent {
     return this.sliderItems().length;
   }
 
+  private touchStartX = 0;
+  private touchStartY = 0;
+  private blockedClick = false;
+
+  protected onTouchStart(event: TouchEvent): void {
+    this.touchStartX = event.touches[0].clientX;
+    this.touchStartY = event.touches[0].clientY;
+  }
+
+  protected onTouchEnd(event: TouchEvent): void {
+    const dx = event.changedTouches[0].clientX - this.touchStartX;
+    const dy = event.changedTouches[0].clientY - this.touchStartY;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+      this.blockedClick = true;
+      if (dx < 0) this.galleryNext();
+      else this.galleryPrev();
+      setTimeout(() => (this.blockedClick = false), 60);
+    }
+  }
+
   protected closeGallery(): void {
+    if (this.blockedClick) {
+      this.blockedClick = false;
+      return;
+    }
     this.galleryOpen.set(false);
     document.body.style.overflow = '';
   }

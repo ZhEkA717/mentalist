@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 html {
   scroll-behavior: smooth;
+  overscroll-behavior-y: none;
   --tui-background-accent-1: #E3CB88 !important;
 }
 
@@ -10,6 +11,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: Montserrat, sans-serif;
+  background: #0a0a0a;
 }
 
 *,

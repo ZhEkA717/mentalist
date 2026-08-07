@@ -103,6 +103,7 @@
 
         @media(max-width: 768px) {
           margin-top: 25px;
+          margin-bottom: 25px;
         }
 
         @media (hover: none) {
@@ -119,7 +120,7 @@
 
     &__left {
       @media(max-width: 768px) {
-        background-image: url("/assets/images/background-shows.webp");
+        background-image: url("/assets/images/background-show-768.webp");
         background-size: cover;
       }
     }
@@ -131,8 +132,9 @@
 
       @media(max-width: 768px) {
         align-items: center;
-        background-image: url("/assets/images/background-shows.webp");
+        background-image: url("/assets/images/background-lecture-768.webp");
         background-size: cover;
+        background-position-x: 127px;
       }
 
       .title,

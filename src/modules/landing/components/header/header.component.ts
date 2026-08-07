@@ -33,6 +33,7 @@ export class HeaderComponent implements OnDestroy {
     } else {
       this.closing.set(false);
       this.menuOpen.set(true);
+      this.lockScroll();
     }
   }
 
@@ -45,7 +46,16 @@ export class HeaderComponent implements OnDestroy {
     setTimeout(() => {
       this.menuOpen.set(false);
       this.closing.set(false);
+      this.unlockScroll();
     }, 400);
+  }
+
+  private lockScroll(): void {
+    document.body.classList.add('no-scroll');
+  }
+
+  private unlockScroll(): void {
+    document.body.classList.remove('no-scroll');
   }
 
   private touchStartY = 0;
@@ -55,6 +65,7 @@ export class HeaderComponent implements OnDestroy {
   }
 
   protected onHandleTouchMove(event: TouchEvent): void {
+    event.preventDefault();
     const deltaY = this.touchStartY - event.touches[0].clientY;
     if (deltaY > 80) {
       this.touchStartY = 0;

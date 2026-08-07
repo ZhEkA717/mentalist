@@ -62,7 +62,18 @@
     transition: fill $transition-duration ease;
   }
 
-  &:hover {
+  @media (hover: hover) {
+    &:hover {
+      color: $hover-text-color;
+      border-color: $hover-border-color;
+
+      &::before {
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  @media (hover: none) {
     color: $hover-text-color;
     border-color: $hover-border-color;
 

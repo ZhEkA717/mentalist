@@ -69,8 +69,10 @@
           transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        &:hover::after {
-          transform: scaleX(1);
+        @media (hover: hover) {
+          &:hover::after {
+            transform: scaleX(1);
+          }
         }
       }
     }

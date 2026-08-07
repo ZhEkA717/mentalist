@@ -109,6 +109,15 @@
       display: flex;
       gap: 10px;
       background: linear-gradient(#4B1115, #040300);
+
+      @media (hover: none) {
+        color: #DFC784;
+        border-color: rgba(223, 199, 132, 0.4);
+
+        &::before {
+          transform: scaleX(0);
+        }
+      }
     }
 
     &__button-note {
@@ -342,8 +351,10 @@
         align-items: center;
         justify-content: center;
 
-        &:hover {
-          color: #DFC784;
+        @media (hover: hover) {
+          &:hover {
+            color: #DFC784;
+          }
         }
       }
     }

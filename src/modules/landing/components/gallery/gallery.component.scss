@@ -25,9 +25,11 @@
     justify-content: center;
     transition: border-color 0.35s ease, background 0.35s ease, transform 0.15s ease;
 
-    &:hover {
-      border-color: #DFC784;
-      background: rgba(80, 63, 27, 0.6);
+    @media (hover: hover) {
+      &:hover {
+        border-color: #DFC784;
+        background: rgba(80, 63, 27, 0.6);
+      }
     }
 
     &:active {
@@ -52,9 +54,11 @@
     justify-content: center;
     transition: border-color 0.35s ease, background 0.35s ease, transform 0.15s ease;
 
-    &:hover {
-      border-color: #DFC784;
-      background: rgba(80, 63, 27, 0.6);
+    @media (hover: hover) {
+      &:hover {
+        border-color: #DFC784;
+        background: rgba(80, 63, 27, 0.6);
+      }
     }
 
     &:active {

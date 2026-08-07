@@ -105,6 +105,15 @@
           margin-top: 25px;
         }
 
+        @media (hover: none) {
+          color: #DFC784;
+          border-color: rgba(223, 199, 132, 0.4);
+
+          &::before {
+            transform: scaleX(0);
+          }
+        }
+
       }
     }
 

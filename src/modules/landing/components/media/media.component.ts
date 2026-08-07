@@ -1,8 +1,16 @@
-import {AfterViewInit, Component, computed, DestroyRef, ElementRef, inject, OnDestroy, signal, viewChild, viewChildren} from '@angular/core';
-import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  OnDestroy,
+  viewChild,
+  viewChildren
+} from '@angular/core';
+import {DomSanitizer} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {CarouselComponent} from '../../components/carousel/carousel.component';
-import {AppWheelSmithDirective} from '../../../../shared/app-wheel-smith.directive';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {initRevealOnScroll} from '../../utils/scroll-animations';
@@ -10,7 +18,7 @@ import {initRevealOnScroll} from '../../utils/scroll-animations';
 @Component({
   selector: 'app-media',
   standalone: true,
-  imports: [CarouselComponent, AppWheelSmithDirective],
+  imports: [CarouselComponent],
   templateUrl: './media.component.html',
   styleUrl: './media.component.scss',
 })

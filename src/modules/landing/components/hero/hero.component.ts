@@ -3,6 +3,7 @@ import {SocialsComponent} from '../socials/socials.component';
 import {gsap} from 'gsap';
 
 const SUBTITLE_TEXT = 'Менталист • Психологический иллюзионист • Дипломированный психолог • Гипнотизёр';
+const SUBTITLE_TEXT_MOBILE = 'Менталист • Гипнотизёр • Психолог • Психологический иллюзионист';
 const SCRAMBLE_CHARS = 'АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ абвгдежзиклмнопрстуфхцчшщэюя';
 
 @Component({

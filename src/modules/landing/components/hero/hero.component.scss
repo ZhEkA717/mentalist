@@ -30,6 +30,16 @@
     background-position-x: -655px;
   }
 
+  @media (max-width: 768px) {
+    height: 900px;
+    background-image:
+      url("/assets/images/hero.png"),
+      url("/assets/images/background_1_768.webp");
+    background-position: center bottom, center center;
+    background-repeat: no-repeat, no-repeat;
+    background-size: auto, cover;
+  }
+
   &__content {
     display: flex;
     flex-direction: column;
@@ -40,6 +50,18 @@
 
     @media (max-width: 950px) {
       width: 500px;
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+      padding-top: 50px;
+    }
+
+    &__logo {
+      @media (max-width: 768px) {
+        width: 300px;
+        order: 1;
+      }
     }
 
     &__subtitle {
@@ -59,6 +81,12 @@
         font-size: 20px;
       }
 
+      @media (max-width: 768px) {
+        order: 4;
+        width: 490px;
+        margin-top: 5px;
+      }
+
       .scramble-char {
         display: inline-block;
         &.resolved {
@@ -72,6 +100,30 @@
       margin-left: 36px;
       align-self: flex-start;
       margin-top: 80px;
+
+      &::before {
+        @media (max-width: 768px) {
+          background: linear-gradient(60deg,
+            color-mix(in srgb, #503F1B 60%, transparent) -11.79%,
+            color-mix(in srgb, #DFC784 60%, transparent) 102.68%);
+        }
+      }
+
+      @media (max-width: 768px) {
+        order: 2;
+        margin-top: 382px;
+        margin-left: 0;
+        align-self: center;
+      }
+    }
+
+    app-socials {
+      @media (max-width: 768px) {
+        order: 3;
+        padding-left: 0 !important;
+        align-self: center !important;
+        margin-top: 80px;
+      }
     }
   }
 }

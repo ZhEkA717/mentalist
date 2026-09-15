@@ -123,6 +123,10 @@
         background-image: url("/assets/images/background-show-768.webp");
         background-size: cover;
       }
+
+      @media(max-width: 430px) {
+        background-position-x: -110px;
+      }
     }
 
     &__right {
@@ -135,6 +139,10 @@
         background-image: url("/assets/images/background-lecture-768.webp");
         background-size: cover;
         background-position-x: 127px;
+      }
+
+      @media(max-width: 430px) {
+        background-position-x: -25px;
       }
 
       .title,

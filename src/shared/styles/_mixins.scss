@@ -82,6 +82,11 @@
     }
   }
 
+  @media(max-width: 520px) {
+    font-size: 18px;
+    padding: 14px 28px;
+  }
+
   &:active {
     scale: 0.95 !important;
     transition: scale 0.1s ease;

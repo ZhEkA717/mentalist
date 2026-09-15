@@ -115,6 +115,10 @@
         width: 100%;
       }
 
+      @media (max-width: 420px) {
+        gap: 10px;
+      }
+
       .title {
         color: #FFFFFF;
         font-size: 32px;
@@ -152,7 +156,7 @@
         }
 
         @media (max-width: 520px) {
-          font-size: 14px;
+          font-size: 16px;
           line-height: 20px;
         }
       }
@@ -184,20 +188,21 @@
         }
 
         @media (max-width: 520px) {
-          font-size: 14px;
+          font-size: 16px;
+          line-height: 20px;
         }
       }
 
       .button {
         @include mixins.gradient-button;
-        width: 373px;
+
         align-self: flex-end;
         margin-top: 25px;
 
         @media (max-width: 620px) {
-          margin-top: 5px;
+          margin-top: 15px;
         }
-        @media (max-width: 420px) {
+        @media (max-width: 430px) {
           width: 100%;
         }
 

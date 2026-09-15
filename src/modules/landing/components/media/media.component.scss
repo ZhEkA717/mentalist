@@ -138,6 +138,11 @@
           width: 400px;
           height: 225px;
         }
+
+        @media (max-width: 520px) {
+          width: 350px;
+          height: 180px;
+        }
       }
     }
   }

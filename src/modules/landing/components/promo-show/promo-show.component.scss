@@ -130,6 +130,11 @@
         }
       }
 
+      @media(max-width: 1024px) {
+        width: 574px;
+        align-self: center;
+      }
+
       @media(max-width: 950px) {
 
         img {
@@ -145,9 +150,13 @@
         transition: filter 0.3s ease;
       }
 
-      @media(max-width: 1024px) {
-        width: 574px;
-        align-self: center;
+
+      @media(max-width: 650px) {
+        width: 500px;
+      }
+
+      @media(max-width: 576px) {
+        width: 400px;
       }
     }
 

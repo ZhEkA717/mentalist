@@ -24,6 +24,10 @@
   background-size: cover;
   background-position-x: center;
 
+  @media(max-width: 726px) {
+    background-image: url("/assets/images/background_4_768.webp");
+  }
+
   &__content {
     height: 100%;
     display: flex;
@@ -31,6 +35,11 @@
     gap: 75px;
     align-items: flex-end;
     padding-top: 74px;
+
+    @media (max-width: 726px) {
+      padding-top: 30px;
+      gap: 350px;
+    }
 
     &__title {
       @include mixins.title-block;
@@ -51,6 +60,21 @@
       @media (max-width: 800px) {
         width: 650px;
       }
+
+      @media (max-width: 726px) {
+        width: 533px;
+      }
+
+      @media (max-width: 620px) {
+        font-size: 28px;
+        width: 450px;
+      }
+
+      @media (max-width: 520px) {
+        font-size: 25px;
+        width: 380px;
+      }
+
 
       p:last-child {
         text-align: right;
@@ -79,6 +103,18 @@
         width: 570px;
       }
 
+      @media (max-width: 726px) {
+        gap: 5px;
+      }
+
+      @media (max-width: 620px) {
+        width: 500px;
+      }
+
+      @media (max-width: 550px) {
+        width: 100%;
+      }
+
       .title {
         color: #FFFFFF;
         font-size: 32px;
@@ -87,6 +123,14 @@
 
         @media (max-width: 850px) {
           font-size: 30px;
+        }
+
+        @media (max-width: 620px) {
+          font-size: 25px;
+        }
+
+        @media (max-width: 520px) {
+          font-size: 20px;
         }
       }
 
@@ -100,6 +144,16 @@
 
         @media (max-width: 850px) {
           font-size: 18px;
+        }
+
+        @media (max-width: 620px) {
+          font-size: 15px;
+          white-space: wrap;
+        }
+
+        @media (max-width: 520px) {
+          font-size: 14px;
+          line-height: 20px;
         }
       }
 
@@ -119,6 +173,19 @@
         @media (max-width: 850px) {
           font-size: 18px;
         }
+
+        @media (max-width: 726px) {
+          gap: 5px;
+          font-size: 14px;
+        }
+
+        @media (max-width: 620px) {
+          gap: 0;
+        }
+
+        @media (max-width: 520px) {
+          font-size: 14px;
+        }
       }
 
       .button {
@@ -126,6 +193,14 @@
         width: 373px;
         align-self: flex-end;
         margin-top: 25px;
+
+        @media (max-width: 620px) {
+          margin-top: 5px;
+        }
+        @media (max-width: 420px) {
+          width: 100%;
+        }
+
       }
     }
   }

@@ -87,6 +87,10 @@
         margin-top: 5px;
       }
 
+      @media(max-width: 576px) {
+        display: none;
+      }
+
       .scramble-char {
         display: inline-block;
         &.resolved {
@@ -123,6 +127,10 @@
         padding-left: 0 !important;
         align-self: center !important;
         margin-top: 80px;
+      }
+
+      @media (max-width: 576px) {
+        width: 400px !important;
       }
     }
   }

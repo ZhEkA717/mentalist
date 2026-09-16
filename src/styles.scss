@@ -11,7 +11,18 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: Montserrat, sans-serif;
-  background: #0a0a0a;
+  background-color: #0a0a0a;
+
+  &:before {
+    content: "";
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: env(safe-area-inset-top);
+    background-color: #0a0a0a;
+    z-index: 9999;
+  }
 }
 
 *,

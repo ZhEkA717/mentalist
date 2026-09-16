@@ -52,11 +52,19 @@
         align-items: center;
         justify-content: space-between;
 
+        @media(max-width: 520px) {
+          height: 80px;
+        }
+
         &.marquee-track {
           width: max-content;
           justify-content: flex-start;
           animation: marquee 35s linear infinite;
           column-gap: 40px;
+
+          @media(max-width: 520px) {
+            column-gap: 6px;
+          }
         }
       }
 
@@ -68,6 +76,13 @@
         gap: 12px;
         text-align: center;
 
+        @media(max-width: 520px) {
+          gap: 6px;
+          img {
+            height: 42px;
+          }
+        }
+
         p {
           width: 200px;
           font-weight: 300;
@@ -77,6 +92,11 @@
           text-align: center;
           text-transform: uppercase;
           color: #FFFFFF;
+
+          @media(max-width: 520px) {
+            font-size: 10px;
+            width: 130px;
+          }
         }
       }
     }
@@ -91,6 +111,11 @@
     align-items: center;
     justify-content: center;
 
+    @media(max-width: 520px) {
+      height: 80px;
+      padding: 0;
+    }
+
     &__track {
       display: flex;
       align-items: center;
@@ -100,6 +125,11 @@
       &.marquee-track {
         animation: marquee 30s linear infinite;
         column-gap: 100px;
+
+        @media(max-width: 520px) {
+          animation: none;
+          column-gap: 0;
+        }
       }
 
       span {
@@ -107,11 +137,41 @@
         display: inline-grid;
         place-items: center;
         @include mixins.title-block;
+
+        br {
+          display: none;
+
+          @media(max-width: 520px) {
+            display: block;
+          }
+        }
+
+        @media(max-width: 520px) {
+          font-size: 18px !important;
+          white-space: wrap;
+          width: 360px;
+          text-align: center;
+        }
+
+        @media(max-width: 360px) {
+          font-size: 14px !important;
+          width: 328px;
+
+        }
+
+        &:last-child {
+          @media(max-width: 520px) {
+            display: none;
+          }
+        }
       }
     }
 
     &.marquee-active {
       justify-content: flex-start;
+      @media(max-width: 520px) {
+        justify-content: center;
+      }
     }
   }
 }

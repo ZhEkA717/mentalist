@@ -81,6 +81,10 @@
         flex-direction: column;
       }
 
+      @media(max-width: 520px) {
+        margin-top: 10px;
+      }
+
       .text {
         width: 515px;
         display: flex;
@@ -91,6 +95,10 @@
           width: 100%;
         }
 
+        @media(max-width: 520px) {
+          gap: 10px;
+        }
+
         &__title {
           font-weight: 600;
           font-size: 20px;
@@ -98,6 +106,10 @@
           letter-spacing: -0.25px;
           text-transform: uppercase;
           color: #FFFFFF;
+
+          @media(max-width: 520px) {
+            font-size: 13px;
+          }
         }
 
         &__description {
@@ -106,6 +118,11 @@
           line-height: 28.8px;
           letter-spacing: 0;
           color: #FFFFFF;
+
+          @media(max-width: 520px) {
+            font-size: 12px;
+            line-height: normal;
+          }
         }
       }
     }
@@ -187,6 +204,12 @@
         margin-top: 24px;
         text-align: center;
       }
+
+      @media(max-width: 520px) {
+        font-size: 11px;
+        line-height: normal;
+      }
+
     }
   }
 }
@@ -216,8 +239,16 @@
       gap: 30px;
     }
 
+    @media (max-width: 520px) {
+      gap: 0;
+    }
+
     &__title {
       @include mixins.title-block;
+
+      @media (max-width: 520px) {
+        font-size: 24px;
+      }
     }
 
     &__items {

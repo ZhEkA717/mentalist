@@ -119,6 +119,10 @@
         margin-left: 0;
         align-self: center;
       }
+
+      @media (max-width: 520px) {
+        width: 300px;
+      }
     }
 
     app-socials {
@@ -131,6 +135,10 @@
 
       @media (max-width: 576px) {
         width: 400px !important;
+      }
+
+      @media (max-width: 520px) {
+        width: 320px !important;
       }
     }
   }

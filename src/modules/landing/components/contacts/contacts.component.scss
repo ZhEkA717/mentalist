@@ -47,6 +47,10 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+
+    @media(max-width: 520px) {
+      padding-top: 40px;
+    }
   }
 
   &__main {
@@ -60,6 +64,10 @@
     @media (max-width: 950px) {
       flex-direction: column;
       gap: 24px;
+    }
+
+    @media(max-width: 520px) {
+      margin-top: 24px;
     }
 
     .socials {
@@ -84,6 +92,10 @@
       }
     }
 
+    @media(max-width: 520px) {
+      gap: 22px;
+    }
+
     &__description {
       white-space: nowrap;
       color: #FFFFFF;
@@ -91,6 +103,12 @@
       font-size: 20px;
       line-height: 28.8px;
       letter-spacing: 0;
+
+      @media(max-width: 520px) {
+        font-size: 12px;
+        line-height: normal;
+        width: 316px;
+      }
 
       @media (max-width: 950px) {
         white-space: wrap;
@@ -476,6 +494,10 @@
 
     p:first-child {
       font-size: 15px;
+
+      @media(max-width: 520px) {
+        display: none;
+      }
     }
 
     &__note {

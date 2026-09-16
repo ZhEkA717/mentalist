@@ -175,6 +175,10 @@
       @media(max-width: 576px) {
         width: 400px;
       }
+
+      @media(max-width: 430px) {
+        width: 300px;
+      }
     }
 
     &__image-overlay {

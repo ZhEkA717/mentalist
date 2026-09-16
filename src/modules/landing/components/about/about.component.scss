@@ -25,7 +25,13 @@
   background-position-x: center;
 
   @media(max-width: 726px) {
-    background-image: url("/assets/images/background_4_768.webp");
+    background-image: url("/assets/images/background_4_768.webp"), linear-gradient(rgba(0,0,0,1), rgba(0,0,0,1));
+    background-repeat: no-repeat;
+  }
+
+  @media(max-width: 520px) {
+    height: 780px;
+    background-position: center -70px, center center;
   }
 
   &__content {
@@ -39,6 +45,10 @@
     @media (max-width: 726px) {
       padding-top: 30px;
       gap: 350px;
+    }
+
+    @media(max-width: 520px) {
+      gap: 220px;
     }
 
     &__title {
@@ -73,6 +83,16 @@
       @media (max-width: 520px) {
         font-size: 25px;
         width: 380px;
+      }
+
+      @media (max-width: 480px) {
+        font-size: 22px;
+        width: 330px;
+      }
+
+      @media (max-width: 420px) {
+        font-size: 18px;
+        width: 300px;
       }
 
 

@@ -125,7 +125,12 @@
       }
     }
 
-    app-socials {
+    app-socials,
+    .hero-socials {
+      padding-left: 30px;
+      align-self: flex-start;
+      width: 450px;
+
       @media (max-width: 768px) {
         order: 3;
         padding-left: 0 !important;

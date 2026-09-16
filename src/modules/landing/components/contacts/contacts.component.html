@@ -79,14 +79,22 @@
                     </svg>
                   </button>
                   @if (calendarOpen) {
-                    <div class="calendar-overlay">
+                    <div class="calendar-overlay" [class.calendar-overlay--closing]="calendarClosing">
                       <tui-calendar
                         [(month)]="calendarMonth"
                         [value]="form.get('eventDate')!.value"
                         (dayClick)="onDayClick($event)"
                       ></tui-calendar>
+                      <div
+                        class="calendar-overlay__handle"
+                        (touchstart)="onCalendarTouchStart($event)"
+                        (touchmove)="onCalendarTouchMove($event)"
+                        (touchend)="onCalendarTouchEnd()"
+                      >
+                        <span class="calendar-overlay__handle__bar"></span>
+                      </div>
                     </div>
-                    <div class="calendar-backdrop" (click)="closeCalendar()"></div>
+                    <div class="calendar-backdrop" [class.calendar-backdrop--closing]="calendarClosing" (click)="closeCalendar()" (touchmove)="$event.preventDefault()"></div>
                   }
                 </div>
                 <div class="form-field">

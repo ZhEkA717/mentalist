@@ -41,7 +41,9 @@ export class ContactsSectionComponent implements AfterViewInit, OnDestroy {
   });
 
   protected calendarOpen = false;
+  protected calendarClosing = false;
   protected calendarMonth = new TuiMonth(new Date().getFullYear(), new Date().getMonth());
+  private touchStartY = 0;
 
   ngAfterViewInit(): void {
     initRevealOnScroll(this.el.nativeElement);
@@ -63,12 +65,33 @@ export class ContactsSectionComponent implements AfterViewInit, OnDestroy {
   }
 
   protected closeCalendar(): void {
-    this.calendarOpen = false;
+    this.calendarClosing = true;
+    setTimeout(() => {
+      this.calendarOpen = false;
+      this.calendarClosing = false;
+    }, 400);
   }
 
   protected onDayClick(day: TuiDay): void {
     this.form.get('eventDate')?.setValue(day);
-    this.calendarOpen = false;
+    this.closeCalendar();
+  }
+
+  protected onCalendarTouchStart(event: TouchEvent): void {
+    this.touchStartY = event.touches[0].clientY;
+  }
+
+  protected onCalendarTouchMove(event: TouchEvent): void {
+    event.preventDefault();
+    const deltaY = this.touchStartY - event.touches[0].clientY;
+    if (deltaY > 80) {
+      this.touchStartY = 0;
+      this.closeCalendar();
+    }
+  }
+
+  protected onCalendarTouchEnd(): void {
+    this.touchStartY = 0;
   }
 
   protected formatDate(day: TuiDay | null): string {

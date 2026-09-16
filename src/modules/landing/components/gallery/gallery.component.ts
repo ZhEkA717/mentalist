@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, effect, HostListener, input, model} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, HostListener, input, model, signal} from '@angular/core';
 
 @Component({
   selector: 'app-gallery',
@@ -13,9 +13,15 @@ export class GalleryComponent {
   public galleryIndex = model<number>(0);
   sliderItems = input<string[]>([]);
 
+  protected closing = signal(false);
+
   constructor() {
     effect(() => {
-      document.body.style.overflow = this.galleryOpen() ? 'hidden' : '';
+      if (this.galleryOpen()) {
+        document.body.classList.add('no-scroll');
+      } else {
+        document.body.classList.remove('no-scroll');
+      }
     });
   }
 
@@ -48,18 +54,39 @@ export class GalleryComponent {
       this.blockedClick = false;
       return;
     }
-    this.galleryOpen.set(false);
-    document.body.style.overflow = '';
+    this.closing.set(true);
+    setTimeout(() => {
+      this.galleryOpen.set(false);
+      this.closing.set(false);
+      document.body.classList.remove('no-scroll');
+    }, 400);
   }
 
   protected galleryPrev(): void {
     this.galleryIndex.set((this.galleryIndex() - 1 + this.totalSlides) % this.totalSlides);
-
   }
 
   protected galleryNext(): void {
     this.galleryIndex.set((this.galleryIndex() + 1) % this.totalSlides);
+  }
 
+  private handleTouchStartY = 0;
+
+  protected onHandleTouchStart(event: TouchEvent): void {
+    this.handleTouchStartY = event.touches[0].clientY;
+  }
+
+  protected onHandleTouchMove(event: TouchEvent): void {
+    event.preventDefault();
+    const deltaY = this.handleTouchStartY - event.touches[0].clientY;
+    if (deltaY > 80) {
+      this.handleTouchStartY = 0;
+      this.closeGallery();
+    }
+  }
+
+  protected onHandleTouchEnd(): void {
+    this.handleTouchStartY = 0;
   }
 
   @HostListener('document:keydown', ['$event'])

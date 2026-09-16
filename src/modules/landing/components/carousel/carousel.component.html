@@ -26,6 +26,7 @@
     </svg>
   </button>
 </div>
+<div class="carousel__counter">{{ currentSlideIndex + 1 }} / {{ totalSlides }}</div>
 <div class="carousel__dots">
   @for (item of sliderItems(); track item; let i = $index) {
     <button

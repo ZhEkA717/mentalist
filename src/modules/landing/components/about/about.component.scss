@@ -20,12 +20,12 @@
 
 .about {
   height: 933px;
-  background-image: url("/assets/images/background_4.webp");
+  background-image: url("/assets/images/background-about.webp");
   background-size: cover;
   background-position-x: center;
 
   @media(max-width: 726px) {
-    background-image: url("/assets/images/background_4_768.webp"), linear-gradient(rgba(0,0,0,1), rgba(0,0,0,1));
+    background-image: url("/assets/images/background-about-768.webp"), linear-gradient(rgba(0,0,0,1), rgba(0,0,0,1));
     background-repeat: no-repeat;
   }
 

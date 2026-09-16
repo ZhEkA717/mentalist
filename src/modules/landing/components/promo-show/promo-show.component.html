@@ -64,13 +64,21 @@
 </div>
 
 @if (videoOpen()) {
-  <div class="video-backdrop" (click)="closeVideo()"></div>
-  <div class="video-overlay">
+  <div class="video-backdrop" [class.video-backdrop--closing]="videoClosing()" (click)="closeVideo()" (touchmove)="$event.preventDefault()"></div>
+  <div class="video-overlay" [class.video-overlay--closing]="videoClosing()">
     <button class="video-overlay__close" (click)="closeVideo()">✕</button>
     <iframe
       [src]="videoUrl"
       allow="autoplay; fullscreen; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen>
     </iframe>
+    <div
+      class="video-overlay__handle"
+      (touchstart)="onVideoHandleTouchStart($event)"
+      (touchmove)="onVideoHandleTouchMove($event)"
+      (touchend)="onVideoHandleTouchEnd()"
+    >
+      <span class="video-overlay__handle__bar"></span>
+    </div>
   </div>
 }

@@ -17,9 +17,12 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   protected videoContainers = viewChildren<ElementRef<HTMLElement>>('videoContainer');
   protected videosSection = viewChild<ElementRef<HTMLElement>>('videosSection');
   protected videoOpen = signal(false);
+  protected videoClosing = signal(false);
   protected videoUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
     'https://vk.com/video_ext.php?oid=-65614643&id=456239031'
   );
+
+  private touchStartY = 0;
 
   protected cards = [
     {
@@ -50,11 +53,43 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   }
 
   protected openVideo(): void {
+    this.videoClosing.set(false);
     this.videoOpen.set(true);
+    this.lockScroll();
   }
 
   protected closeVideo(): void {
-    this.videoOpen.set(false);
+    this.videoClosing.set(true);
+    setTimeout(() => {
+      this.videoOpen.set(false);
+      this.videoClosing.set(false);
+      this.unlockScroll();
+    }, 400);
+  }
+
+  protected onVideoHandleTouchStart(event: TouchEvent): void {
+    this.touchStartY = event.touches[0].clientY;
+  }
+
+  protected onVideoHandleTouchMove(event: TouchEvent): void {
+    event.preventDefault();
+    const deltaY = this.touchStartY - event.touches[0].clientY;
+    if (deltaY > 80) {
+      this.touchStartY = 0;
+      this.closeVideo();
+    }
+  }
+
+  protected onVideoHandleTouchEnd(): void {
+    this.touchStartY = 0;
+  }
+
+  private lockScroll(): void {
+    document.body.classList.add('no-scroll');
+  }
+
+  private unlockScroll(): void {
+    document.body.classList.remove('no-scroll');
   }
 
   ngOnDestroy(): void {

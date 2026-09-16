@@ -1,32 +1,41 @@
-@if (galleryOpen()) {
-  <div class="gallery-backdrop" [class.gallery-backdrop--closing]="closing()" (click)="closeGallery()" (touchmove)="$event.preventDefault()"></div>
-  <div class="gallery" [class.gallery--closing]="closing()" (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)">
-    <button class="gallery__close" (click)="closeGallery(); $event.stopPropagation()">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-    <button class="gallery__arrow gallery__arrow--left" (click)="galleryPrev(); $event.stopPropagation()">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-    <div class="gallery__content">
+@if (isMobile()) {
+  <app-drawer [isOpen]="galleryOpen()" position="bottom" (closed)="onDrawerClosed()">
+    <div
+      class="gallery__content"
+      (touchstart)="onTouchStart($event)"
+      (touchend)="onTouchEnd($event)"
+    >
       <img [src]="sliderItems()[galleryIndex()]" [alt]="'photo ' + (galleryIndex() + 1)" class="gallery__image" />
       <div class="gallery__counter">{{ galleryIndex() + 1 }} / {{ totalSlides }}</div>
     </div>
-    <button class="gallery__arrow gallery__arrow--right" (click)="galleryNext(); $event.stopPropagation()">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-    <div
-      class="gallery__handle"
-      (touchstart)="onHandleTouchStart($event)"
-      (touchmove)="onHandleTouchMove($event)"
-      (touchend)="onHandleTouchEnd()"
-    >
-      <span class="gallery__handle__bar"></span>
+  </app-drawer>
+} @else {
+  @if (rendered()) {
+    <div class="gallery-backdrop" [class.gallery-backdrop--closing]="closing()" (click)="closeGallery()" (touchmove)="$event.preventDefault()"></div>
+    <div class="gallery" [class.gallery--closing]="closing()">
+      <button class="gallery__close" (click)="closeGallery(); $event.stopPropagation()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="gallery__arrow gallery__arrow--left" (click)="galleryPrev(); $event.stopPropagation()">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div
+        class="gallery__content"
+        (touchstart)="onTouchStart($event)"
+        (touchend)="onTouchEnd($event)"
+      >
+        <img [src]="sliderItems()[galleryIndex()]" [alt]="'photo ' + (galleryIndex() + 1)" class="gallery__image" />
+        <div class="gallery__counter">{{ galleryIndex() + 1 }} / {{ totalSlides }}</div>
+      </div>
+      <button class="gallery__arrow gallery__arrow--right" (click)="galleryNext(); $event.stopPropagation()">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
     </div>
-  </div>
+  }
 }

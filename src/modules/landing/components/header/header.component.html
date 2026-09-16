@@ -27,11 +27,7 @@
   </div>
 </header>
 
-<div
-  *tuiPopup="menuOpen()"
-  class="drawer"
-  [class.drawer--closing]="closing()"
->
+<app-drawer [isOpen]="menuOpen()" position="top" (closed)="menuOpen.set(false)">
   <nav class="drawer__nav">
     <ul class="drawer__nav__items">
       @for (item of items(); track item.label) {
@@ -43,12 +39,4 @@
       }
     </ul>
   </nav>
-  <div
-    class="drawer__handle"
-    (touchstart)="onHandleTouchStart($event)"
-    (touchmove)="onHandleTouchMove($event)"
-    (touchend)="onHandleTouchEnd()"
-  >
-    <span class="drawer__handle__bar"></span>
-  </div>
-</div>
+</app-drawer>

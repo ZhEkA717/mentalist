@@ -1,28 +1,36 @@
-import {AfterViewInit, Component, ElementRef, inject, OnDestroy, signal, viewChild, viewChildren} from '@angular/core';
+import {AfterViewInit, Component, DestroyRef, ElementRef, inject, OnDestroy, signal, viewChild, viewChildren} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {BreakpointObserver} from '@angular/cdk/layout';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {initDimOnScroll, initRevealOnScroll} from '../../utils/scroll-animations';
+import {createModalClose} from '../../utils/modal-close';
+import {DrawerComponent} from '../drawer/drawer.component';
 
 @Component({
   selector: 'app-promo-show',
   standalone: true,
+  imports: [DrawerComponent],
   templateUrl: './promo-show.component.html',
   styleUrls: ['./promo-show.component.scss']
 })
 export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   private readonly el = inject(ElementRef);
   private readonly sanitizer = inject(DomSanitizer);
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected videoContainers = viewChildren<ElementRef<HTMLElement>>('videoContainer');
   protected videosSection = viewChild<ElementRef<HTMLElement>>('videosSection');
   protected videoOpen = signal(false);
-  protected videoClosing = signal(false);
   protected videoUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
     'https://vk.com/video_ext.php?oid=-65614643&id=456239031&autoplay=1'
   );
 
-  private touchStartY = 0;
+  protected readonly isMobile = signal(false);
+  private readonly videoModal = createModalClose({lockScroll: true});
+  videoClosing = this.videoModal.closing;
+  videoRendered = this.videoModal.rendered;
 
   protected cards = [
     {
@@ -50,49 +58,38 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
     initRevealOnScroll(container);
     initDimOnScroll(container);
     setTimeout(() => this.initCardFlip(), 2200);
+
+    const sub = this.breakpointObserver.observe('(max-width: 950px)').subscribe(result => {
+      this.isMobile.set(result.matches);
+    });
+    this.destroyRef.onDestroy(() => sub.unsubscribe());
   }
 
   protected openVideo(): void {
-    this.videoClosing.set(false);
-    this.videoOpen.set(true);
-    this.lockScroll();
-  }
-
-  protected closeVideo(): void {
-    this.videoClosing.set(true);
-    setTimeout(() => {
-      this.videoOpen.set(false);
-      this.videoClosing.set(false);
-      this.unlockScroll();
-    }, 400);
-  }
-
-  protected onVideoHandleTouchStart(event: TouchEvent): void {
-    this.touchStartY = event.touches[0].clientY;
-  }
-
-  protected onVideoHandleTouchMove(event: TouchEvent): void {
-    event.preventDefault();
-    const deltaY = this.touchStartY - event.touches[0].clientY;
-    if (deltaY > 80) {
-      this.touchStartY = 0;
-      this.closeVideo();
+    if (this.isMobile()) {
+      this.videoOpen.set(true);
+    } else {
+      this.videoModal.prepareOpen();
+      this.videoOpen.set(true);
     }
   }
 
-  protected onVideoHandleTouchEnd(): void {
-    this.touchStartY = 0;
+  protected closeVideo(): void {
+    if (this.isMobile()) {
+      this.videoOpen.set(false);
+    } else {
+      this.videoModal.close(() => {
+        this.videoOpen.set(false);
+      });
+    }
   }
 
-  private lockScroll(): void {
-    document.body.classList.add('no-scroll');
-  }
-
-  private unlockScroll(): void {
-    document.body.classList.remove('no-scroll');
+  protected onDrawerClosed(): void {
+    this.videoOpen.set(false);
   }
 
   ngOnDestroy(): void {
+    this.videoModal.destroy();
     ScrollTrigger.getAll().forEach(t => t.kill());
     gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll, .dim-on-scroll'));
   }

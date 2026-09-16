@@ -1,26 +1,42 @@
-import {ChangeDetectionStrategy, Component, effect, HostListener, input, model, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, effect, HostListener, inject, input, model, OnDestroy, signal} from '@angular/core';
+import {BreakpointObserver} from '@angular/cdk/layout';
+import {DrawerComponent} from '../drawer/drawer.component';
+import {createModalClose} from '../../utils/modal-close';
 
 @Component({
   selector: 'app-gallery',
-  imports: [],
+  imports: [DrawerComponent],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GalleryComponent {
+export class GalleryComponent implements OnDestroy {
   public galleryOpen = model<boolean>(false);
   public galleryIndex = model<number>(0);
   sliderItems = input<string[]>([]);
 
-  protected closing = signal(false);
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly destroyRef = inject(DestroyRef);
+
+  protected readonly isMobile = signal(false);
+  protected readonly desktopModal = createModalClose({lockScroll: true});
+  protected readonly closing = this.desktopModal.closing;
+  protected readonly rendered = this.desktopModal.rendered;
+
+  private touchStartX = 0;
+  private touchStartY = 0;
+  private blockedClick = false;
 
   constructor() {
+    const sub = this.breakpointObserver.observe('(max-width: 950px)').subscribe(result => {
+      this.isMobile.set(result.matches);
+    });
+    this.destroyRef.onDestroy(() => sub.unsubscribe());
+
     effect(() => {
-      if (this.galleryOpen()) {
-        document.body.classList.add('no-scroll');
-      } else {
-        document.body.classList.remove('no-scroll');
+      if (this.galleryOpen() && !this.isMobile()) {
+        this.desktopModal.prepareOpen();
       }
     });
   }
@@ -28,10 +44,6 @@ export class GalleryComponent {
   protected get totalSlides(): number {
     return this.sliderItems().length;
   }
-
-  private touchStartX = 0;
-  private touchStartY = 0;
-  private blockedClick = false;
 
   protected onTouchStart(event: TouchEvent): void {
     this.touchStartX = event.touches[0].clientX;
@@ -54,12 +66,17 @@ export class GalleryComponent {
       this.blockedClick = false;
       return;
     }
-    this.closing.set(true);
-    setTimeout(() => {
+    if (this.isMobile()) {
       this.galleryOpen.set(false);
-      this.closing.set(false);
-      document.body.classList.remove('no-scroll');
-    }, 400);
+    } else {
+      this.desktopModal.close(() => {
+        this.galleryOpen.set(false);
+      });
+    }
+  }
+
+  protected onDrawerClosed(): void {
+    this.galleryOpen.set(false);
   }
 
   protected galleryPrev(): void {
@@ -68,25 +85,6 @@ export class GalleryComponent {
 
   protected galleryNext(): void {
     this.galleryIndex.set((this.galleryIndex() + 1) % this.totalSlides);
-  }
-
-  private handleTouchStartY = 0;
-
-  protected onHandleTouchStart(event: TouchEvent): void {
-    this.handleTouchStartY = event.touches[0].clientY;
-  }
-
-  protected onHandleTouchMove(event: TouchEvent): void {
-    event.preventDefault();
-    const deltaY = this.handleTouchStartY - event.touches[0].clientY;
-    if (deltaY > 80) {
-      this.handleTouchStartY = 0;
-      this.closeGallery();
-    }
-  }
-
-  protected onHandleTouchEnd(): void {
-    this.handleTouchStartY = 0;
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -103,5 +101,9 @@ export class GalleryComponent {
         this.galleryNext();
         break;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.desktopModal.destroy();
   }
 }

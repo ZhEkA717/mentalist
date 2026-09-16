@@ -1,0 +1,18 @@
+<div
+  class="drawer"
+  [class.drawer--hidden]="isMobile() && !rendered()"
+  [class.drawer--static]="!isMobile()"
+  [class]="isMobile() ? animationClass() : ''"
+>
+  <div class="drawer__content">
+    <ng-content></ng-content>
+  </div>
+  <div
+    class="drawer__handle"
+    (touchstart)="onHandleTouchStart($event)"
+    (touchmove)="onHandleTouchMove($event)"
+    (touchend)="onHandleTouchEnd()"
+  >
+    <span class="drawer__handle__bar"></span>
+  </div>
+</div>

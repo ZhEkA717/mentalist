@@ -1,20 +1,23 @@
-import {AfterViewInit, Component, computed, DestroyRef, ElementRef, inject, OnDestroy, signal, TemplateRef, viewChild} from '@angular/core';
+import {AfterViewInit, Component, DestroyRef, ElementRef, inject, OnDestroy, signal, TemplateRef, viewChild} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TuiCalendar} from '@taiga-ui/core/components/calendar';
 import {TuiDay, TuiMonth} from '@taiga-ui/cdk/date-time';
 import {TuiLoader} from '@taiga-ui/core';
 import {TuiNotificationService} from '@taiga-ui/core/components/notification';
+import {BreakpointObserver} from '@angular/cdk/layout';
 import {catchError, EMPTY, finalize} from 'rxjs';
 import {TelegramService, RequestForm} from '../../services/telegram.service';
 import {SocialsComponent} from '../socials/socials.component';
+import {DrawerComponent} from '../drawer/drawer.component';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {initRevealOnScroll} from '../../utils/scroll-animations';
+import {createModalClose} from '../../utils/modal-close';
 
 @Component({
   selector: 'app-contacts',
   standalone: true,
-  imports: [ReactiveFormsModule, TuiCalendar, TuiLoader, SocialsComponent],
+  imports: [ReactiveFormsModule, TuiCalendar, TuiLoader, SocialsComponent, DrawerComponent],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.scss',
 })
@@ -22,6 +25,8 @@ export class ContactsSectionComponent implements AfterViewInit, OnDestroy {
   private telegram = inject(TelegramService);
   private readonly notifications = inject(TuiNotificationService);
   private readonly el = inject(ElementRef);
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected successTpl = viewChild<TemplateRef<unknown>>('successNotification');
   protected errorTpl = viewChild<TemplateRef<unknown>>('errorNotification');
@@ -40,58 +45,64 @@ export class ContactsSectionComponent implements AfterViewInit, OnDestroy {
     comment: new FormControl('', {nonNullable: true}),
   });
 
-  protected calendarOpen = false;
-  protected calendarClosing = false;
+  protected calendarOpen = signal(false);
   protected calendarMonth = new TuiMonth(new Date().getFullYear(), new Date().getMonth());
-  private touchStartY = 0;
+
+  protected readonly isMobile = signal(false);
+  private readonly calendarModal = createModalClose({lockScroll: true});
+  calendarClosing = this.calendarModal.closing;
+  calendarRendered = this.calendarModal.rendered;
 
   ngAfterViewInit(): void {
     initRevealOnScroll(this.el.nativeElement);
+
+    const sub = this.breakpointObserver.observe('(max-width: 950px)').subscribe(result => {
+      this.isMobile.set(result.matches);
+    });
+    this.destroyRef.onDestroy(() => sub.unsubscribe());
   }
 
   ngOnDestroy(): void {
+    this.calendarModal.destroy();
     ScrollTrigger.getAll().forEach(t => t.kill());
     gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
   }
 
   protected toggleCalendar(): void {
-    this.calendarOpen = !this.calendarOpen;
-    if (this.calendarOpen) {
+    if (this.calendarOpen()) {
+      this.closeCalendar();
+    } else {
       const date = this.form.get('eventDate')?.value;
       if (date) {
         this.calendarMonth = new TuiMonth(date.year, date.month);
+      }
+
+      if (this.isMobile()) {
+        this.calendarOpen.set(true);
+      } else {
+        this.calendarModal.prepareOpen();
+        this.calendarOpen.set(true);
       }
     }
   }
 
   protected closeCalendar(): void {
-    this.calendarClosing = true;
-    setTimeout(() => {
-      this.calendarOpen = false;
-      this.calendarClosing = false;
-    }, 400);
+    if (this.isMobile()) {
+      this.calendarOpen.set(false);
+    } else {
+      this.calendarModal.close(() => {
+        this.calendarOpen.set(false);
+      });
+    }
+  }
+
+  protected onDrawerClosed(): void {
+    this.calendarOpen.set(false);
   }
 
   protected onDayClick(day: TuiDay): void {
     this.form.get('eventDate')?.setValue(day);
     this.closeCalendar();
-  }
-
-  protected onCalendarTouchStart(event: TouchEvent): void {
-    this.touchStartY = event.touches[0].clientY;
-  }
-
-  protected onCalendarTouchMove(event: TouchEvent): void {
-    event.preventDefault();
-    const deltaY = this.touchStartY - event.touches[0].clientY;
-    if (deltaY > 80) {
-      this.touchStartY = 0;
-      this.closeCalendar();
-    }
-  }
-
-  protected onCalendarTouchEnd(): void {
-    this.touchStartY = 0;
   }
 
   protected formatDate(day: TuiDay | null): string {

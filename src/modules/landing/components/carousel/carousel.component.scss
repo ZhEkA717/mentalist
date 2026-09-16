@@ -84,6 +84,7 @@
   }
 
   &__counter {
+    display: none;
     color: rgba(230, 204, 137, 0.7);
     font-size: 14px;
     font-weight: 500;
@@ -92,6 +93,7 @@
     text-align: center;
 
     @media (max-width: 768px) {
+      display: block;
       margin-top: 8px;
     }
   }

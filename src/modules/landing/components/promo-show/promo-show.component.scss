@@ -24,6 +24,10 @@
   background-position-x: center;
   height: 1500px;
 
+  &.no-pointer-events {
+    pointer-events: none;
+  }
+
   @media(max-width: 1024px) {
     background-position-x: -90px;
   }
@@ -511,6 +515,7 @@
     touch-action: none;
     cursor: grab;
     width: 100%;
+    background-color: #000000;
 
     @media (max-width: 950px) {
       display: flex;

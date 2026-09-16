@@ -19,7 +19,7 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   protected videoOpen = signal(false);
   protected videoClosing = signal(false);
   protected videoUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-    'https://vk.com/video_ext.php?oid=-65614643&id=456239031'
+    'https://vk.com/video_ext.php?oid=-65614643&id=456239031&autoplay=1'
   );
 
   private touchStartY = 0;

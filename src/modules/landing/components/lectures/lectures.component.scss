@@ -24,7 +24,7 @@
 
 .lectures {
   height: 899px;
-  background-image: url("/assets/images/background_5.webp");
+  background-image: url("/assets/images/background-lectures.webp");
   background-size: cover;
   background-position-x: center;
 
@@ -125,7 +125,7 @@
 
     &__left {
       @media(max-width: 768px) {
-        background-image: url("/assets/images/background-show-768.webp");
+        background-image: url("/assets/images/background-shows-768.webp");
         background-size: cover;
       }
 
@@ -141,7 +141,7 @@
 
       @media(max-width: 768px) {
         align-items: center;
-        background-image: url("/assets/images/background-lecture-768.webp");
+        background-image: url("/assets/images/background-lectures-768.webp");
         background-size: cover;
         background-position-x: 127px;
       }

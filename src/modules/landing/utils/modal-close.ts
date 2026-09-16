@@ -16,12 +16,24 @@ export function createModalClose(options: ModalCloseOptions = {}) {
     }
   }
 
+  function lockScroll(): void {
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    document.body.style.touchAction = 'none';
+  }
+
+  function unlockScroll(): void {
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    document.body.style.touchAction = '';
+  }
+
   function prepareOpen(): void {
     cancelClose();
     closing.set(false);
     rendered.set(true);
     if (options.lockScroll) {
-      document.body.classList.add('no-scroll');
+      lockScroll();
     }
   }
 
@@ -32,7 +44,7 @@ export function createModalClose(options: ModalCloseOptions = {}) {
       rendered.set(false);
       closeTimeout = null;
       if (options.lockScroll) {
-        document.body.classList.remove('no-scroll');
+        unlockScroll();
       }
       callback?.();
     }, 400);

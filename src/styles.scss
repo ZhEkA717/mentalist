@@ -47,7 +47,80 @@ ul, li, p {
   padding: 0;
 }
 
-body.no-scroll {
-  overflow: hidden;
-  overscroll-behavior-y: none;
+// Hide scrollbar everywhere in calendar
+tui-calendar-spin,
+tui-spin-button,
+tui-calendar-year,
+tui-scrollbar {
+  scrollbar-width: none !important;
+
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  * {
+    scrollbar-width: none !important;
+
+    &::-webkit-scrollbar {
+      display: none !important;
+    }
+  }
+}
+
+// Calendar theme
+tui-calendar,
+tui-calendar-spin {
+  color: #ffffff !important;
+
+  button[tuiLink] {
+    color: #DFC784 !important;
+  }
+}
+
+tui-spin-button .t-button {
+  color: #DFC784 !important;
+}
+
+tui-calendar-year {
+  .t-cell {
+    color: #ffffff !important;
+  }
+
+  .t-cell_today {
+    color: #DFC784 !important;
+  }
+
+  .t-cell[data-range=active] {
+    color: #ffffff !important;
+
+    &:after {
+      background: #DFC784 !important;
+    }
+  }
+
+  * {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+tui-calendar-sheet {
+  .t-cell {
+    color: #ffffff !important;
+  }
+
+  .t-cell[data-type=weekend] {
+    color: #e53935 !important;
+  }
+
+  .t-row_weekday {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  .t-cell[data-range=active]:after {
+    background: #DFC784 !important;
+  }
 }

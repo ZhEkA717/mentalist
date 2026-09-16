@@ -80,11 +80,13 @@
                   </button>
                   @if (isMobile()) {
                     <app-drawer [isOpen]="calendarOpen()" position="bottom" (closed)="onDrawerClosed()">
-                      <tui-calendar
-                        [(month)]="calendarMonth"
-                        [value]="form.get('eventDate')!.value"
-                        (dayClick)="onDayClick($event)"
-                      ></tui-calendar>
+                      <div class="calendar-drawer">
+                        <tui-calendar
+                          [(month)]="calendarMonth"
+                          [value]="form.get('eventDate')!.value"
+                          (dayClick)="onDayClick($event)"
+                        ></tui-calendar>
+                      </div>
                     </app-drawer>
                   } @else {
                     @if (calendarRendered()) {
@@ -95,7 +97,6 @@
                           (dayClick)="onDayClick($event)"
                         ></tui-calendar>
                       </div>
-                      <div class="calendar-backdrop" [class.calendar-backdrop--closing]="calendarClosing()" (click)="closeCalendar()" (touchmove)="$event.preventDefault()"></div>
                     }
                   }
                 </div>

@@ -31,17 +31,16 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   protected videoContainers = viewChildren<ElementRef<HTMLElement>>('videoContainer');
   protected videosSection = viewChild<ElementRef<HTMLElement>>('videosSection');
 
-  private savedSrcs = new Map<HTMLIFrameElement, string>();
   private observer: IntersectionObserver | null = null;
 
   private readonly videoUrls: Array<{youtube: string; vk: string}> = [
-    {youtube: 'https://www.youtube.com/embed/sNIPgihatyU', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239035&hash=9ae4ca3a7f22cc57&hd=4'},
-    {youtube: 'https://www.youtube.com/embed/X3jvY2xpmfc', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239034&hash=69a23c2952842a28&hd=4'},
-    {youtube: 'https://www.youtube.com/embed/YulDfOQiDk8', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239036&hash=26ddd6f8d47e1ba1&hd=4'},
+    {youtube: 'https://www.youtube.com/embed/sNIPgihatyU?enablejsapi=1', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239035&hash=9ae4ca3a7f22cc57&hd=4'},
+    {youtube: 'https://www.youtube.com/embed/X3jvY2xpmfc?enablejsapi=1', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239034&hash=69a23c2952842a28&hd=4'},
+    {youtube: 'https://www.youtube.com/embed/YulDfOQiDk8?enablejsapi=1', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239036&hash=26ddd6f8d47e1ba1&hd=4'},
   ];
 
   protected readonly videos = computed(() =>
-    this.videoUrls.map(v => this.sanitizer.bypassSecurityTrustResourceUrl(this.isRuDomain ? v.vk : v.youtube)),
+    this.videoUrls.map(v => this.sanitizer.bypassSecurityTrustResourceUrl(!this.isRuDomain ? v.vk : v.youtube)),
   );
 
   protected sliderItems = [
@@ -128,10 +127,17 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
     if (!section) return;
 
     section.querySelectorAll<HTMLIFrameElement>('iframe').forEach((iframe) => {
-      if (!this.savedSrcs.has(iframe)) {
-        this.savedSrcs.set(iframe, iframe.src);
+      const src = iframe.src;
+      const isYouTube = src.includes('youtube.com');
+
+      if (isYouTube) {
+        try {
+          iframe.contentWindow?.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        } catch {}
+      } else {
+        iframe.style.visibility = 'hidden';
+        iframe.setAttribute('data-paused', 'true');
       }
-      iframe.src = 'about:blank';
     });
   }
 
@@ -140,11 +146,14 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
     if (!section) return;
 
     section.querySelectorAll<HTMLIFrameElement>('iframe').forEach((iframe) => {
-      const saved = this.savedSrcs.get(iframe);
-      if (saved) {
-        iframe.src = saved;
+      if (iframe.getAttribute('data-paused') === 'true') {
+        iframe.style.visibility = 'visible';
+        iframe.removeAttribute('data-paused');
+      } else {
+        try {
+          iframe.contentWindow?.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        } catch {}
       }
     });
-    this.savedSrcs.clear();
   }
 }

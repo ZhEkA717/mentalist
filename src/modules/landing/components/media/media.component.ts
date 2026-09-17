@@ -110,9 +110,7 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
     this.observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
-            this.resumeVideos();
-          } else {
+          if (!entry.isIntersecting) {
             this.pauseVideos();
           }
         }
@@ -137,22 +135,6 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
       } else {
         iframe.style.visibility = 'hidden';
         iframe.setAttribute('data-paused', 'true');
-      }
-    });
-  }
-
-  private resumeVideos(): void {
-    const section = this.videosSection()?.nativeElement;
-    if (!section) return;
-
-    section.querySelectorAll<HTMLIFrameElement>('iframe').forEach((iframe) => {
-      if (iframe.getAttribute('data-paused') === 'true') {
-        iframe.style.visibility = 'visible';
-        iframe.removeAttribute('data-paused');
-      } else {
-        try {
-          iframe.contentWindow?.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-        } catch {}
       }
     });
   }

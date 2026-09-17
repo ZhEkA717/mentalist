@@ -128,9 +128,6 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
   }
 
   private initParallax(): void {
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    if (!isMobile) return;
-
     const heroEl = document.getElementById('hero');
     const bgEl = this.heroBg()?.nativeElement;
     const logoBgEl = this.logoBg()?.nativeElement;

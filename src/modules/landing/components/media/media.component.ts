@@ -40,7 +40,7 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   ];
 
   protected readonly videos = computed(() =>
-    this.videoUrls.map(v => this.sanitizer.bypassSecurityTrustResourceUrl(!this.isRuDomain ? v.vk : v.youtube)),
+    this.videoUrls.map(v => this.sanitizer.bypassSecurityTrustResourceUrl(this.isRuDomain ? v.vk : v.youtube)),
   );
 
   protected sliderItems = [

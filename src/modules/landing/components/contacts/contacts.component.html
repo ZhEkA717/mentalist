@@ -79,7 +79,7 @@
                     </svg>
                   </button>
                   @if (isMobile()) {
-                    <app-drawer [isOpen]="calendarOpen()" position="bottom" (closed)="onDrawerClosed()">
+                    <app-drawer [isOpen]="calendarOpen()" (closed)="onDrawerClosed()">
                       <div class="calendar-drawer">
                         <tui-calendar
                           [(month)]="calendarMonth"

@@ -23,7 +23,6 @@ export class DrawerComponent implements OnDestroy {
   private readonly destroyRef = inject(DestroyRef);
 
   isOpen = input<boolean>(false);
-  position = input<'top' | 'bottom'>('bottom');
   closed = output<void>();
 
   protected readonly isMobile = signal(false);
@@ -32,13 +31,12 @@ export class DrawerComponent implements OnDestroy {
   protected readonly rendered = this.modal.rendered;
 
   protected readonly animationClass = computed(() => {
-    const pos = this.position();
     const close = this.closing();
     const byButton = this.closeByButton();
     if (close) {
       return byButton ? 'drawer--close-left' : 'drawer--close';
     }
-    return pos === 'top' ? 'drawer--top-open' : 'drawer--bottom-open';
+    return 'drawer--top-open';
   });
 
   private touchStartY = 0;

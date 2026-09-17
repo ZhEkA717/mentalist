@@ -64,7 +64,7 @@
 </div>
 
 @if (isMobile()) {
-  <app-drawer [isOpen]="videoOpen()" position="bottom" (closed)="onDrawerClosed()">
+  <app-drawer [isOpen]="videoOpen()" (closed)="onDrawerClosed()">
     <iframe
       class="video-iframe"
       [src]="videoUrl"

@@ -34,14 +34,16 @@ export class DrawerComponent implements OnDestroy {
   protected readonly animationClass = computed(() => {
     const pos = this.position();
     const close = this.closing();
+    const byButton = this.closeByButton();
     if (close) {
-      return 'drawer--close';
+      return byButton ? 'drawer--close-left' : 'drawer--close';
     }
     return pos === 'top' ? 'drawer--top-open' : 'drawer--bottom-open';
   });
 
   private touchStartY = 0;
   private wasOpen = false;
+  private closeByButton = signal(false);
 
   constructor() {
     const sub = this.breakpointObserver.observe('(max-width: 950px)').subscribe(result => {
@@ -72,6 +74,15 @@ export class DrawerComponent implements OnDestroy {
 
   protected close(): void {
     this.modal.close(() => {
+      this.closed.emit();
+    });
+    this.wasOpen = false;
+  }
+
+  protected closeFromButton(): void {
+    this.closeByButton.set(true);
+    this.modal.close(() => {
+      this.closeByButton.set(false);
       this.closed.emit();
     });
     this.wasOpen = false;

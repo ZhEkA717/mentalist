@@ -37,6 +37,21 @@
     height: 795px;
   }
 
+  &__logo-bg {
+    display: none;
+
+    @media (max-width: 768px) {
+      display: block;
+      position: absolute;
+      top: 45px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      pointer-events: none;
+      width: 300px;
+    }
+  }
+
   &__bg {
     position: absolute;
     inset: 0;
@@ -103,8 +118,7 @@
 
     &__logo {
       @media (max-width: 768px) {
-        width: 300px;
-        order: 1;
+        display: none;
       }
 
       @media (max-width: 360px) {
@@ -167,7 +181,7 @@
 
       @media (max-width: 768px) {
         order: 2;
-        margin-top: 382px;
+        margin-top: 510px;
         margin-left: 0;
         align-self: center;
       }

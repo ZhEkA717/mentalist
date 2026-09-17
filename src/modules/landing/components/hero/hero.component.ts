@@ -21,6 +21,7 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
 
   protected subtitleText = SUBTITLE_TEXT;
 
+  logoBg = viewChild<ElementRef<HTMLElement>>('logoBg');
   logo = viewChild<ElementRef<HTMLElement>>('logo');
   subtitle = viewChild<ElementRef<HTMLElement>>('subtitle');
   button = viewChild<ElementRef<HTMLElement>>('button');
@@ -50,7 +51,8 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
   }
 
   private boot(): void {
-    const logoEl = this.logo()?.nativeElement;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const logoEl = (isMobile ? this.logoBg() : this.logo())?.nativeElement;
     const subtitleEl = this.subtitle()?.nativeElement;
     const buttonEl = this.button()?.nativeElement;
     const socialsEl = this.socialsComponent()?.elementRef.nativeElement;
@@ -131,10 +133,11 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
 
     const heroEl = document.getElementById('hero');
     const bgEl = this.heroBg()?.nativeElement;
+    const logoBgEl = this.logoBg()?.nativeElement;
     if (!heroEl || !bgEl) return;
 
     gsap.to(bgEl, {
-      y: 200,
+      y: 300,
       ease: 'none',
       scrollTrigger: {
         trigger: heroEl,
@@ -143,5 +146,18 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
         scrub: true,
       },
     });
+
+    if (logoBgEl) {
+      gsap.to(logoBgEl, {
+        y: 200,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroEl,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
+    }
   }
 }

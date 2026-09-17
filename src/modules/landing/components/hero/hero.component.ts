@@ -1,6 +1,9 @@
-import {afterNextRender, AfterViewInit, Component, ElementRef, output, viewChild} from '@angular/core';
+import {afterNextRender, AfterViewInit, Component, ElementRef, OnDestroy, output, viewChild} from '@angular/core';
 import {SocialsComponent} from '../socials/socials.component';
 import {gsap} from 'gsap';
+import {ScrollTrigger} from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const SUBTITLE_TEXT = 'Менталист • Психологический иллюзионист • Дипломированный психолог • Гипнотизёр';
 const SUBTITLE_TEXT_MOBILE = 'Менталист • Гипнотизёр • Психолог • Психологический иллюзионист';
@@ -13,7 +16,7 @@ const SCRAMBLE_CHARS = 'АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.scss',
 })
-export class HeroSectionComponent implements AfterViewInit {
+export class HeroSectionComponent implements AfterViewInit, OnDestroy {
   private timers: ReturnType<typeof setTimeout | typeof setInterval>[] = [];
 
   protected subtitleText = SUBTITLE_TEXT;
@@ -21,6 +24,8 @@ export class HeroSectionComponent implements AfterViewInit {
   logo = viewChild<ElementRef<HTMLElement>>('logo');
   subtitle = viewChild<ElementRef<HTMLElement>>('subtitle');
   button = viewChild<ElementRef<HTMLElement>>('button');
+  heroBg = viewChild<ElementRef<HTMLElement>>('heroBg');
+  character = viewChild<ElementRef<HTMLElement>>('character');
   socialsComponent = viewChild<SocialsComponent>('socialsComponent');
 
   bootComplete = output<void>();
@@ -28,6 +33,15 @@ export class HeroSectionComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.boot();
+    this.initParallax();
+  }
+
+  ngOnDestroy(): void {
+    this.timers.forEach(id => {
+      clearTimeout(id);
+      clearInterval(id);
+    });
+    ScrollTrigger.getAll().forEach(t => t.kill());
   }
 
   protected scrollTo(event: Event, id: string, block: ScrollLogicalPosition = 'start'): void {
@@ -109,5 +123,25 @@ export class HeroSectionComponent implements AfterViewInit {
   private delay(fn: () => void, ms: number): void {
     const id = setTimeout(fn, ms);
     this.timers.push(id);
+  }
+
+  private initParallax(): void {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (!isMobile) return;
+
+    const heroEl = document.getElementById('hero');
+    const bgEl = this.heroBg()?.nativeElement;
+    if (!heroEl || !bgEl) return;
+
+    gsap.to(bgEl, {
+      y: 200,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: heroEl,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+    });
   }
 }

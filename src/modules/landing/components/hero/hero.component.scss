@@ -5,6 +5,8 @@
 }
 
 .container {
+  position: relative;
+  z-index: 2;
   height: 100%;
   margin: auto;
   max-width: 1200px;
@@ -19,35 +21,67 @@
 }
 
 .main {
+  position: relative;
   width: 100%;
   height: 1200px;
-  background-image: url("/assets/images/background-hero.webp");
-  background-size: cover;
-  background-position-x: center;
-  background-position-y: center;
+  overflow: hidden;
 
   @media (max-width: 950px) {
-    background-position-x: -655px;
   }
 
   @media (max-width: 768px) {
     height: 900px;
-    background-image:
-      url("/assets/images/hero.png"),
-      url("/assets/images/background-hero-768.webp");
-    background-position: center bottom, center center;
-    background-repeat: no-repeat, no-repeat;
-    background-size: auto, cover;
   }
 
   @media (max-width: 360px) {
     height: 795px;
-    background-image:
-      url("/assets/images/hero-360.png"),
-      url("/assets/images/background-hero-360.webp");
-    background-position: center bottom, center center;
-    background-repeat: no-repeat, no-repeat;
-    background-size: auto, cover;
+  }
+
+  &__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: url("/assets/images/background-hero.webp");
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
+
+    @media (max-width: 950px) {
+      background-position-x: -655px;
+    }
+
+    @media (max-width: 768px) {
+      background-image: url("/assets/images/background-hero-768.webp");
+      background-position: center;
+    }
+
+    @media (max-width: 360px) {
+      background-image: url("/assets/images/background-hero-360.webp");
+    }
+  }
+
+  &__character {
+    display: none;
+
+    @media (max-width: 768px) {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background-image: url("/assets/images/hero.png");
+      background-position: center bottom;
+      background-repeat: no-repeat;
+      background-size: auto;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    @media (max-width: 360px) {
+      background-image: url("/assets/images/hero-360.png");
+    }
   }
 
   &__content {
@@ -79,6 +113,8 @@
     }
 
     &__subtitle {
+      position: relative;
+      z-index: 2;
       display: inline-flex;
       flex-wrap: wrap;
       max-height: 60px;
@@ -114,6 +150,8 @@
     }
 
     &__button {
+      position: relative;
+      z-index: 2;
       @include mixins.gradient-button;
       margin-left: 36px;
       align-self: flex-start;
@@ -141,6 +179,8 @@
 
     app-socials,
     .hero-socials {
+      position: relative;
+      z-index: 2;
       padding-left: 30px;
       align-self: flex-start;
       width: 450px;

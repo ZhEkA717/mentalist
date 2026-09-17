@@ -23,9 +23,9 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   protected videoContainers = viewChildren<ElementRef<HTMLElement>>('videoContainer');
   protected videosSection = viewChild<ElementRef<HTMLElement>>('videosSection');
   protected videoOpen = signal(false);
-  protected videoUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-    'https://vk.com/video_ext.php?oid=-65614643&id=456239031&autoplay=1'
-  );
+  private readonly VIDEO_URL = 'https://vk.com/video_ext.php?oid=-65614643&id=456239031&autoplay=1';
+  protected videoUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.VIDEO_URL);
+  private readonly blankUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
 
   protected readonly isMobile = signal(false);
   private readonly videoModal = createModalClose({lockScroll: true});
@@ -75,17 +75,20 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   }
 
   protected closeVideo(): void {
+    this.videoUrl = this.blankUrl;
     if (this.isMobile()) {
       this.videoOpen.set(false);
     } else {
       this.videoModal.close(() => {
         this.videoOpen.set(false);
+        this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.VIDEO_URL);
       });
     }
   }
 
   protected onDrawerClosed(): void {
     this.videoOpen.set(false);
+    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.VIDEO_URL);
   }
 
   ngOnDestroy(): void {

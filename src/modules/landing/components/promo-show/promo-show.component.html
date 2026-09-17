@@ -35,7 +35,7 @@
     <div class="container">
       <div class="show__content">
         <div class="show__content__title reveal-on-scroll">ВЫСТУПЛЕНИЯ</div>
-        <div class="show__content__items">
+        <div class="show__content__items" #cardsContainer>
           @for (card of cards; track card.id) {
             <div class="show__content__item dim-on-scroll">
               <div class="card-inner">

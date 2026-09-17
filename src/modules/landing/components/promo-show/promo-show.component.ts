@@ -22,6 +22,7 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
 
   protected videoContainers = viewChildren<ElementRef<HTMLElement>>('videoContainer');
   protected videosSection = viewChild<ElementRef<HTMLElement>>('videosSection');
+  protected cardsContainer = viewChild<ElementRef<HTMLElement>>('cardsContainer');
   protected videoOpen = signal(false);
   private readonly VIDEO_URL = 'https://vk.com/video_ext.php?oid=-65614643&id=456239031&autoplay=1';
   protected videoUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.VIDEO_URL);
@@ -61,6 +62,9 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
 
     const sub = this.breakpointObserver.observe('(max-width: 950px)').subscribe(result => {
       this.isMobile.set(result.matches);
+      if (result.matches) {
+        setTimeout(() => this.scrollToMiddleCard(), 100);
+      }
     });
     this.destroyRef.onDestroy(() => sub.unsubscribe());
   }
@@ -89,6 +93,16 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   protected onDrawerClosed(): void {
     this.videoOpen.set(false);
     this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.VIDEO_URL);
+  }
+
+  private scrollToMiddleCard(): void {
+    const container = this.cardsContainer()?.nativeElement;
+    if (!container) return;
+    const cards = container.querySelectorAll<HTMLElement>('.show__content__item');
+    if (cards.length < 2) return;
+    const middleCard = cards[1];
+    const scrollTarget = middleCard.offsetLeft - (container.clientWidth / 2) + (middleCard.offsetWidth / 2);
+    container.scrollTo({ left: scrollTarget, behavior: 'auto' });
   }
 
   ngOnDestroy(): void {

@@ -70,6 +70,11 @@
       background-position: center;
     }
 
+    @media (max-width: 520px) {
+      background-image: url("/assets/images/background-hero-520.webp");
+      background-position: center;
+    }
+
     @media (max-width: 360px) {
       background-image: url("/assets/images/background-hero-360.webp");
     }

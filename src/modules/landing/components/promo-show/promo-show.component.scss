@@ -39,6 +39,15 @@
     gap: 32px;
   }
 
+  @media(max-width: 768px) {
+    background-image: url("/assets/images/background-promo-show-768.webp");
+    background-position-x: center;
+  }
+
+  @media(max-width: 520px) {
+    background-image: url("/assets/images/background-promo-show-520.webp");
+  }
+
   @media(max-width: 360px) {
     background-image: url("/assets/images/background-promo-show-360.webp");
     height: 1070px;

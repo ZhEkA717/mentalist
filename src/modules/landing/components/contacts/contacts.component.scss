@@ -41,6 +41,14 @@
     height: auto;
   }
 
+  @media(max-width: 768px) {
+    background-image: url("/assets/images/background-contacts-768.webp");
+  }
+
+  @media(max-width: 520px) {
+    background-image: url("/assets/images/background-contacts-520.webp");
+  }
+
 
   &__content {
     padding-top: 75px;

@@ -30,6 +30,7 @@
   }
 
   @media(max-width: 520px) {
+    background-image: url("/assets/images/background-about-520.webp"), linear-gradient(rgba(0,0,0,1), rgba(0,0,0,1));
     height: 780px;
     background-position: center -70px, center center;
   }

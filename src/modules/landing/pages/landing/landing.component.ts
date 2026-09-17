@@ -74,7 +74,8 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   }
 
   protected onSectionClick(id: string): void {
-    const targetIndex = this.sectionOrder.indexOf(id);
+    const sectionId = id.split('-')[0];
+    const targetIndex = this.sectionOrder.indexOf(sectionId);
     this.sectionOrder.forEach((key, i) => {
       if (i <= targetIndex) {
         this.sectionSignals[key]?.();
@@ -84,7 +85,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     setTimeout(() => {
       const el = document.getElementById(id);
       if (el) {
-        el.scrollIntoView({behavior: 'smooth', block: 'center'});
+        el.scrollIntoView({behavior: 'smooth', block: 'start'});
       }
     })
   }

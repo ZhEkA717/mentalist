@@ -31,6 +31,9 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   protected videoContainers = viewChildren<ElementRef<HTMLElement>>('videoContainer');
   protected videosSection = viewChild<ElementRef<HTMLElement>>('videosSection');
 
+  private savedSrcs = new Map<HTMLIFrameElement, string>();
+  private observer: IntersectionObserver | null = null;
+
   private readonly videoUrls: Array<{youtube: string; vk: string}> = [
     {youtube: 'https://www.youtube.com/embed/sNIPgihatyU', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239035&hash=9ae4ca3a7f22cc57&hd=4'},
     {youtube: 'https://www.youtube.com/embed/X3jvY2xpmfc', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239034&hash=69a23c2952842a28&hd=4'},
@@ -63,9 +66,11 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     initRevealOnScroll(this.el.nativeElement);
     setTimeout(() => this.initScrollToSecondVideo(), 2200);
+    this.initVideoObserver();
   }
 
   ngOnDestroy(): void {
+    this.observer?.disconnect();
     ScrollTrigger.getAll().forEach(t => t.kill());
     gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
   }
@@ -97,5 +102,49 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
     const childRect = el.getBoundingClientRect();
     const offset = parent.scrollLeft + childRect.left - parentRect.left - parent.clientWidth / 2 + childRect.width / 2;
     parent.scrollTo({ left: Math.max(0, offset), behavior: 'smooth'});
+  }
+
+  private initVideoObserver(): void {
+    const section = this.videosSection()?.nativeElement;
+    if (!section) return;
+
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            this.resumeVideos();
+          } else {
+            this.pauseVideos();
+          }
+        }
+      },
+      { threshold: 0 },
+    );
+    this.observer.observe(section);
+  }
+
+  private pauseVideos(): void {
+    const section = this.videosSection()?.nativeElement;
+    if (!section) return;
+
+    section.querySelectorAll<HTMLIFrameElement>('iframe').forEach((iframe) => {
+      if (!this.savedSrcs.has(iframe)) {
+        this.savedSrcs.set(iframe, iframe.src);
+      }
+      iframe.src = 'about:blank';
+    });
+  }
+
+  private resumeVideos(): void {
+    const section = this.videosSection()?.nativeElement;
+    if (!section) return;
+
+    section.querySelectorAll<HTMLIFrameElement>('iframe').forEach((iframe) => {
+      const saved = this.savedSrcs.get(iframe);
+      if (saved) {
+        iframe.src = saved;
+      }
+    });
+    this.savedSrcs.clear();
   }
 }

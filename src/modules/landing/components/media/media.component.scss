@@ -105,7 +105,21 @@
 
         @media (max-width: 950px) {
           &::after {
-            transform: scaleX(1);
+            display: none;
+          }
+
+          span {
+            position: relative;
+
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: -6px;
+              left: 0;
+              width: 100%;
+              height: 2px;
+              background: linear-gradient(90deg, transparent, rgb(227, 205, 161), transparent);
+            }
           }
         }
       }

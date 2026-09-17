@@ -1,7 +1,7 @@
 <div class="landing">
   <div class="safe-area"></div>
-  <app-header [items]="items" (sectionClick)="onSectionClick($event)" />
-  <app-hero (sectionClick)="onSectionClick($event)" />
+  <app-header [items]="items" (sectionClick)="onSectionClick($event.id, $event.block, $event.offset)" />
+  <app-hero (sectionClick)="onSectionClick($event.id, $event.block, $event.offset)" />
   <app-promo-show />
   <section class="ribbon" id="ribbon" appMarquee marqueeMode="always">
     <div class="ribbon__content__items">

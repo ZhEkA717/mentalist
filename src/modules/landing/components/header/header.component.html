@@ -6,7 +6,7 @@
           <li class="header__nav__item">
             <a [href]="item.href"
                [class.active]="activeSection() === item.href.slice(1)"
-               (click)="scrollTo($event, item.href.slice(1))">{{ item.label }}</a>
+               (click)="scrollTo($event, item.href.slice(1), item.block, item.offset)">{{ item.label }}</a>
           </li>
         }
       </ul>
@@ -34,7 +34,7 @@
         <li class="drawer__nav__item">
           <a [href]="item.href"
              [class.active]="activeSection() === item.href.slice(1)"
-             (click)="scrollTo($event, item.href.slice(1))">{{ item.label }}</a>
+             (click)="scrollTo($event, item.href.slice(1), item.block, item.offset)">{{ item.label }}</a>
         </li>
       }
     </ul>

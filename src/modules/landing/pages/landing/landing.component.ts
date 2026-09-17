@@ -47,9 +47,9 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     contacts: () => this.showContacts.set(true),
   };
 
-  protected items: {label: string; href: string}[] = [
+  protected items: {label: string; href: string; block?: ScrollLogicalPosition; offset?: number}[] = [
     {label: 'Главная', href: '#hero'},
-    {label: 'Выступления', href: '#shows'},
+    {label: 'Выступления', href: '#shows', offset: 100},
     {label: 'Об александре', href: '#about'},
     {label: 'Шоу и лекции', href: '#lectures'},
     {label: 'Медиа', href: '#media'},
@@ -73,7 +73,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  protected onSectionClick(id: string): void {
+  protected onSectionClick(id: string, block: ScrollLogicalPosition = 'start', offset = 0): void {
     const sectionId = id.split('-')[0];
     const targetIndex = this.sectionOrder.indexOf(sectionId);
     this.sectionOrder.forEach((key, i) => {
@@ -85,7 +85,12 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     setTimeout(() => {
       const el = document.getElementById(id);
       if (el) {
-        el.scrollIntoView({behavior: 'smooth', block: 'start'});
+        if (offset) {
+          const y = el.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({top: y, behavior: 'smooth'});
+        } else {
+          el.scrollIntoView({behavior: 'smooth', block});
+        }
       }
     })
   }

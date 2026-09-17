@@ -9,8 +9,8 @@ import {DrawerComponent} from '../drawer/drawer.component';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnDestroy {
-  items = input.required<{ label: string; href: string }[]>();
-  sectionClick = output<string>();
+  items = input.required<{ label: string; href: string; block?: ScrollLogicalPosition; offset?: number }[]>();
+  sectionClick = output<{id: string; block: ScrollLogicalPosition; offset: number}>();
 
   menuOpen = signal(false);
   activeSection = signal(window.location.hash.slice(1));
@@ -30,10 +30,10 @@ export class HeaderComponent implements OnDestroy {
     this.menuOpen.set(!this.menuOpen());
   }
 
-  protected scrollTo(event: Event, id: string): void {
+  protected scrollTo(event: Event, id: string, block: ScrollLogicalPosition = 'start', offset = 0): void {
     event.preventDefault();
     window.location.hash = id;
-    this.sectionClick.emit(id);
+    this.sectionClick.emit({id, block, offset});
     this.menuOpen.set(false);
   }
 

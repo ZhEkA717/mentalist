@@ -24,15 +24,15 @@ export class HeroSectionComponent implements AfterViewInit {
   socialsComponent = viewChild<SocialsComponent>('socialsComponent');
 
   bootComplete = output<void>();
-  sectionClick = output<string>();
+  sectionClick = output<{id: string; block: ScrollLogicalPosition; offset: number}>();
 
   ngAfterViewInit(): void {
     this.boot();
   }
 
-  protected scrollTo(event: Event, id: string): void {
+  protected scrollTo(event: Event, id: string, block: ScrollLogicalPosition = 'start'): void {
     event.preventDefault();
-    this.sectionClick.emit(id);
+    this.sectionClick.emit({id, block, offset: 0});
   }
 
   private boot(): void {

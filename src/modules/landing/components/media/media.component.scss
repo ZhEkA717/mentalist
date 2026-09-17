@@ -102,6 +102,12 @@
             transform: scaleX(1);
           }
         }
+
+        @media (max-width: 950px) {
+          &::after {
+            transform: scaleX(1);
+          }
+        }
       }
     }
 

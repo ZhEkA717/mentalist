@@ -44,22 +44,21 @@
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: 1px solid rgba(223, 199, 132, 0.5);
-    background: rgba(0, 0, 0, 0.5);
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    border: none;
+    background: transparent;
     color: #E6CC89;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: border-color 0.35s ease, background 0.35s ease, transform 0.15s ease;
+    transition: background 0.2s ease;
 
     @media (hover: hover) {
       &:hover {
-        border-color: #DFC784;
-        background: rgba(80, 63, 27, 0.6);
+        background: rgba(230, 204, 137, 0.1);
       }
     }
 

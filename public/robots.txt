@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mentalist-f4d9e.web.app/sitemap.xml

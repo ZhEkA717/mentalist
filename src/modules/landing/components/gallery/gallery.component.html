@@ -5,7 +5,7 @@
       (touchstart)="onTouchStart($event)"
       (touchend)="onTouchEnd($event)"
     >
-      <img [src]="sliderItems()[galleryIndex()]" [alt]="'photo ' + (galleryIndex() + 1)" class="gallery__image" />
+      <img [src]="sliderItems()[galleryIndex()]" [alt]="'Фото выступления ' + (galleryIndex() + 1)" class="gallery__image" />
       <div class="gallery__counter">{{ galleryIndex() + 1 }} / {{ totalSlides }}</div>
     </div>
   </app-drawer>
@@ -24,7 +24,7 @@
         (touchstart)="onTouchStart($event)"
         (touchend)="onTouchEnd($event)"
       >
-        <img [src]="sliderItems()[galleryIndex()]" [alt]="'photo ' + (galleryIndex() + 1)" class="gallery__image" />
+        <img [src]="sliderItems()[galleryIndex()]" [alt]="'Фото выступления ' + (galleryIndex() + 1)" class="gallery__image" />
         <div class="gallery__counter">{{ galleryIndex() + 1 }} / {{ totalSlides }}</div>
       </div>
       <button class="gallery__arrow gallery__arrow--right" (click)="galleryNext(); $event.stopPropagation()">

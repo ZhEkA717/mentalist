@@ -1,4 +1,12 @@
-import {afterNextRender, AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestroy, output, viewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnDestroy,
+  output,
+  viewChild
+} from '@angular/core';
 import {SocialsComponent} from '../socials/socials.component';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
@@ -6,9 +14,6 @@ import {ScrollTrigger} from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const SUBTITLE_TEXT = 'Менталист • Психологический иллюзионист • Дипломированный психолог • Гипнотизёр';
-const SUBTITLE_TEXT_MOBILE = 'Менталист • Гипнотизёр • Психолог • Психологический иллюзионист';
-const SCRAMBLE_CHARS = 'АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ абвгдежзиклмнопрстуфхцчшщэюя';
-
 @Component({
   selector: 'app-hero',
   standalone: true,
@@ -20,8 +25,6 @@ const SCRAMBLE_CHARS = 'АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ
 export class HeroSectionComponent implements AfterViewInit, OnDestroy {
   private timers: ReturnType<typeof setTimeout | typeof setInterval>[] = [];
   private scrollTriggers: ScrollTrigger[] = [];
-  private scrambleRafId: number | null = null;
-
   protected subtitleText = SUBTITLE_TEXT;
 
   logoBg = viewChild<ElementRef<HTMLElement>>('logoBg');
@@ -45,7 +48,7 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
       clearTimeout(id);
       clearInterval(id);
     });
-    if (this.scrambleRafId !== null) cancelAnimationFrame(this.scrambleRafId);
+
     this.scrollTriggers.forEach(t => t.kill());
   }
 
@@ -77,61 +80,7 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
     tl.to(buttonEl, {opacity: 1, y: 0, duration: 0.6, ease: 'power2.out'}, 1.2);
     tl.to(socialsEl, {opacity: 1, y: 0, duration: 0.6, ease: 'power2.out'}, 1.4);
 
-    this.delay(() => this.startScramble(subtitleEl), 1100);
     this.delay(() => this.bootComplete.emit(), 200);
-  }
-
-  private startScramble(el: HTMLElement): void {
-    el.textContent = '';
-
-    const spans: HTMLSpanElement[] = [];
-    let bulletCount = 0;
-    for (let i = 0; i < SUBTITLE_TEXT.length; i++) {
-      const span = document.createElement('span');
-      span.className = 'scramble-char';
-      const ch = SUBTITLE_TEXT[i];
-      span.textContent = (ch === ' ' || ch === '•')
-        ? (ch === ' ' ? '\u00A0' : ch)
-        : SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-      el.appendChild(span);
-      if (ch === '•') {
-        bulletCount++;
-        if (bulletCount === 2) {
-          el.appendChild(document.createElement('br'));
-        }
-      }
-      spans.push(span);
-    }
-
-    const total = spans.length;
-    const scrambleDuration = 1500;
-    const startTime = performance.now();
-
-    const animate = (now: number) => {
-      const elapsed = now - startTime;
-      let allResolved = true;
-
-      for (let i = 0; i < spans.length; i++) {
-        const finalChar = SUBTITLE_TEXT[i];
-        if (finalChar === ' ' || finalChar === '•') continue;
-
-        const resolveAt = scrambleDuration * (i / total);
-        if (elapsed >= resolveAt) {
-          spans[i].textContent = finalChar;
-        } else {
-          allResolved = false;
-          spans[i].textContent = SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-        }
-      }
-
-      if (!allResolved) {
-        this.scrambleRafId = requestAnimationFrame(animate);
-      } else {
-        this.scrambleRafId = null;
-      }
-    };
-
-    this.scrambleRafId = requestAnimationFrame(animate);
   }
 
   private delay(fn: () => void, ms: number): void {

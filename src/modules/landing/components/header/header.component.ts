@@ -1,4 +1,4 @@
-import {Component, DestroyRef, inject, input, OnDestroy, output, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnDestroy, output, signal} from '@angular/core';
 import {DrawerComponent} from '../drawer/drawer.component';
 
 @Component({
@@ -6,7 +6,8 @@ import {DrawerComponent} from '../drawer/drawer.component';
   standalone: true,
   imports: [DrawerComponent],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnDestroy {
   items = input.required<{ label: string; href: string; block?: ScrollLogicalPosition; offset?: number }[]>();

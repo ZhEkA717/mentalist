@@ -31,6 +31,7 @@ gsap.registerPlugin(ScrollTrigger);
 })
 export class LandingComponent implements AfterViewInit, OnDestroy {
   private styleObserver: MutationObserver | null = null;
+  private setTimeoutIds: ReturnType<typeof setTimeout>[] = [];
 
   protected showPromo = signal(false);
   protected showAbout = signal(false);
@@ -82,7 +83,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       }
     });
 
-    setTimeout(() => {
+    this.setTimeoutIds.push(setTimeout(() => {
       const el = document.getElementById(id);
       if (el) {
         if (offset) {
@@ -92,15 +93,15 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
           el.scrollIntoView({behavior: 'smooth', block});
         }
       }
-    })
+    }));
   }
 
   ngAfterViewInit(): void {
     window.scrollTo(0, 0);
     this.watchStyleChanges();
-    setTimeout(() => {
+    this.setTimeoutIds.push(setTimeout(() => {
       ScrollTrigger.refresh(true);
-    }, 200);
+    }, 200));
   }
 
   private watchStyleChanges(): void {
@@ -125,7 +126,8 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.styleObserver?.disconnect();
+    this.setTimeoutIds.forEach(id => clearTimeout(id));
     ScrollTrigger.getAll().forEach(t => t.kill());
-    gsap.killTweensOf('*');
+    gsap.killTweensOf(document.querySelectorAll('.reveal-on-scroll, .dim-on-scroll'));
   }
 }

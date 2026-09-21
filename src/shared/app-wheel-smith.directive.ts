@@ -42,11 +42,7 @@ export class AppWheelSmithDirective implements AfterViewInit, OnDestroy {
     });
   }
 
-  ngAfterViewInit() {
-    if (this.enabled()) {
-      this.subscribe();
-    }
-  }
+  ngAfterViewInit() {}
 
   subscribe() {
     if (isPlatformBrowser(this.platformId)) {

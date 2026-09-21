@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {initializeApp} from 'firebase/app';
 import {addDoc, collection, getFirestore} from 'firebase/firestore';
 import {cloudflareWorkerUrl, firebaseConfig} from '../../../app/config';
-import {delay, Observable, timeout} from 'rxjs';
+import {Observable, timeout} from 'rxjs';
 
 export interface RequestForm {
   name: string;
@@ -29,12 +29,11 @@ export class TelegramService {
       console.warn('Firestore save failed (non-critical)');
     });
 
-    // Отправка в Telegram через Worker + минимум 1 секунда ожидания
+    // Отправка в Telegram через Worker
     return this.http.post(cloudflareWorkerUrl, data, {
       responseType: 'text',
     }).pipe(
       timeout(10000),
-      delay(300),
     )
   }
 }

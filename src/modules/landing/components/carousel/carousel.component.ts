@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input, signal} from '@angular/core';
 import {GalleryComponent} from '../gallery/gallery.component';
 
 @Component({
@@ -13,21 +13,21 @@ import {GalleryComponent} from '../gallery/gallery.component';
 })
 export class CarouselComponent {
   sliderItems = input<string[]>([]);
-  protected currentSlideIndex = 0;
+  protected currentSlideIndex = signal(0);
 
   private touchStartX = 0;
   private touchStartY = 0;
   private blockedClick = false;
-  galleryOpen = false;
-  galleryIndex = 0;
+  galleryOpen = signal(false);
+  galleryIndex = signal(0);
 
   protected openGallery(index: number): void {
     if (this.blockedClick) {
       this.blockedClick = false;
       return;
     }
-    this.galleryIndex = index;
-    this.galleryOpen = true;
+    this.galleryIndex.set(index);
+    this.galleryOpen.set(true);
   }
 
   protected onTouchStart(event: TouchEvent): void {
@@ -55,21 +55,23 @@ export class CarouselComponent {
     return this.sliderItems().length;
   }
   protected prevSlide(): void {
-    this.currentSlideIndex =
-      (this.currentSlideIndex - 1 + this.totalSlides) % this.totalSlides;
+    this.currentSlideIndex.set(
+      (this.currentSlideIndex() - 1 + this.totalSlides) % this.totalSlides,
+    );
   }
 
   protected nextSlide(): void {
-    this.currentSlideIndex =
-      (this.currentSlideIndex + 1) % this.totalSlides;
+    this.currentSlideIndex.set(
+      (this.currentSlideIndex() + 1) % this.totalSlides,
+    );
   }
 
   protected goToSlide(index: number): void {
-    this.currentSlideIndex = index;
+    this.currentSlideIndex.set(index);
   }
 
   protected getSliderStyle(index: number): Record<string, string> {
-    const diff = index - this.currentSlideIndex;
+    const diff = index - this.currentSlideIndex();
     const total = this.totalSlides;
 
     let normalizedDiff = diff;

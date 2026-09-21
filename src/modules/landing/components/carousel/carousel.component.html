@@ -16,7 +16,7 @@
         [style]="getSliderStyle(i)"
         (click)="openGallery(i)"
       >
-        <img [src]="item" [alt]="'photo ' + (i + 1)" />
+        <img [src]="item" [alt]="'photo ' + (i + 1)" loading="lazy" decoding="async" width="425" height="283" />
       </div>
     }
   </div>
@@ -26,12 +26,12 @@
     </svg>
   </button>
 </div>
-<div class="carousel__counter">{{ currentSlideIndex + 1 }} / {{ totalSlides }}</div>
+<div class="carousel__counter">{{ currentSlideIndex() + 1 }} / {{ totalSlides }}</div>
 <div class="carousel__dots">
   @for (item of sliderItems(); track item; let i = $index) {
     <button
       class="carousel__dot"
-      [class.carousel__dot--active]="i === currentSlideIndex"
+      [class.carousel__dot--active]="i === currentSlideIndex()"
       (click)="goToSlide(i)"
     ></button>
   }

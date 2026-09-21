@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   computed,
   ElementRef,
@@ -21,6 +22,7 @@ import {initRevealOnScroll} from '../../utils/scroll-animations';
   imports: [CarouselComponent],
   templateUrl: './media.component.html',
   styleUrl: './media.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   private readonly sanitizer = inject(DomSanitizer);
@@ -32,6 +34,8 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   protected videosSection = viewChild<ElementRef<HTMLElement>>('videosSection');
 
   private observer: IntersectionObserver | null = null;
+  private scrollTriggers: ScrollTrigger[] = [];
+  private setTimeoutIds: ReturnType<typeof setTimeout>[] = [];
 
   private readonly videoUrls: Array<{youtube: string; vk: string}> = [
     {youtube: 'https://www.youtube.com/embed/sNIPgihatyU?enablejsapi=1', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239035&hash=9ae4ca3a7f22cc57&hd=4'},
@@ -63,14 +67,16 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   ];
 
   ngAfterViewInit(): void {
-    initRevealOnScroll(this.el.nativeElement);
-    setTimeout(() => this.initScrollToSecondVideo(), 2200);
+    this.scrollTriggers.push(...initRevealOnScroll(this.el.nativeElement));
+    const id = setTimeout(() => this.initScrollToSecondVideo(), 2200);
+    this.setTimeoutIds.push(id);
     this.initVideoObserver();
   }
 
   ngOnDestroy(): void {
     this.observer?.disconnect();
-    ScrollTrigger.getAll().forEach(t => t.kill());
+    this.setTimeoutIds.forEach(id => clearTimeout(id));
+    this.scrollTriggers.forEach(t => t.kill());
     gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
   }
 
@@ -80,7 +86,7 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
 
     let triggered = false;
 
-    ScrollTrigger.create({
+    const st = ScrollTrigger.create({
       trigger: el,
       start: 'top 100%',
       onEnter: () => {
@@ -89,6 +95,7 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
         this.scrollToSecondVideo();
       },
     });
+    this.scrollTriggers.push(st);
   }
 
   private scrollToSecondVideo(): void {

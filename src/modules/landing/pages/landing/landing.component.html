@@ -7,7 +7,7 @@
     <div class="ribbon__content__items">
       @for (item of ribbonItems; track item.id) {
         <div class="ribbon__content__item">
-          <img [src]="item.icon" [alt]="item.id">
+          <img [src]="item.icon" [alt]="item.id" loading="lazy" decoding="async">
           <p>{{ item.description }}</p>
         </div>
       }

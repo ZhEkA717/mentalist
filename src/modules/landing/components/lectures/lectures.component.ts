@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, inject, OnDestroy} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, OnDestroy} from '@angular/core';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {initRevealOnScroll} from '../../utils/scroll-animations';
@@ -7,17 +7,19 @@ import {initRevealOnScroll} from '../../utils/scroll-animations';
   selector: 'app-lectures',
   standalone: true,
   templateUrl: './lectures.component.html',
-  styleUrl: './lectures.component.scss'
+  styleUrl: './lectures.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LecturesSectionComponent implements AfterViewInit, OnDestroy {
   private readonly el = inject(ElementRef);
+  private triggers: ScrollTrigger[] = [];
 
   ngAfterViewInit(): void {
-    initRevealOnScroll(this.el.nativeElement);
+    this.triggers = initRevealOnScroll(this.el.nativeElement);
   }
 
   ngOnDestroy(): void {
-    ScrollTrigger.getAll().forEach(t => t.kill());
+    this.triggers.forEach(t => t.kill());
     gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
   }
 }

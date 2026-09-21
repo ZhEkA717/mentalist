@@ -1,4 +1,5 @@
-import {AfterViewInit, Component, DestroyRef, ElementRef, inject, OnDestroy, signal, TemplateRef, viewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject, OnDestroy, signal, TemplateRef, viewChild} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TuiCalendar} from '@taiga-ui/core/components/calendar';
 import {TuiDay, TuiMonth} from '@taiga-ui/cdk/date-time';
@@ -20,6 +21,7 @@ import {createModalClose} from '../../utils/modal-close';
   imports: [ReactiveFormsModule, TuiCalendar, TuiLoader, SocialsComponent, DrawerComponent],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactsSectionComponent implements AfterViewInit, OnDestroy {
   private telegram = inject(TelegramService);
@@ -27,6 +29,7 @@ export class ContactsSectionComponent implements AfterViewInit, OnDestroy {
   private readonly el = inject(ElementRef);
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly destroyRef = inject(DestroyRef);
+  private scrollTriggers: ScrollTrigger[] = [];
 
   protected successTpl = viewChild<TemplateRef<unknown>>('successNotification');
   protected errorTpl = viewChild<TemplateRef<unknown>>('errorNotification');
@@ -54,7 +57,7 @@ export class ContactsSectionComponent implements AfterViewInit, OnDestroy {
   calendarRendered = this.calendarModal.rendered;
 
   ngAfterViewInit(): void {
-    initRevealOnScroll(this.el.nativeElement);
+    this.scrollTriggers.push(...initRevealOnScroll(this.el.nativeElement));
 
     const sub = this.breakpointObserver.observe('(max-width: 950px)').subscribe(result => {
       this.isMobile.set(result.matches);
@@ -64,7 +67,7 @@ export class ContactsSectionComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.calendarModal.destroy();
-    ScrollTrigger.getAll().forEach(t => t.kill());
+    this.scrollTriggers.forEach(t => t.kill());
     gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
   }
 
@@ -147,6 +150,7 @@ export class ContactsSectionComponent implements AfterViewInit, OnDestroy {
 
     this.telegram.submitForm(data)
       .pipe(
+        takeUntilDestroyed(this.destroyRef),
         finalize(() => {
           this.submitting.set(false);
         }),

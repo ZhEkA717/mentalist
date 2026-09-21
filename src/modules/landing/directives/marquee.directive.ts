@@ -1,10 +1,12 @@
-import {AfterViewInit, Directive, ElementRef, input} from '@angular/core';
+import {AfterViewInit, Directive, ElementRef, input, OnDestroy} from '@angular/core';
 
 @Directive({
   selector: '[appMarquee]',
   standalone: true,
 })
-export class MarqueeDirective implements AfterViewInit {
+export class MarqueeDirective implements AfterViewInit, OnDestroy {
+  private resizeObserver: ResizeObserver | null = null;
+
   private get host(): HTMLElement {
     return this.el.nativeElement;
   }
@@ -48,13 +50,17 @@ export class MarqueeDirective implements AfterViewInit {
       const check = (): void => {
         if (track.scrollWidth > this.host.clientWidth) {
           activate();
-          observer.disconnect();
+          this.resizeObserver?.disconnect();
         }
       };
 
-      const observer = new ResizeObserver(check);
-      observer.observe(track);
+      this.resizeObserver = new ResizeObserver(check);
+      this.resizeObserver.observe(track);
       check();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.resizeObserver?.disconnect();
   }
 }

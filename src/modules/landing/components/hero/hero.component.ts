@@ -1,4 +1,4 @@
-import {afterNextRender, AfterViewInit, Component, ElementRef, OnDestroy, output, viewChild} from '@angular/core';
+import {afterNextRender, AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestroy, output, viewChild} from '@angular/core';
 import {SocialsComponent} from '../socials/socials.component';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
@@ -15,9 +15,12 @@ const SCRAMBLE_CHARS = 'АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ
   imports: [SocialsComponent],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeroSectionComponent implements AfterViewInit, OnDestroy {
   private timers: ReturnType<typeof setTimeout | typeof setInterval>[] = [];
+  private scrollTriggers: ScrollTrigger[] = [];
+  private scrambleRafId: number | null = null;
 
   protected subtitleText = SUBTITLE_TEXT;
 
@@ -42,7 +45,8 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
       clearTimeout(id);
       clearInterval(id);
     });
-    ScrollTrigger.getAll().forEach(t => t.kill());
+    if (this.scrambleRafId !== null) cancelAnimationFrame(this.scrambleRafId);
+    this.scrollTriggers.forEach(t => t.kill());
   }
 
   protected scrollTo(event: Event, id: string, block: ScrollLogicalPosition = 'start'): void {
@@ -101,25 +105,33 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
 
     const total = spans.length;
     const scrambleDuration = 1500;
+    const startTime = performance.now();
 
-    spans.forEach((span, i) => {
-      const finalChar = SUBTITLE_TEXT[i];
-      if (finalChar === ' ' || finalChar === '•') return;
+    const animate = (now: number) => {
+      const elapsed = now - startTime;
+      let allResolved = true;
 
-      const resolveAt = scrambleDuration * (i / total);
-      let elapsed = 0;
+      for (let i = 0; i < spans.length; i++) {
+        const finalChar = SUBTITLE_TEXT[i];
+        if (finalChar === ' ' || finalChar === '•') continue;
 
-      const interval = setInterval(() => {
-        elapsed += 50;
+        const resolveAt = scrambleDuration * (i / total);
         if (elapsed >= resolveAt) {
-          clearInterval(interval);
-          span.textContent = finalChar;
-          return;
+          spans[i].textContent = finalChar;
+        } else {
+          allResolved = false;
+          spans[i].textContent = SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
         }
-        span.textContent = SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-      }, 50);
-      this.timers.push(interval as unknown as ReturnType<typeof setTimeout>);
-    });
+      }
+
+      if (!allResolved) {
+        this.scrambleRafId = requestAnimationFrame(animate);
+      } else {
+        this.scrambleRafId = null;
+      }
+    };
+
+    this.scrambleRafId = requestAnimationFrame(animate);
   }
 
   private delay(fn: () => void, ms: number): void {
@@ -133,7 +145,7 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
     const logoBgEl = this.logoBg()?.nativeElement;
     if (!heroEl || !bgEl) return;
 
-    gsap.to(bgEl, {
+    const bgTrigger = gsap.to(bgEl, {
       y: 300,
       ease: 'none',
       scrollTrigger: {
@@ -143,9 +155,10 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
         scrub: true,
       },
     });
+    if (bgTrigger.scrollTrigger) this.scrollTriggers.push(bgTrigger.scrollTrigger);
 
     if (logoBgEl) {
-      gsap.to(logoBgEl, {
+      const logoTrigger = gsap.to(logoBgEl, {
         y: 200,
         ease: 'none',
         scrollTrigger: {
@@ -155,6 +168,7 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
           scrub: true,
         },
       });
+      if (logoTrigger.scrollTrigger) this.scrollTriggers.push(logoTrigger.scrollTrigger);
     }
   }
 }

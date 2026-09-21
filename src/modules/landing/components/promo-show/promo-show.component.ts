@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, DestroyRef, ElementRef, inject, OnDestroy, signal, viewChild, viewChildren} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject, OnDestroy, signal, viewChild, viewChildren} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {gsap} from 'gsap';
@@ -12,13 +12,16 @@ import {DrawerComponent} from '../drawer/drawer.component';
   standalone: true,
   imports: [DrawerComponent],
   templateUrl: './promo-show.component.html',
-  styleUrls: ['./promo-show.component.scss']
+  styleUrls: ['./promo-show.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   private readonly el = inject(ElementRef);
   private readonly sanitizer = inject(DomSanitizer);
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly destroyRef = inject(DestroyRef);
+  private scrollTriggers: ScrollTrigger[] = [];
+  private setTimeoutIds: ReturnType<typeof setTimeout>[] = [];
 
   protected videoContainers = viewChildren<ElementRef<HTMLElement>>('videoContainer');
   protected videosSection = viewChild<ElementRef<HTMLElement>>('videosSection');
@@ -56,14 +59,16 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     const container = this.el.nativeElement;
-    initRevealOnScroll(container);
-    initDimOnScroll(container);
-    setTimeout(() => this.initCardFlip(), 2200);
+    this.scrollTriggers.push(...initRevealOnScroll(container));
+    this.scrollTriggers.push(...initDimOnScroll(container));
+    const id = setTimeout(() => this.initCardFlip(), 2200);
+    this.setTimeoutIds.push(id);
 
     const sub = this.breakpointObserver.observe('(max-width: 950px)').subscribe(result => {
       this.isMobile.set(result.matches);
       if (result.matches) {
-        setTimeout(() => this.scrollToMiddleCard(), 100);
+        const id2 = setTimeout(() => this.scrollToMiddleCard(), 100);
+        this.setTimeoutIds.push(id2);
       }
     });
     this.destroyRef.onDestroy(() => sub.unsubscribe());
@@ -107,7 +112,8 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.videoModal.destroy();
-    ScrollTrigger.getAll().forEach(t => t.kill());
+    this.setTimeoutIds.forEach(id => clearTimeout(id));
+    this.scrollTriggers.forEach(t => t.kill());
     gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll, .dim-on-scroll'));
   }
 
@@ -118,7 +124,7 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
 
       gsap.set(inner, {rotateY: 180});
 
-      ScrollTrigger.create({
+      const st = ScrollTrigger.create({
         trigger: card,
         start: 'top 60%',
         end: 'bottom 40%',
@@ -127,6 +133,7 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
         onEnterBack: () => gsap.to(inner, {rotateY: 0, duration: 0.8, ease: 'power2.inOut'}),
         onLeaveBack: () => gsap.to(inner, {rotateY: 180, duration: 0.8, ease: 'power2.inOut'}),
       });
+      this.scrollTriggers.push(st);
     });
   }
 }

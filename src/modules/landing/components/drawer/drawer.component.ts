@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   DestroyRef,
@@ -17,6 +18,7 @@ import {createModalClose} from '../../utils/modal-close';
   standalone: true,
   templateUrl: './drawer.component.html',
   styleUrl: './drawer.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DrawerComponent implements OnDestroy {
   private readonly breakpointObserver = inject(BreakpointObserver);

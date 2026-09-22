@@ -2,16 +2,16 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  computed,
   ElementRef,
   inject,
   OnDestroy,
   PLATFORM_ID,
+  signal,
   viewChild,
   viewChildren
 } from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
-import {DomSanitizer} from '@angular/platform-browser';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {CarouselComponent} from '../../components/carousel/carousel.component';
 import {gsap} from 'gsap';
@@ -42,15 +42,17 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   private scrollTriggers: ScrollTrigger[] = [];
   private setTimeoutIds: ReturnType<typeof setTimeout>[] = [];
 
-  private readonly videoUrls: Array<{youtube: string; vk: string}> = [
-    {youtube: 'https://www.youtube.com/embed/sNIPgihatyU?enablejsapi=1', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239035&hash=9ae4ca3a7f22cc57&hd=4'},
-    {youtube: 'https://www.youtube.com/embed/X3jvY2xpmfc?enablejsapi=1', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239034&hash=69a23c2952842a28&hd=4'},
-    {youtube: 'https://www.youtube.com/embed/YulDfOQiDk8?enablejsapi=1', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239036&hash=26ddd6f8d47e1ba1&hd=4'},
+  protected readonly videoUrls: Array<{youtube: string; vk: string}> = [
+    {youtube: 'https://www.youtube.com/embed/sNIPgihatyU?enablejsapi=1&autoplay=1', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239035&hash=9ae4ca3a7f22cc57&hd=4&autoplay=1'},
+    {youtube: 'https://www.youtube.com/embed/X3jvY2xpmfc?enablejsapi=1&autoplay=1', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239034&hash=69a23c2952842a28&hd=4&autoplay=1'},
+    {youtube: 'https://www.youtube.com/embed/YulDfOQiDk8?enablejsapi=1&autoplay=1', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239036&hash=26ddd6f8d47e1ba1&hd=4&autoplay=1'},
   ];
 
-  protected readonly videos = computed(() =>
-    this.videoUrls.map(v => this.sanitizer.bypassSecurityTrustResourceUrl(this.isRuDomain ? v.vk : v.youtube)),
+  protected readonly resolvedVideos: SafeResourceUrl[] = this.videoUrls.map(v =>
+    this.sanitizer.bypassSecurityTrustResourceUrl(this.isRuDomain ? v.vk : v.youtube),
   );
+  protected readonly activeFlags = signal<boolean[]>(this.videoUrls.map(() => false));
+  protected readonly loadingFlags = signal<boolean[]>(this.videoUrls.map(() => false));
 
   protected sliderItems = [
     '/assets/images/IMG_1.png',
@@ -119,6 +121,45 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
     parent.scrollTo({ left: Math.max(0, offset), behavior: 'smooth'});
   }
 
+  private readonly MIN_SPINNER_MS = 700;
+  private readonly loadingStartedAt = new Map<number, number>();
+
+  protected activateVideo(index: number): void {
+    this.activeFlags.update(flags => {
+      const next = [...flags];
+      next[index] = true;
+      return next;
+    });
+    this.loadingStartedAt.set(index, Date.now());
+    this.loadingFlags.update(flags => {
+      const next = [...flags];
+      next[index] = true;
+      return next;
+    });
+    const id = setTimeout(() => this.clearLoading(index), 8000);
+    this.setTimeoutIds.push(id);
+  }
+
+  protected onVideoLoaded(index: number): void {
+    const started = this.loadingStartedAt.get(index) ?? 0;
+    const elapsed = Date.now() - started;
+    const remaining = this.MIN_SPINNER_MS - elapsed;
+    if (remaining <= 0) {
+      this.clearLoading(index);
+      return;
+    }
+    const id = setTimeout(() => this.clearLoading(index), remaining);
+    this.setTimeoutIds.push(id);
+  }
+
+  private clearLoading(index: number): void {
+    this.loadingFlags.update(flags => {
+      const next = [...flags];
+      next[index] = false;
+      return next;
+    });
+  }
+
   private initVideoObserver(): void {
     const section = this.videosSection()?.nativeElement;
     if (!section) return;
@@ -149,9 +190,21 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
           iframe.contentWindow?.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
         } catch {}
       } else {
-        iframe.style.visibility = 'hidden';
-        iframe.setAttribute('data-paused', 'true');
+        const index = Number(iframe.getAttribute('data-video-index'));
+        if (!Number.isNaN(index)) {
+          this.deactivateVideo(index);
+        }
       }
     });
+  }
+
+  private deactivateVideo(index: number): void {
+    this.activeFlags.update(flags => {
+      const next = [...flags];
+      next[index] = false;
+      return next;
+    });
+    this.clearLoading(index);
+    this.loadingStartedAt.delete(index);
   }
 }

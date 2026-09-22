@@ -29,9 +29,13 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   protected videosSection = viewChild<ElementRef<HTMLElement>>('videosSection');
   protected cardsContainer = viewChild<ElementRef<HTMLElement>>('cardsContainer');
   protected videoOpen = signal(false);
-  private readonly VIDEO_URL = 'https://vk.com/video_ext.php?oid=-65614643&id=456239031&autoplay=1';
-  protected videoUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.VIDEO_URL);
   private readonly blankUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+  private readonly VIDEO_URL = 'https://vk.com/video_ext.php?oid=-65614643&id=456239031&autoplay=1';
+  protected videoUrl: SafeResourceUrl = this.blankUrl;
+  protected videoLoading = signal(false);
+  private readonly MIN_SPINNER_MS = 700;
+  private loadingStartedAt = 0;
+  private videoLoadPending = false;
 
   protected readonly isMobile = signal(false);
   private readonly videoModal = createModalClose({lockScroll: true});
@@ -79,6 +83,31 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   }
 
   protected openVideo(): void {
+    if (this.videoLoadPending) return;
+    this.videoLoadPending = true;
+    this.loadingStartedAt = Date.now();
+    this.videoLoading.set(true);
+    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.VIDEO_URL);
+    const id = setTimeout(() => this.finishVideoOpen(), 8000);
+    this.setTimeoutIds.push(id);
+  }
+
+  protected onVideoLoaded(): void {
+    if (!this.videoLoadPending) return;
+    const elapsed = Date.now() - this.loadingStartedAt;
+    const remaining = this.MIN_SPINNER_MS - elapsed;
+    if (remaining <= 0) {
+      this.finishVideoOpen();
+      return;
+    }
+    const id = setTimeout(() => this.finishVideoOpen(), remaining);
+    this.setTimeoutIds.push(id);
+  }
+
+  private finishVideoOpen(): void {
+    if (!this.videoLoadPending) return;
+    this.videoLoadPending = false;
+    this.videoLoading.set(false);
     if (this.isMobile()) {
       this.videoOpen.set(true);
     } else {
@@ -88,20 +117,29 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   }
 
   protected closeVideo(): void {
+    this.videoLoadPending = false;
+    this.videoLoading.set(false);
     this.videoUrl = this.blankUrl;
     if (this.isMobile()) {
       this.videoOpen.set(false);
     } else {
       this.videoModal.close(() => {
         this.videoOpen.set(false);
-        this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.VIDEO_URL);
       });
     }
   }
 
+  protected onDrawerClosingStart(): void {
+    this.videoLoadPending = false;
+    this.videoLoading.set(false);
+    this.videoUrl = this.blankUrl;
+  }
+
   protected onDrawerClosed(): void {
     this.videoOpen.set(false);
-    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.VIDEO_URL);
+    this.videoLoadPending = false;
+    this.videoLoading.set(false);
+    this.videoUrl = this.blankUrl;
   }
 
   private scrollToMiddleCard(): void {

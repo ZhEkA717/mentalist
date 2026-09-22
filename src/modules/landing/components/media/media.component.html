@@ -15,15 +15,34 @@
       </div>
       <div class="line"></div>
       <div class="media__content__videos" #videosSection>
-        @for (video of videos(); track $index) {
+        @for (video of videoUrls; track $index) {
           <div class="video-container" #videoContainer>
-            <iframe
-              class="video"
-              [src]="video"
-              title="Видео шоу менталиста"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
-            ></iframe>
+            @if (!activeFlags()[$index]) {
+              <div type="button" class="video-poster" (click)="activateVideo($index)" aria-label="Включить видео">
+                <img src="/assets/images/IMG_16.png" alt="Видео шоу менталиста" loading="lazy" decoding="async">
+                <span class="video-poster__play">
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="24" cy="24" r="23" stroke="white" stroke-width="2" opacity="0.8"/>
+                    <path d="M19 15L35 24L19 33V15Z" fill="white" opacity="0.9"/>
+                  </svg>
+                </span>
+              </div>
+            } @else {
+              @if (loadingFlags()[$index]) {
+                <div class="video-spinner" aria-hidden="true">
+                  <span class="video-spinner__ring"></span>
+                </div>
+              }
+              <iframe
+                class="video"
+                [src]="resolvedVideos[$index]"
+                title="Видео шоу менталиста"
+                frameborder="0"
+                attr.data-video-index="{{ $index }}"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
+                (load)="onVideoLoaded($index)"
+              ></iframe>
+            }
           </div>
         }
       </div>

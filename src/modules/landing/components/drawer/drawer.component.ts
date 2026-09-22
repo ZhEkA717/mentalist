@@ -29,6 +29,7 @@ export class DrawerComponent implements OnDestroy {
 
   isOpen = input<boolean>(false);
   closed = output<void>();
+  closingStart = output<void>();
 
   protected readonly isMobile = signal(false);
   private readonly modal = createModalClose({lockScroll: true});
@@ -69,6 +70,7 @@ export class DrawerComponent implements OnDestroy {
         this.modal.prepareOpen();
         this.wasOpen = true;
       } else if (!open && this.wasOpen) {
+        this.closingStart.emit();
         this.modal.close(() => {
           this.closed.emit();
         });
@@ -78,6 +80,7 @@ export class DrawerComponent implements OnDestroy {
   }
 
   protected close(): void {
+    this.closingStart.emit();
     this.modal.close(() => {
       this.closed.emit();
     });
@@ -86,6 +89,7 @@ export class DrawerComponent implements OnDestroy {
 
   protected closeFromButton(): void {
     this.closeByButton.set(true);
+    this.closingStart.emit();
     this.modal.close(() => {
       this.closeByButton.set(false);
       this.closed.emit();

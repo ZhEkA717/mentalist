@@ -207,6 +207,26 @@
       }
     }
 
+    &__image-loading {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.45);
+      border-radius: 14px;
+
+      &__ring {
+        width: 48px;
+        height: 48px;
+        border: 4px solid rgba(230, 204, 137, 0.25);
+        border-top-color: #E6CC89;
+        border-radius: 50%;
+        animation: video-spinner-rotate 0.8s linear infinite;
+      }
+    }
+
     &__image-overlay {
       position: absolute;
       inset: 0;
@@ -534,6 +554,18 @@
   aspect-ratio: 9 / 16;
   border: none;
   border-radius: 16px 16px 0 0;
+}
+
+.video-backdrop--loading,
+.video-overlay--loading {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@keyframes video-spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes fadeIn {

@@ -23,6 +23,11 @@
                 <path d="M19 15L35 24L19 33V15Z" fill="white" opacity="0.9"/>
               </svg>
             </div>
+            @if (videoLoading()) {
+              <div class="promo__content__image-loading" aria-hidden="true">
+                <span class="promo__content__image-loading__ring"></span>
+              </div>
+            }
           </div>
         </div>
         <div class="promo__content__footer reveal-on-scroll">
@@ -64,23 +69,27 @@
 </div>
 
 @if (isMobile()) {
-  <app-drawer [isOpen]="videoOpen()" (closed)="onDrawerClosed()">
-    <iframe
-      class="video-iframe"
-      [src]="videoUrl"
-      allow="autoplay; fullscreen; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen>
-    </iframe>
+  <app-drawer [isOpen]="videoOpen()" (closingStart)="onDrawerClosingStart()" (closed)="onDrawerClosed()">
+    @if (videoLoading() || videoOpen()) {
+      <iframe
+        class="video-iframe"
+        [src]="videoUrl"
+        allow="autoplay; fullscreen; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        (load)="onVideoLoaded()">
+      </iframe>
+    }
   </app-drawer>
 } @else {
-  @if (videoRendered()) {
-    <div class="video-backdrop" [class.video-backdrop--closing]="videoClosing()" (click)="closeVideo()" (touchmove)="$event.preventDefault()"></div>
-    <div class="video-overlay" [class.video-overlay--closing]="videoClosing()">
+  @if (videoRendered() || videoLoading()) {
+    <div class="video-backdrop" [class.video-backdrop--closing]="videoClosing()" [class.video-backdrop--loading]="videoLoading()" (click)="closeVideo()" (touchmove)="$event.preventDefault()"></div>
+    <div class="video-overlay" [class.video-overlay--closing]="videoClosing()" [class.video-overlay--loading]="videoLoading()">
       <button class="video-overlay__close" (click)="closeVideo()">✕</button>
       <iframe
         [src]="videoUrl"
         allow="autoplay; fullscreen; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
+        allowfullscreen
+        (load)="onVideoLoaded()">
       </iframe>
     </div>
   }

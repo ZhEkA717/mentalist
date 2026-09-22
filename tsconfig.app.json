@@ -13,6 +13,7 @@
     "src/app/app.routes.server.ts"
   ],
   "include": [
+    "src/**/*.ts",
     "src/**/*.d.ts"
   ],
   "exclude": [

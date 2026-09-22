@@ -53,22 +53,22 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   );
 
   protected sliderItems = [
-    'assets/images/IMG_1.png',
-    'assets/images/IMG_2.png',
-    'assets/images/IMG_3.png',
-    'assets/images/IMG_4.png',
-    'assets/images/IMG_5.png',
-    'assets/images/IMG_6.png',
-    'assets/images/IMG_7.png',
-    'assets/images/IMG_8.png',
-    'assets/images/IMG_9.png',
-    'assets/images/IMG_10.png',
-    'assets/images/IMG_11.png',
-    'assets/images/IMG_12.png',
-    'assets/images/IMG_13.png',
-    'assets/images/IMG_14.png',
-    'assets/images/IMG_15.png',
-    'assets/images/IMG_16.png',
+    '/assets/images/IMG_1.png',
+    '/assets/images/IMG_2.png',
+    '/assets/images/IMG_3.png',
+    '/assets/images/IMG_4.png',
+    '/assets/images/IMG_5.png',
+    '/assets/images/IMG_6.png',
+    '/assets/images/IMG_7.png',
+    '/assets/images/IMG_8.png',
+    '/assets/images/IMG_9.png',
+    '/assets/images/IMG_10.png',
+    '/assets/images/IMG_11.png',
+    '/assets/images/IMG_12.png',
+    '/assets/images/IMG_13.png',
+    '/assets/images/IMG_14.png',
+    '/assets/images/IMG_15.png',
+    '/assets/images/IMG_16.png',
   ];
 
   ngAfterViewInit(): void {

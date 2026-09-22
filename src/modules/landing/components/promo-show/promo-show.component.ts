@@ -41,19 +41,19 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   protected cards = [
     {
       id: 1,
-      img: 'assets/images/card_1.webp',
+      img: '/assets/images/card_1.webp',
       title: 'Корпоративные мероприятия',
       description: 'Современное шоу для корпоративных мероприятий, компаний, деловых встреч, презентаций и специальных событий.'
     },
     {
       id: 2,
-      img: 'assets/images/card_2.webp',
+      img: '/assets/images/card_2.webp',
       title: 'Свадьбы',
       description: 'Эмоциональное шоу, которое объединяет гостей, вовлекает молодоженов и делает свадебное событие по-настоящему запоминающимся.'
     },
     {
       id: 3,
-      img: 'assets/images/card_3.webp',
+      img: '/assets/images/card_3.webp',
       title: 'Частные мероприятия',
       description: 'Формат для дней рождения, юбилеев, закрытых вечеров, семейных праздников и других частных событий.'
     },

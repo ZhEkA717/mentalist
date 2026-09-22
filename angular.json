@@ -31,6 +31,10 @@
             "security": {
               "allowedHosts": ["localhost", "mentalist-f4d9e.web.app"]
             },
+            "allowedCommonJsDependencies": [
+              "@grpc/grpc-js",
+              "@grpc/proto-loader"
+            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [

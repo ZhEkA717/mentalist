@@ -1,9 +1,9 @@
 import {Routes} from '@angular/router';
+import {LandingComponent} from '@modules/landing/pages/landing/landing.component';
 
 export const routes: Routes = [
   {
     path: '',
-    loadChildren: () =>
-      import('../modules/landing/landing.routes').then(m => m.routes),
+    component: LandingComponent,
   }
 ];

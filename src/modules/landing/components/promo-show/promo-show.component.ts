@@ -1,4 +1,5 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject, OnDestroy, signal, viewChild, viewChildren} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject, OnDestroy, PLATFORM_ID, signal, viewChild, viewChildren} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {gsap} from 'gsap';
@@ -16,6 +17,7 @@ import {DrawerComponent} from '../drawer/drawer.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
+  private platformId = inject(PLATFORM_ID);
   private readonly el = inject(ElementRef);
   private readonly sanitizer = inject(DomSanitizer);
   private readonly breakpointObserver = inject(BreakpointObserver);
@@ -58,6 +60,8 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   ];
 
   ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
     const container = this.el.nativeElement;
     this.scrollTriggers.push(...initRevealOnScroll(container));
     this.scrollTriggers.push(...initDimOnScroll(container));
@@ -114,7 +118,9 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
     this.videoModal.destroy();
     this.setTimeoutIds.forEach(id => clearTimeout(id));
     this.scrollTriggers.forEach(t => t.kill());
-    gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll, .dim-on-scroll'));
+    if (isPlatformBrowser(this.platformId)) {
+      gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll, .dim-on-scroll'));
+    }
   }
 
   private initCardFlip(): void {

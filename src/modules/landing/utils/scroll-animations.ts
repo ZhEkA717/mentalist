@@ -1,9 +1,14 @@
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
+const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+
+if (isBrowser) {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export function initRevealOnScroll(container: Element | HTMLElement): ScrollTrigger[] {
+  if (!isBrowser) return [];
   const triggers: ScrollTrigger[] = [];
 
   gsap.utils.toArray<HTMLElement>('.reveal-on-scroll', container).forEach((el) => {
@@ -29,6 +34,7 @@ export function initRevealOnScroll(container: Element | HTMLElement): ScrollTrig
 }
 
 export function initDimOnScroll(container: Element | HTMLElement): ScrollTrigger[] {
+  if (!isBrowser) return [];
   const triggers: ScrollTrigger[] = [];
 
   gsap.utils.toArray<HTMLElement>('.dim-on-scroll', container).forEach((el) => {
@@ -52,6 +58,7 @@ export function killScrollAnimations(
   container: Element | HTMLElement,
   ownedTriggers?: ScrollTrigger[],
 ): void {
+  if (!isBrowser) return;
   if (ownedTriggers) {
     ownedTriggers.forEach((t) => t.kill());
   } else {

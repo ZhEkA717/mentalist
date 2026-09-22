@@ -3,10 +3,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
+  PLATFORM_ID,
   output,
   viewChild
 } from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
 import {SocialsComponent} from '../socials/socials.component';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
@@ -23,6 +26,7 @@ const SUBTITLE_TEXT = 'Менталист • Психологический и�
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeroSectionComponent implements AfterViewInit, OnDestroy {
+  private platformId = inject(PLATFORM_ID);
   private timers: ReturnType<typeof setTimeout | typeof setInterval>[] = [];
   private scrollTriggers: ScrollTrigger[] = [];
   protected subtitleText = SUBTITLE_TEXT;
@@ -39,6 +43,8 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
   sectionClick = output<{id: string; block: ScrollLogicalPosition; offset: number}>();
 
   ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
     this.boot();
     this.initParallax();
   }

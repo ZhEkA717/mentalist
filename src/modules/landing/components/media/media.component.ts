@@ -6,9 +6,11 @@ import {
   ElementRef,
   inject,
   OnDestroy,
+  PLATFORM_ID,
   viewChild,
   viewChildren
 } from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
 import {DomSanitizer} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {CarouselComponent} from '../../components/carousel/carousel.component';
@@ -25,9 +27,12 @@ import {initRevealOnScroll} from '../../utils/scroll-animations';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MediaSectionComponent implements AfterViewInit, OnDestroy {
+  private platformId = inject(PLATFORM_ID);
   private readonly sanitizer = inject(DomSanitizer);
   private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly isRuDomain = this.activatedRoute.snapshot.queryParams['ru'] || window.location.hostname.endsWith('.ru');
+  private readonly isRuDomain = isPlatformBrowser(this.platformId)
+    ? (this.activatedRoute.snapshot.queryParams['ru'] || window.location.hostname.endsWith('.ru'))
+    : false;
   private readonly el = inject(ElementRef);
 
   protected videoContainers = viewChildren<ElementRef<HTMLElement>>('videoContainer');
@@ -67,6 +72,8 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   ];
 
   ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
     this.scrollTriggers.push(...initRevealOnScroll(this.el.nativeElement));
     const id = setTimeout(() => this.initScrollToSecondVideo(), 2200);
     this.setTimeoutIds.push(id);
@@ -77,7 +84,9 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
     this.observer?.disconnect();
     this.setTimeoutIds.forEach(id => clearTimeout(id));
     this.scrollTriggers.forEach(t => t.kill());
-    gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
+    if (isPlatformBrowser(this.platformId)) {
+      gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
+    }
   }
 
   private initScrollToSecondVideo(): void {

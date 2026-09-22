@@ -17,12 +17,14 @@ export function createModalClose(options: ModalCloseOptions = {}) {
   }
 
   function lockScroll(): void {
+    if (typeof document === 'undefined') return;
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
     document.body.style.touchAction = 'none';
   }
 
   function unlockScroll(): void {
+    if (typeof document === 'undefined') return;
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
     document.body.style.touchAction = '';

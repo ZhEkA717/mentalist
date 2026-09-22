@@ -1,4 +1,5 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, signal} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, PLATFORM_ID, signal} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {MarqueeDirective} from '../../directives/marquee.directive';
@@ -30,6 +31,7 @@ gsap.registerPlugin(ScrollTrigger);
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LandingComponent implements AfterViewInit, OnDestroy {
+  private platformId = inject(PLATFORM_ID);
   private styleObserver: MutationObserver | null = null;
   private setTimeoutIds: ReturnType<typeof setTimeout>[] = [];
 
@@ -67,7 +69,9 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   ];
 
   constructor() {
-    history.replaceState(null, '', '/#hero');
+    if (isPlatformBrowser(this.platformId)) {
+      history.replaceState(null, '', '/#hero');
+    }
 
     inject(DestroyRef).onDestroy(() => {
       this.styleObserver?.disconnect();
@@ -83,25 +87,29 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       }
     });
 
-    this.setTimeoutIds.push(setTimeout(() => {
-      const el = document.getElementById(id);
-      if (el) {
-        if (offset) {
-          const y = el.getBoundingClientRect().top + window.scrollY - offset;
-          window.scrollTo({top: y, behavior: 'smooth'});
-        } else {
-          el.scrollIntoView({behavior: 'smooth', block});
+    if (isPlatformBrowser(this.platformId)) {
+      this.setTimeoutIds.push(setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          if (offset) {
+            const y = el.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({top: y, behavior: 'smooth'});
+          } else {
+            el.scrollIntoView({behavior: 'smooth', block});
+          }
         }
-      }
-    }));
+      }));
+    }
   }
 
   ngAfterViewInit(): void {
-    window.scrollTo(0, 0);
-    this.watchStyleChanges();
-    this.setTimeoutIds.push(setTimeout(() => {
-      ScrollTrigger.refresh(true);
-    }, 200));
+    if (isPlatformBrowser(this.platformId)) {
+      window.scrollTo(0, 0);
+      this.watchStyleChanges();
+      this.setTimeoutIds.push(setTimeout(() => {
+        ScrollTrigger.refresh(true);
+      }, 200));
+    }
   }
 
   private watchStyleChanges(): void {
@@ -128,6 +136,8 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     this.styleObserver?.disconnect();
     this.setTimeoutIds.forEach(id => clearTimeout(id));
     ScrollTrigger.getAll().forEach(t => t.kill());
-    gsap.killTweensOf(document.querySelectorAll('.reveal-on-scroll, .dim-on-scroll'));
+    if (isPlatformBrowser(this.platformId)) {
+      gsap.killTweensOf(document.querySelectorAll('.reveal-on-scroll, .dim-on-scroll'));
+    }
   }
 }

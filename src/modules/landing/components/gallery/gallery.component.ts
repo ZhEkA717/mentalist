@@ -1,4 +1,5 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, effect, HostListener, inject, input, model, OnDestroy, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, effect, HostListener, inject, input, model, OnDestroy, PLATFORM_ID, signal} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {DrawerComponent} from '../drawer/drawer.component';
 import {createModalClose} from '../../utils/modal-close';
@@ -12,6 +13,7 @@ import {createModalClose} from '../../utils/modal-close';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GalleryComponent implements OnDestroy {
+  private platformId = inject(PLATFORM_ID);
   public galleryOpen = model<boolean>(false);
   public galleryIndex = model<number>(0);
   sliderItems = input<string[]>([]);
@@ -29,10 +31,12 @@ export class GalleryComponent implements OnDestroy {
   private blockedClick = false;
 
   constructor() {
-    const sub = this.breakpointObserver.observe('(max-width: 950px)').subscribe(result => {
-      this.isMobile.set(result.matches);
-    });
-    this.destroyRef.onDestroy(() => sub.unsubscribe());
+    if (isPlatformBrowser(this.platformId)) {
+      const sub = this.breakpointObserver.observe('(max-width: 950px)').subscribe(result => {
+        this.isMobile.set(result.matches);
+      });
+      this.destroyRef.onDestroy(() => sub.unsubscribe());
+    }
 
     effect(() => {
       if (this.galleryOpen() && !this.isMobile()) {
@@ -89,6 +93,7 @@ export class GalleryComponent implements OnDestroy {
 
   @HostListener('document:keydown', ['$event'])
   onKeydown(event: KeyboardEvent): void {
+    if (!isPlatformBrowser(this.platformId)) return;
     if (!this.galleryOpen) return;
     switch (event.key) {
       case 'Escape':

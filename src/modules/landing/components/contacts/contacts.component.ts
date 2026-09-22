@@ -1,4 +1,5 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject, OnDestroy, signal, TemplateRef, viewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject, OnDestroy, PLATFORM_ID, signal, TemplateRef, viewChild} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TuiCalendar} from '@taiga-ui/core/components/calendar';
@@ -24,6 +25,7 @@ import {createModalClose} from '../../utils/modal-close';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactsSectionComponent implements AfterViewInit, OnDestroy {
+  private platformId = inject(PLATFORM_ID);
   private telegram = inject(TelegramService);
   private readonly notifications = inject(TuiNotificationService);
   private readonly el = inject(ElementRef);
@@ -57,18 +59,22 @@ export class ContactsSectionComponent implements AfterViewInit, OnDestroy {
   calendarRendered = this.calendarModal.rendered;
 
   ngAfterViewInit(): void {
-    this.scrollTriggers.push(...initRevealOnScroll(this.el.nativeElement));
+    if (isPlatformBrowser(this.platformId)) {
+      this.scrollTriggers.push(...initRevealOnScroll(this.el.nativeElement));
 
-    const sub = this.breakpointObserver.observe('(max-width: 950px)').subscribe(result => {
-      this.isMobile.set(result.matches);
-    });
-    this.destroyRef.onDestroy(() => sub.unsubscribe());
+      const sub = this.breakpointObserver.observe('(max-width: 950px)').subscribe(result => {
+        this.isMobile.set(result.matches);
+      });
+      this.destroyRef.onDestroy(() => sub.unsubscribe());
+    }
   }
 
   ngOnDestroy(): void {
     this.calendarModal.destroy();
     this.scrollTriggers.forEach(t => t.kill());
-    gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
+    if (isPlatformBrowser(this.platformId)) {
+      gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
+    }
   }
 
   protected toggleCalendar(): void {

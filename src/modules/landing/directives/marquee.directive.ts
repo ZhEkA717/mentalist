@@ -1,10 +1,12 @@
-import {AfterViewInit, Directive, ElementRef, input, OnDestroy} from '@angular/core';
+import {AfterViewInit, Directive, ElementRef, inject, input, OnDestroy, PLATFORM_ID} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
 
 @Directive({
   selector: '[appMarquee]',
   standalone: true,
 })
 export class MarqueeDirective implements AfterViewInit, OnDestroy {
+  private platformId = inject(PLATFORM_ID);
   private resizeObserver: ResizeObserver | null = null;
 
   private get host(): HTMLElement {
@@ -17,6 +19,8 @@ export class MarqueeDirective implements AfterViewInit, OnDestroy {
   constructor(private el: ElementRef<HTMLElement>) {}
 
   ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
     this.host.style.overflow = 'hidden';
 
     requestAnimationFrame(() => {

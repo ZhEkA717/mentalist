@@ -1,4 +1,5 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnDestroy, output, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnDestroy, output, PLATFORM_ID, signal} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
 import {DrawerComponent} from '../drawer/drawer.component';
 
 @Component({
@@ -10,21 +11,27 @@ import {DrawerComponent} from '../drawer/drawer.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnDestroy {
+  private platformId = inject(PLATFORM_ID);
   items = input.required<{ label: string; href: string; block?: ScrollLogicalPosition; offset?: number }[]>();
   sectionClick = output<{id: string; block: ScrollLogicalPosition; offset: number}>();
 
   menuOpen = signal(false);
-  activeSection = signal(window.location.hash.slice(1));
+  activeSection = signal('');
 
   private onHashChange = () => {
-    this.activeSection.set(window.location.hash.slice(1));
+    if (isPlatformBrowser(this.platformId)) {
+      this.activeSection.set(window.location.hash.slice(1));
+    }
   };
 
   constructor() {
-    window.addEventListener('hashchange', this.onHashChange);
-    inject(DestroyRef).onDestroy(() => {
-      window.removeEventListener('hashchange', this.onHashChange);
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      this.activeSection.set(window.location.hash.slice(1));
+      window.addEventListener('hashchange', this.onHashChange);
+      inject(DestroyRef).onDestroy(() => {
+        window.removeEventListener('hashchange', this.onHashChange);
+      });
+    }
   }
 
   protected toggleMenu(): void {
@@ -33,12 +40,16 @@ export class HeaderComponent implements OnDestroy {
 
   protected scrollTo(event: Event, id: string, block: ScrollLogicalPosition = 'start', offset = 0): void {
     event.preventDefault();
-    window.location.hash = id;
+    if (isPlatformBrowser(this.platformId)) {
+      window.location.hash = id;
+    }
     this.sectionClick.emit({id, block, offset});
     this.menuOpen.set(false);
   }
 
   ngOnDestroy(): void {
-    window.removeEventListener('hashchange', this.onHashChange);
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('hashchange', this.onHashChange);
+    }
   }
 }

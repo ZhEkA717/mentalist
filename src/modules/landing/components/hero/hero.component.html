@@ -1,13 +1,15 @@
 <section class="main" id="hero">
   <div class="main__logo-bg" #logoBg>
-        <img src="/assets/images/logo.png" alt="Александр Шишук — менталист">
+        <img ngSrc="/assets/images/logo.png" alt="Александр Шишук — менталист" width="652" fetchpriority="high" decoding="async"
+             height="289">
   </div>
   <div class="main__bg" #heroBg></div>
   <div class="main__character" #character></div>
   <div class="container">
     <div class="main__content">
       <div class="main__content__logo" #logo>
-    <img src="/assets/images/logo.png" alt="Александр Шишук — менталист">
+    <img ngSrc="/assets/images/logo.png" alt="Александр Шишук — менталист" fetchpriority="high" decoding="async"
+         height="289" width="652">
       </div>
       <h1 class="visually-hidden">Александр Шишук — менталист, психологический иллюзионист</h1>
       <p class="main__content__subtitle" #subtitle>{{ subtitleText }}</p>

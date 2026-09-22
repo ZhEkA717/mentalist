@@ -9,7 +9,7 @@ import {
   output,
   viewChild
 } from '@angular/core';
-import {isPlatformBrowser} from '@angular/common';
+import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {SocialsComponent} from '../socials/socials.component';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
@@ -20,7 +20,7 @@ const SUBTITLE_TEXT = 'Менталист • Психологический и�
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [SocialsComponent],
+  imports: [SocialsComponent, NgOptimizedImage],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

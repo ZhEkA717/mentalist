@@ -8,8 +8,10 @@ import {
   input,
   OnDestroy,
   output,
+  PLATFORM_ID,
   signal,
 } from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {createModalClose} from '../../utils/modal-close';
 
@@ -21,6 +23,7 @@ import {createModalClose} from '../../utils/modal-close';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DrawerComponent implements OnDestroy {
+  private platformId = inject(PLATFORM_ID);
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -46,10 +49,12 @@ export class DrawerComponent implements OnDestroy {
   private closeByButton = signal(false);
 
   constructor() {
-    const sub = this.breakpointObserver.observe('(max-width: 950px)').subscribe(result => {
-      this.isMobile.set(result.matches);
-    });
-    this.destroyRef.onDestroy(() => sub.unsubscribe());
+    if (isPlatformBrowser(this.platformId)) {
+      const sub = this.breakpointObserver.observe('(max-width: 950px)').subscribe(result => {
+        this.isMobile.set(result.matches);
+      });
+      this.destroyRef.onDestroy(() => sub.unsubscribe());
+    }
 
     effect(() => {
       const open = this.isOpen();

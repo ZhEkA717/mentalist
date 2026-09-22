@@ -2,6 +2,8 @@ import {mergeApplicationConfig, ApplicationConfig, signal} from '@angular/core';
 import {provideServerRendering, withRoutes} from '@angular/ssr';
 import {provideNoopAnimations} from '@angular/platform-browser/animations';
 import {TUI_REDUCED_MOTION, TUI_BREAKPOINT, TUI_DARK_MODE} from '@taiga-ui/core/tokens';
+import {WA_ANIMATION_FRAME} from '@ng-web-apis/common';
+import {EMPTY} from 'rxjs';
 import {appConfig} from './app.config';
 import {serverRoutes} from './app.routes.server';
 
@@ -12,6 +14,7 @@ const serverConfig: ApplicationConfig = {
     {provide: TUI_REDUCED_MOTION, useValue: false},
     {provide: TUI_BREAKPOINT, useValue: signal('desktopLarge')},
     {provide: TUI_DARK_MODE, useValue: signal(true)},
+    {provide: WA_ANIMATION_FRAME, useValue: EMPTY},
   ],
 };
 

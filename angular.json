@@ -28,6 +28,9 @@
             "ssr": {
               "entry": "src/server.ts"
             },
+            "security": {
+              "allowedHosts": ["localhost", "mentalist-f4d9e.web.app"]
+            },
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [

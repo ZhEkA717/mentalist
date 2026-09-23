@@ -38,6 +38,11 @@
     @media (max-width: 520px) {
       display: block;
     }
+    transition: transform 0.15s ease;
+
+    &:active {
+      transform: scale(0.9);
+    }
   }
 
   &::before {

@@ -17,8 +17,20 @@
       [class.burger--hidden]="menuOpen()"
       (click)="toggleMenu()"
       type="button"
+      [attr.aria-label]="menuOpen() ? 'Закрыть меню' : 'Открыть меню'"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="main-nav"
+      aria-haspopup="true"
     >
-      <svg width="28" height="20" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg
+        width="28"
+        height="20"
+        viewBox="0 0 28 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        focusable="false"
+      >
         <rect class="burger__line burger__line--1" x="0" y="0" width="28" height="2" rx="1" fill="white"/>
         <rect class="burger__line burger__line--2" x="0" y="9" width="28" height="2" rx="1" fill="white"/>
         <rect class="burger__line burger__line--3" x="0" y="18" width="28" height="2" rx="1" fill="white"/>

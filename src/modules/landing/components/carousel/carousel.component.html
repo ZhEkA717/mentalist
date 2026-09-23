@@ -29,7 +29,7 @@
         [style]="getSliderStyle(i)"
         (click)="openGallery(i)"
       >
-        <img [src]="item" [alt]="'Фото выступления ' + (i + 1)" loading="lazy" decoding="async" width="425" height="283" />
+        <img [src]="item['520']" [srcset]="sliderSrcset(item)" sizes="425px" [alt]="'Фото выступления ' + (i + 1)" loading="lazy" decoding="async" width="425" height="283" />
       </div>
     }
   </div>

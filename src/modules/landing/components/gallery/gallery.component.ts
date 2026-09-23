@@ -3,6 +3,7 @@ import {isPlatformBrowser} from '@angular/common';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {DrawerComponent} from '../drawer/drawer.component';
 import {createModalClose} from '../../utils/modal-close';
+import {sliderSrcset, SliderItem} from '@modules/landing/models/slider-item';
 
 @Component({
   selector: 'app-gallery',
@@ -16,7 +17,8 @@ export class GalleryComponent implements OnDestroy {
   private platformId = inject(PLATFORM_ID);
   public galleryOpen = model<boolean>(false);
   public galleryIndex = model<number>(0);
-  sliderItems = input<string[]>([]);
+  sliderItems = input<SliderItem[]>([]);
+  protected readonly sliderSrcset = sliderSrcset;
 
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly destroyRef = inject(DestroyRef);

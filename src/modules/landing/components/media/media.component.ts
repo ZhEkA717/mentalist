@@ -14,9 +14,17 @@ import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {CarouselComponent} from '../../components/carousel/carousel.component';
+import {SliderItem} from '@modules/landing/models/slider-item';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {initRevealOnScroll} from '../../utils/scroll-animations';
+
+const galleryPhoto = (id: number): SliderItem => ({
+  1900: `/assets/images/carousel/${id}-1900.webp`,
+  1200: `/assets/images/carousel/${id}-1200.webp`,
+  768: `/assets/images/carousel/${id}-768.webp`,
+  520: `/assets/images/carousel/${id}-520.webp`,
+});
 
 @Component({
   selector: 'app-media',
@@ -69,23 +77,33 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   protected readonly activeFlags = signal<boolean[]>(this.videoUrls.map(() => false));
   protected readonly loadingFlags = signal<boolean[]>(this.videoUrls.map(() => false));
 
-  protected sliderItems = [
-    '/assets/images/IMG_1.png',
-    '/assets/images/IMG_2.png',
-    '/assets/images/IMG_3.png',
-    '/assets/images/IMG_4.png',
-    '/assets/images/IMG_5.png',
-    '/assets/images/IMG_6.png',
-    '/assets/images/IMG_7.png',
-    '/assets/images/IMG_8.png',
-    '/assets/images/IMG_9.png',
-    '/assets/images/IMG_10.png',
-    '/assets/images/IMG_11.png',
-    '/assets/images/IMG_12.png',
-    '/assets/images/IMG_13.png',
-    '/assets/images/IMG_14.png',
-    '/assets/images/IMG_15.png',
-    '/assets/images/IMG_16.png',
+  protected sliderItems: SliderItem[] = [
+    galleryPhoto(1),
+    galleryPhoto(2),
+    galleryPhoto(3),
+    galleryPhoto(4),
+    galleryPhoto(5),
+    galleryPhoto(6),
+    galleryPhoto(7),
+    galleryPhoto(8),
+    galleryPhoto(9),
+    galleryPhoto(10),
+    galleryPhoto(11),
+    galleryPhoto(12),
+    galleryPhoto(13),
+    galleryPhoto(14),
+    galleryPhoto(15),
+    galleryPhoto(16),
+    galleryPhoto(17),
+    galleryPhoto(18),
+    galleryPhoto(19),
+    galleryPhoto(20),
+    galleryPhoto(21),
+    galleryPhoto(22),
+    galleryPhoto(23),
+    galleryPhoto(24),
+    galleryPhoto(26),
+    galleryPhoto(27),
   ];
 
   ngAfterViewInit(): void {

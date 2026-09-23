@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, input, signal} from '@angular/core';
 import {GalleryComponent} from '../gallery/gallery.component';
 import {MediaIndicatorsComponent} from '@modules/landing/components/media-indicators/media-indicators.component';
+import {sliderSrcset, SliderItem} from '@modules/landing/models/slider-item';
 
 @Component({
   selector: 'app-carousel',
@@ -14,7 +15,7 @@ import {MediaIndicatorsComponent} from '@modules/landing/components/media-indica
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CarouselComponent {
-  sliderItems = input<string[]>([]);
+  sliderItems = input<SliderItem[]>([]);
   protected currentSlideIndex = signal(0);
 
   private touchStartX = 0;
@@ -53,6 +54,7 @@ export class CarouselComponent {
     }
   }
 
+  protected readonly sliderSrcset = sliderSrcset;
   protected get totalSlides(): number {
     return this.sliderItems().length;
   }

@@ -10,9 +10,15 @@
   &__btn {
     display: flex;
     background: transparent;
+    border: none;
+    padding: 0;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+
+    &:disabled {
+      cursor: default;
+    }
 
 
     &_dot {

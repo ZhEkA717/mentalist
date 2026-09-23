@@ -11,7 +11,7 @@
       [style.justify-content]="fullLength() > maxDotsLength() ? 'flex-start' : 'center'"
     >
       @for (_ of [].constructor(fullLength()); track $index; let i = $index) {
-        <div
+        <button
           type="button"
           class="media-indicators__btn"
           (click)="onPageSelect($event, i)"
@@ -23,9 +23,10 @@
           [attr.aria-label]="'Слайд ' + (i + 1)"
           [attr.aria-current]="i === page() ? 'true' : null"
           [attr.aria-disabled]="disabled() ? 'true' : null"
+          [disabled]="disabled()"
         >
           <div class="media-indicators__btn_dot"></div>
-        </div>
+        </button>
       }
     </div>
   </div>

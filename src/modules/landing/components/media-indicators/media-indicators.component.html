@@ -1,0 +1,32 @@
+@if (fullLength() > 1) {
+  @let dotWidth = size() === 'sm' ? 16 : 28;
+  <div
+    class="media-indicators"
+    [style.width.px]="maxDotsLength() * dotWidth"
+    [class.disabled]="disabled()"
+  >
+    <div
+      class="media-indicators__container"
+      [style.transform]="'translateX(-' + offset * dotWidth + 'px)'"
+      [style.justify-content]="fullLength() > maxDotsLength() ? 'flex-start' : 'center'"
+    >
+      @for (_ of [].constructor(fullLength()); track $index; let i = $index) {
+        <div
+          type="button"
+          class="media-indicators__btn"
+          (click)="onPageSelect($event, i)"
+          [style.flex]="'0 0 ' + dotWidth + 'px'"
+          [style.height.px]="dotWidth"
+          [class.selected]="i === page()"
+          [class.preLastSeen]="i | sitUiPreLastSeen : offset : fullLength() : maxDotsLength()"
+          [class.lastSeen]="i | sitUiLastSeen : offset : fullLength() : maxDotsLength()"
+          [attr.aria-label]="'Слайд ' + (i + 1)"
+          [attr.aria-current]="i === page() ? 'true' : null"
+          [attr.aria-disabled]="disabled() ? 'true' : null"
+        >
+          <div class="media-indicators__btn_dot"></div>
+        </div>
+      }
+    </div>
+  </div>
+}

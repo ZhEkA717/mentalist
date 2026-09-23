@@ -54,18 +54,14 @@
   </button>
 </div>
 <div class="carousel__counter">{{ currentSlideIndex() + 1 }} / {{ totalSlides }}</div>
-<div class="carousel__dots">
-  @for (item of sliderItems(); track item; let i = $index) {
-    <button
-      type="button"
-      class="carousel__dot"
-      [class.carousel__dot--active]="i === currentSlideIndex()"
-      (click)="goToSlide(i)"
-      [attr.aria-label]="'Слайд ' + (i + 1)"
-      [attr.aria-current]="i === currentSlideIndex() ? 'true' : null"
-    ></button>
-  }
-</div>
+<app-media-indicators
+  class="carousel__dots"
+  size="lg"
+  [fullLength]="sliderItems().length"
+  [page]="currentSlideIndex()"
+  [maxDotsLength]="5"
+  (pageChange)="goToSlide($event)"
+></app-media-indicators>
 
 <app-gallery
   [sliderItems]="sliderItems()"

@@ -1,10 +1,12 @@
 import {ChangeDetectionStrategy, Component, input, signal} from '@angular/core';
 import {GalleryComponent} from '../gallery/gallery.component';
+import {MediaIndicatorsComponent} from '@modules/landing/components/media-indicators/media-indicators.component';
 
 @Component({
   selector: 'app-carousel',
   imports: [
-    GalleryComponent
+    GalleryComponent,
+    MediaIndicatorsComponent
   ],
   templateUrl: './carousel.component.html',
   styleUrl: './carousel.component.scss',

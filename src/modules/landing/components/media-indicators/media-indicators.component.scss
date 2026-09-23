@@ -1,0 +1,49 @@
+.media-indicators {
+  margin: 0 auto;
+  overflow: hidden;
+
+  &__container {
+    display: flex;
+    transition: 200ms cubic-bezier(0.86, 0, 0.07, 1);
+  }
+
+  &__btn {
+    display: flex;
+    background: transparent;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+
+    &_dot {
+      width: 50%;
+      height: 50%;
+      background-color: rgba(white, 0.36);
+      border-radius: 50%;
+      transition: 200ms cubic-bezier(0.86, 0, 0.07, 1);
+    }
+
+    &.selected &_dot {
+      background-color: #E6CC89;
+    }
+
+    &.preLastSeen &_dot {
+      width: 37.5%;
+      height: 37.5%;
+    }
+
+    &.lastSeen &_dot {
+      width: 25%;
+      height: 25%;
+    }
+  }
+
+  &.disabled &__btn {
+    cursor: default;
+
+  }
+
+  &.disabled &__btn.selected &__btn_dot {
+    background-color: rgba(0, 0, 0, 0.36);
+  }
+}

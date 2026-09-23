@@ -35,7 +35,6 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
   button = viewChild<ElementRef<HTMLElement>>('button');
   heroBg = viewChild<ElementRef<HTMLElement>>('heroBg');
 
-  bootComplete = output<void>();
   sectionClick = output<{id: string; block: ScrollLogicalPosition; offset: number}>();
 
   ngAfterViewInit(): void {

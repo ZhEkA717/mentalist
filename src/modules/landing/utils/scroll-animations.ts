@@ -53,27 +53,3 @@ export function initDimOnScroll(container: Element | HTMLElement): ScrollTrigger
 
   return triggers;
 }
-
-export function killScrollAnimations(
-  container: Element | HTMLElement,
-  ownedTriggers?: ScrollTrigger[],
-): void {
-  if (!isBrowser) return;
-  if (ownedTriggers) {
-    ownedTriggers.forEach((t) => t.kill());
-  } else {
-    const elements = container.querySelectorAll('.reveal-on-scroll, .dim-on-scroll');
-    elements.forEach((el) => {
-      ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.vars.trigger === el || trigger.trigger === el) {
-          trigger.kill();
-        }
-      });
-    });
-  }
-
-  const revealElements = container.querySelectorAll('.reveal-on-scroll');
-  const dimElements = container.querySelectorAll('.dim-on-scroll');
-  revealElements.forEach((el) => gsap.killTweensOf(el));
-  dimElements.forEach((el) => gsap.killTweensOf(el));
-}

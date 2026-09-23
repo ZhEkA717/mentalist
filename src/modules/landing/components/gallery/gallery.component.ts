@@ -105,7 +105,7 @@ export class GalleryComponent implements OnDestroy {
   @HostListener('document:keydown', ['$event'])
   onKeydown(event: KeyboardEvent): void {
     if (!isPlatformBrowser(this.platformId)) return;
-    if (!this.galleryOpen) return;
+    if (!this.galleryOpen()) return;
     switch (event.key) {
       case 'Escape':
         this.closeGallery();

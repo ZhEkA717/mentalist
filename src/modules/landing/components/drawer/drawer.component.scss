@@ -30,10 +30,6 @@
     animation: slideFromTop 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  &--bottom-open {
-    animation: slideFromBottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
   &--close {
     animation: slideToTop 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
@@ -107,11 +103,6 @@
 @keyframes slideToTop {
   from { transform: translateY(0); }
   to { transform: translateY(-100%); }
-}
-
-@keyframes slideFromBottom {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
 }
 
 @keyframes slideToRight {

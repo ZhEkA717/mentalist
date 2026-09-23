@@ -5,6 +5,7 @@
       (touchstart)="onTouchStart($event)"
       (touchend)="onTouchEnd($event)"
     >
+      <div class="gallery__counter">{{ galleryIndex() + 1 }} / {{ totalSlides }}</div>
       <div class="gallery__viewport">
         @for (slide of galleryWindow(); track slide.index) {
           <picture class="gallery__picture" [class.gallery__picture--active]="slide.index === galleryIndex()">
@@ -15,7 +16,6 @@
           </picture>
         }
       </div>
-      <div class="gallery__counter">{{ galleryIndex() + 1 }} / {{ totalSlides }}</div>
     </div>
   </app-drawer>
 } @else {

@@ -89,7 +89,8 @@
         @media(max-width: 520px) {
           gap: 6px;
           img {
-            height: 42px;
+            height: 42px !important;
+            width: auto;
           }
         }
 

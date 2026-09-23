@@ -1,5 +1,5 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, PLATFORM_ID, signal} from '@angular/core';
-import {isPlatformBrowser} from '@angular/common';
+import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {MarqueeDirective} from '../../directives/marquee.directive';
@@ -27,6 +27,7 @@ gsap.registerPlugin(ScrollTrigger);
     LecturesSectionComponent,
     MediaSectionComponent,
     ContactsSectionComponent,
+    NgOptimizedImage,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -60,12 +61,12 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   ];
 
   protected ribbonItems = [
-    {id: 1, icon: '/assets/images/image_1.png', description: 'Самый титулованный \nменталист СНГ'},
-    {id: 2, icon: '/assets/images/image_2.png', description: '15+ лет \nна сцене'},
-    {id: 3, icon: '/assets/images/image_3.png', description: 'Создатель авторских \nшоу и эффектов'},
-    {id: 4, icon: '/assets/images/image_4.png', description: 'Консультант\nТВ-проектов'},
-    {id: 5, icon: '/assets/images/image_5.png', description: 'Дипломированный \nпсихолог'},
-    {id: 6, icon: '/assets/images/image_6.png', description: 'Спикер международных\nфестивалей'},
+    {id: 1, icon: '/assets/images/image_1.webp', description: 'Самый титулованный \nменталист СНГ', width: '48', height: '79'},
+    {id: 2, icon: '/assets/images/image_2.webp', description: '15+ лет \nна сцене', width: '80', height: '75'},
+    {id: 3, icon: '/assets/images/image_3.webp', description: 'Создатель авторских \nшоу и эффектов', width: '60', height: '79'},
+    {id: 4, icon: '/assets/images/image_4.webp', description: 'Консультант\nТВ-проектов', width: '79', height: '78'},
+    {id: 5, icon: '/assets/images/image_5.webp', description: 'Дипломированный \nпсихолог', width: '97', height: '79'},
+    {id: 6, icon: '/assets/images/image_6.webp', description: 'Спикер международных\nфестивалей', width: '142', height: '78'},
   ];
 
   constructor() {

@@ -71,7 +71,9 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
-      history.replaceState(null, '', '/#hero');
+      if (window.location.hash) {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
     }
 
     inject(DestroyRef).onDestroy(() => {

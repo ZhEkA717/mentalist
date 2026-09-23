@@ -5,7 +5,7 @@
         @for (item of items(); track item.label) {
           <li class="header__nav__item">
             <a [href]="item.href"
-               [class.active]="activeSection() === item.href.slice(1)"
+               [class.active]="(activeSection() === item.href.slice(1)) || (!activeSection() && $index === 0)"
                (click)="scrollTo($event, item.href.slice(1), item.block, item.offset)">{{ item.label }}</a>
           </li>
         }
@@ -42,10 +42,10 @@
 <app-drawer [isOpen]="menuOpen()" (closed)="menuOpen.set(false)">
   <nav class="drawer__nav">
     <ul class="drawer__nav__items">
-      @for (item of items(); track item.label) {
+      @for (item of items(); track item.label;) {
         <li class="drawer__nav__item">
           <a [href]="item.href"
-             [class.active]="activeSection() === item.href.slice(1)"
+             [class.active]="(activeSection() === item.href.slice(1)) || (!activeSection() && $index === 0)"
              (click)="scrollTo($event, item.href.slice(1), item.block, item.offset)">{{ item.label }}</a>
         </li>
       }

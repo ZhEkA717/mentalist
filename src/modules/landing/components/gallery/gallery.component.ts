@@ -51,6 +51,15 @@ export class GalleryComponent implements OnDestroy {
     return this.sliderItems().length;
   }
 
+  protected galleryWindow(): Array<{index: number; item: SliderItem}> {
+    const items = this.sliderItems();
+    const total = items.length;
+    if (total === 0) return [];
+    const mod = (n: number) => (n + total) % total;
+    const idx = this.galleryIndex();
+    return [mod(idx - 1), idx, mod(idx + 1)].map(i => ({index: i, item: items[i]}));
+  }
+
   protected onTouchStart(event: TouchEvent): void {
     this.touchStartX = event.touches[0].clientX;
     this.touchStartY = event.touches[0].clientY;

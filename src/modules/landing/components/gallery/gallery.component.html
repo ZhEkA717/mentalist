@@ -5,12 +5,16 @@
       (touchstart)="onTouchStart($event)"
       (touchend)="onTouchEnd($event)"
     >
-      <picture>
-        @for (source of sliderPictureSources(sliderItems()[galleryIndex()]); track source.media) {
-          <source [media]="source.media" [srcset]="source.srcset" />
+      <div class="gallery__viewport">
+        @for (slide of galleryWindow(); track slide.index) {
+          <picture class="gallery__picture" [class.gallery__picture--active]="slide.index === galleryIndex()">
+            @for (source of sliderPictureSources(slide.item); track source.media) {
+              <source [media]="source.media" [srcset]="source.srcset" />
+            }
+            <img [src]="slide.item['520']" [alt]="'Фото выступления ' + (slide.index + 1)" class="gallery__image" loading="lazy" decoding="async" />
+          </picture>
         }
-        <img [src]="sliderItems()[galleryIndex()]['520']" [alt]="'Фото выступления ' + (galleryIndex() + 1)" class="gallery__image" />
-      </picture>
+      </div>
       <div class="gallery__counter">{{ galleryIndex() + 1 }} / {{ totalSlides }}</div>
     </div>
   </app-drawer>
@@ -50,12 +54,16 @@
         (touchstart)="onTouchStart($event)"
         (touchend)="onTouchEnd($event)"
       >
-        <picture>
-          @for (source of sliderPictureSources(sliderItems()[galleryIndex()]); track source.media) {
-            <source [media]="source.media" [srcset]="source.srcset" />
+        <div class="gallery__viewport">
+          @for (slide of galleryWindow(); track slide.index) {
+            <picture class="gallery__picture" [class.gallery__picture--active]="slide.index === galleryIndex()">
+              @for (source of sliderPictureSources(slide.item); track source.media) {
+                <source [media]="source.media" [srcset]="source.srcset" />
+              }
+              <img [src]="slide.item['520']" [alt]="'Фото выступления ' + (slide.index + 1)" class="gallery__image" loading="lazy" decoding="async" />
+            </picture>
           }
-          <img [src]="sliderItems()[galleryIndex()]['520']" [alt]="'Фото выступления ' + (galleryIndex() + 1)" class="gallery__image" />
-        </picture>
+        </div>
         <div class="gallery__counter">{{ galleryIndex() + 1 }} / {{ totalSlides }}</div>
       </div>
       <button

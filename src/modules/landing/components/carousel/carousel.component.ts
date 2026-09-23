@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, input, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input, OnDestroy, signal} from '@angular/core';
 import {GalleryComponent} from '../gallery/gallery.component';
 import {MediaIndicatorsComponent} from '@modules/landing/components/media-indicators/media-indicators.component';
 import {sliderPictureSources, SliderItem} from '@modules/landing/models/slider-item';
@@ -14,9 +14,13 @@ import {sliderPictureSources, SliderItem} from '@modules/landing/models/slider-i
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CarouselComponent {
+export class CarouselComponent implements OnDestroy {
   sliderItems = input<SliderItem[]>([]);
   protected currentSlideIndex = signal(0);
+
+  private readonly transitionMs = 500;
+  private animating = false;
+  private animTimer: ReturnType<typeof setTimeout> | null = null;
 
   private touchStartX = 0;
   private touchStartY = 0;
@@ -58,20 +62,41 @@ export class CarouselComponent {
   protected get totalSlides(): number {
     return this.sliderItems().length;
   }
+
+  protected isSlideNearby(index: number): boolean {
+    const diff = index - this.currentSlideIndex();
+    const total = this.totalSlides;
+    let normalizedDiff = diff;
+    if (diff > total / 2) normalizedDiff = diff - total;
+    if (diff < -total / 2) normalizedDiff = diff + total;
+    return Math.abs(normalizedDiff) <= 1;
+  }
+
   protected prevSlide(): void {
-    this.currentSlideIndex.set(
+    if (this.animating) return;
+    this.changeSlide(
       (this.currentSlideIndex() - 1 + this.totalSlides) % this.totalSlides,
     );
   }
 
   protected nextSlide(): void {
-    this.currentSlideIndex.set(
-      (this.currentSlideIndex() + 1) % this.totalSlides,
-    );
+    if (this.animating) return;
+    this.changeSlide((this.currentSlideIndex() + 1) % this.totalSlides);
   }
 
   protected goToSlide(index: number): void {
+    if (this.animating || index === this.currentSlideIndex()) return;
+    this.changeSlide(index);
+  }
+
+  private changeSlide(index: number): void {
+    this.animating = true;
     this.currentSlideIndex.set(index);
+    this.animTimer = setTimeout(() => (this.animating = false), this.transitionMs);
+  }
+
+  ngOnDestroy(): void {
+    if (this.animTimer !== null) clearTimeout(this.animTimer);
   }
 
   protected getSliderStyle(index: number): Record<string, string> {

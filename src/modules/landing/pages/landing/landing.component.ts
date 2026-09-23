@@ -90,17 +90,35 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
     if (isPlatformBrowser(this.platformId)) {
       this.setTimeoutIds.push(setTimeout(() => {
-        const el = document.getElementById(id);
-        if (el) {
-          if (offset) {
-            const y = el.getBoundingClientRect().top + window.scrollY - offset;
-            window.scrollTo({top: y, behavior: 'smooth'});
-          } else {
-            el.scrollIntoView({behavior: 'smooth', block});
-          }
-        }
+        this.scrollToSection(id, block, offset);
       }));
     }
+  }
+
+  private scrollToSection(id: string, block: ScrollLogicalPosition, offset: number): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const tryScroll = (): boolean => {
+      const el = document.getElementById(id);
+      if (!el) return false;
+      if (offset) {
+        const y = el.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({top: y, behavior: 'smooth'});
+      } else {
+        el.scrollIntoView({behavior: 'smooth', block});
+      }
+      return true;
+    };
+
+    if (tryScroll()) return;
+
+    let attempts = 0;
+    const retry = (): void => {
+      if (tryScroll() || ++attempts > 40) return;
+      const t = setTimeout(retry, 50);
+      this.setTimeoutIds.push(t);
+    };
+    const t = setTimeout(retry, 50);
+    this.setTimeoutIds.push(t);
   }
 
   ngAfterViewInit(): void {

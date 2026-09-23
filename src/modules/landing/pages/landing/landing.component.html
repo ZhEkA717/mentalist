@@ -2,7 +2,11 @@
   <div class="safe-area"></div>
   <app-header [items]="items" (sectionClick)="onSectionClick($event.id, $event.block, $event.offset)"/>
   <app-hero (sectionClick)="onSectionClick($event.id, $event.block, $event.offset)"/>
-  <app-promo-show/>
+  @defer (on viewport; when showPromo()) {
+    <app-promo-show/>
+  } @placeholder {
+    <div class="landing-section-placeholder landing-section-placeholder--promo"></div>
+  }
   <section class="ribbon" id="ribbon" appMarquee marqueeMode="always">
     <div class="ribbon__content__items">
       @for (item of ribbonItems; track item.id) {
@@ -20,13 +24,29 @@
       }
     </div>
   </section>
-  <app-about/>
-  <app-lectures/>
-  <app-media/>
+  @defer (on viewport; when showAbout()) {
+    <app-about/>
+  } @placeholder {
+    <div class="landing-section-placeholder landing-section-placeholder--about"></div>
+  }
+  @defer (on viewport; when showLectures()) {
+    <app-lectures/>
+  } @placeholder {
+    <div class="landing-section-placeholder landing-section-placeholder--lectures"></div>
+  }
+  @defer (on viewport; when showMedia()) {
+    <app-media/>
+  } @placeholder {
+    <div class="landing-section-placeholder landing-section-placeholder--media"></div>
+  }
   <section class="ribbon2" id="ribbon2" appMarquee>
     <div class="ribbon2__track">
       <span>ШОУ ДЛЯ МЕРОПРИЯТИЙ · МОСКВА ·<br> САНКТ-ПЕТЕРБУРГ · МИНСК · ВЕСЬ МИР</span>
     </div>
   </section>
-  <app-contacts/>
+  @defer (on viewport; when showContacts()) {
+    <app-contacts/>
+  } @placeholder {
+    <div class="landing-section-placeholder landing-section-placeholder--contacts"></div>
+  }
 </main>

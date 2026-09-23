@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="promo__content__image" (click)="openVideo()">
-            <img src="/assets/images/promo.webp" alt="Шоу психологических иллюзий — Александр Шишук" class="dim-on-scroll" loading="lazy" decoding="async" width="515" height="300">
+            <img ngSrc="/assets/images/promo.webp" alt="Шоу психологических иллюзий — Александр Шишук" class="dim-on-scroll" loading="lazy" decoding="async" width="574" height="323">
             <div class="promo__content__image-overlay">
               <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="24" cy="24" r="23" stroke="white" stroke-width="2" opacity="0.8"/>
@@ -45,13 +45,21 @@
             <div class="show__content__item dim-on-scroll">
               <div class="card-inner">
                 <div class="card-front">
-                  <img [src]="card.img" [alt]="card.title" loading="lazy" decoding="async" width="315" height="450" />
+                  <img [ngSrc]="card.img" [alt]="card.title" loading="lazy" decoding="async" width="315" height="450" />
                   <div class="info">
                     <p class="info__title">{{ card.title }}</p>
                     <p class="info__description">{{ card.description }}</p>
-                    <button class="info__button">
+                    <button class="info__button" type="button">
                       <span>Подробнее</span>
-                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
                         <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                       </svg>
                     </button>

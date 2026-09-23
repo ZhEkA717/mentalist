@@ -1,5 +1,5 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject, OnDestroy, PLATFORM_ID, signal, viewChild, viewChildren} from '@angular/core';
-import {isPlatformBrowser} from '@angular/common';
+import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {gsap} from 'gsap';
@@ -11,7 +11,7 @@ import {DrawerComponent} from '../drawer/drawer.component';
 @Component({
   selector: 'app-promo-show',
   standalone: true,
-  imports: [DrawerComponent],
+  imports: [DrawerComponent, NgOptimizedImage],
   templateUrl: './promo-show.component.html',
   styleUrls: ['./promo-show.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

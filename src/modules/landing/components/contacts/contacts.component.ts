@@ -1,5 +1,5 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject, OnDestroy, PLATFORM_ID, signal, TemplateRef, viewChild} from '@angular/core';
-import {isPlatformBrowser} from '@angular/common';
+import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TuiCalendar} from '@taiga-ui/core/components/calendar';
@@ -19,7 +19,7 @@ import {createModalClose} from '../../utils/modal-close';
 @Component({
   selector: 'app-contacts',
   standalone: true,
-  imports: [ReactiveFormsModule, TuiCalendar, TuiLoader, SocialsComponent, DrawerComponent],
+  imports: [ReactiveFormsModule, TuiCalendar, TuiLoader, SocialsComponent, DrawerComponent, NgOptimizedImage],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

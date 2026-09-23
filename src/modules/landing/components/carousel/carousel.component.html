@@ -1,6 +1,19 @@
 <div class="carousel">
-  <button class="carousel__arrow carousel__arrow--left" (click)="prevSlide()">
-    <svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <button
+    type="button"
+    class="carousel__arrow carousel__arrow--left"
+    (click)="prevSlide()"
+    aria-label="Предыдущий слайд"
+  >
+    <svg
+      width="28"
+      height="24"
+      viewBox="0 0 28 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      focusable="false"
+    >
       <path d="M24 12H3M3 12L10 5M3 12L10 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </button>
@@ -20,8 +33,22 @@
       </div>
     }
   </div>
-  <button class="carousel__arrow carousel__arrow--right" (click)="nextSlide()">
-    <svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform: scaleX(-1)">
+  <button
+    type="button"
+    class="carousel__arrow carousel__arrow--right"
+    (click)="nextSlide()"
+    aria-label="Следующий слайд"
+  >
+    <svg
+      width="28"
+      height="24"
+      viewBox="0 0 28 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      focusable="false"
+      style="transform: scaleX(-1)"
+    >
       <path d="M24 12H3M3 12L10 5M3 12L10 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </button>
@@ -30,9 +57,12 @@
 <div class="carousel__dots">
   @for (item of sliderItems(); track item; let i = $index) {
     <button
+      type="button"
       class="carousel__dot"
       [class.carousel__dot--active]="i === currentSlideIndex()"
       (click)="goToSlide(i)"
+      [attr.aria-label]="'Слайд ' + (i + 1)"
+      [attr.aria-current]="i === currentSlideIndex() ? 'true' : null"
     ></button>
   }
 </div>

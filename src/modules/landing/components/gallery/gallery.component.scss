@@ -97,6 +97,10 @@
     gap: 16px;
     width: 95vw;
     height: 90vh;
+
+    picture {
+      display: contents;
+    }
   }
 
   &__image {

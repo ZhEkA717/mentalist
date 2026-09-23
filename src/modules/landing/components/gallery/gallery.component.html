@@ -5,7 +5,12 @@
       (touchstart)="onTouchStart($event)"
       (touchend)="onTouchEnd($event)"
     >
-      <img [src]="sliderItems()[galleryIndex()]['520']" [srcset]="sliderSrcset(sliderItems()[galleryIndex()])" sizes="95vw" [alt]="'Фото выступления ' + (galleryIndex() + 1)" class="gallery__image" />
+      <picture>
+        @for (source of sliderPictureSources(sliderItems()[galleryIndex()]); track source.media) {
+          <source [media]="source.media" [srcset]="source.srcset" />
+        }
+        <img [src]="sliderItems()[galleryIndex()]['520']" [alt]="'Фото выступления ' + (galleryIndex() + 1)" class="gallery__image" />
+      </picture>
       <div class="gallery__counter">{{ galleryIndex() + 1 }} / {{ totalSlides }}</div>
     </div>
   </app-drawer>
@@ -45,7 +50,12 @@
         (touchstart)="onTouchStart($event)"
         (touchend)="onTouchEnd($event)"
       >
-        <img [src]="sliderItems()[galleryIndex()]['520']" [srcset]="sliderSrcset(sliderItems()[galleryIndex()])" sizes="95vw" [alt]="'Фото выступления ' + (galleryIndex() + 1)" class="gallery__image" />
+        <picture>
+          @for (source of sliderPictureSources(sliderItems()[galleryIndex()]); track source.media) {
+            <source [media]="source.media" [srcset]="source.srcset" />
+          }
+          <img [src]="sliderItems()[galleryIndex()]['520']" [alt]="'Фото выступления ' + (galleryIndex() + 1)" class="gallery__image" />
+        </picture>
         <div class="gallery__counter">{{ galleryIndex() + 1 }} / {{ totalSlides }}</div>
       </div>
       <button

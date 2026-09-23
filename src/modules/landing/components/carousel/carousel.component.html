@@ -29,7 +29,12 @@
         [style]="getSliderStyle(i)"
         (click)="openGallery(i)"
       >
-        <img [src]="item['520']" [srcset]="sliderSrcset(item)" sizes="425px" [alt]="'Фото выступления ' + (i + 1)" loading="lazy" decoding="async" width="425" height="283" />
+        <picture>
+          @for (source of sliderPictureSources(item); track source.media) {
+            <source [media]="source.media" [srcset]="source.srcset" />
+          }
+          <img [src]="item['520']" [alt]="'Фото выступления ' + (i + 1)" loading="lazy" decoding="async" width="425" height="283" />
+        </picture>
       </div>
     }
   </div>

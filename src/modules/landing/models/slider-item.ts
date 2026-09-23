@@ -5,6 +5,15 @@ export interface SliderItem {
   '520': string;
 }
 
-export function sliderSrcset(item: SliderItem): string {
-  return `${item['520']} 520w, ${item['768']} 768w, ${item['1200']} 1200w, ${item['1900']} 1900w`;
+export interface SliderPictureSource {
+  media: string;
+  srcset: string;
+}
+
+export function sliderPictureSources(item: SliderItem): SliderPictureSource[] {
+  return [
+    {media: '(min-width: 1200px)', srcset: item['1900']},
+    {media: '(min-width: 768px)', srcset: item['1200']},
+    {media: '(min-width: 520px)', srcset: item['768']},
+  ];
 }

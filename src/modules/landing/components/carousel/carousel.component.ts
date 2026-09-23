@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, input, signal} from '@angular/core';
 import {GalleryComponent} from '../gallery/gallery.component';
 import {MediaIndicatorsComponent} from '@modules/landing/components/media-indicators/media-indicators.component';
-import {sliderSrcset, SliderItem} from '@modules/landing/models/slider-item';
+import {sliderPictureSources, SliderItem} from '@modules/landing/models/slider-item';
 
 @Component({
   selector: 'app-carousel',
@@ -54,7 +54,7 @@ export class CarouselComponent {
     }
   }
 
-  protected readonly sliderSrcset = sliderSrcset;
+  protected readonly sliderPictureSources = sliderPictureSources;
   protected get totalSlides(): number {
     return this.sliderItems().length;
   }

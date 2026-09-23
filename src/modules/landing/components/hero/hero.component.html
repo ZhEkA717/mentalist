@@ -4,7 +4,11 @@
              height="289">
   </div>
   <div class="main__bg" #heroBg></div>
-  <div class="main__character" #character></div>
+  <picture class="main__character" #character>
+    <source media="(max-width: 360px)" srcset="/assets/images/hero-360.webp">
+    <source media="(max-width: 768px)" srcset="/assets/images/hero-768.webp">
+    <img ngSrc="/assets/images/hero.webp" alt="" width="671" height="1006" fetchpriority="high" decoding="async">
+  </picture>
   <div class="container">
     <div class="main__content">
       <div class="main__content__logo" #logo>

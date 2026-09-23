@@ -194,6 +194,15 @@
     width: 100%;
     background-color: #000000;
 
+    &--ribbon {
+      min-height: 150px;
+      background: linear-gradient(180deg, #531317 0%, #3A0D10 120.13%);
+
+      @media(max-width: 520px) {
+        min-height: 90px;
+      }
+    }
+
     &--promo {
       min-height: 1500px;
 

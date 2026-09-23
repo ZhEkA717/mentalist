@@ -7,23 +7,27 @@
   } @placeholder {
     <div class="landing-section-placeholder landing-section-placeholder--promo"></div>
   }
-  <section class="ribbon" id="ribbon" appMarquee marqueeMode="always">
-    <div class="ribbon__content__items">
-      @for (item of ribbonItems; track item.id) {
-        <div class="ribbon__content__item">
-          <img
-            [ngSrc]="item.icon"
-            [alt]="item.description"
-            [width]="item.width"
-            [height]="item.height"
-            loading="lazy"
-            decoding="async"
-          >
-          <p>{{ item.description }}</p>
-        </div>
-      }
-    </div>
-  </section>
+  @defer (on viewport) {
+    <section class="ribbon" id="ribbon" appMarquee marqueeMode="always">
+      <div class="ribbon__content__items">
+        @for (item of ribbonItems; track item.id) {
+          <div class="ribbon__content__item">
+            <img
+              [ngSrc]="item.icon"
+              [alt]="item.description"
+              [width]="item.width"
+              [height]="item.height"
+              loading="lazy"
+              decoding="async"
+            >
+            <p>{{ item.description }}</p>
+          </div>
+        }
+      </div>
+    </section>
+  } @placeholder {
+    <div class="landing-section-placeholder landing-section-placeholder--ribbon"></div>
+  }
   @defer (on viewport; when showAbout()) {
     <app-about/>
   } @placeholder {

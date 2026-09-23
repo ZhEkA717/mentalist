@@ -13,9 +13,30 @@
   @if (rendered()) {
     <div class="gallery-backdrop" [class.gallery-backdrop--closing]="closing()" (click)="closeGallery()" (touchmove)="$event.preventDefault()"></div>
     <div class="gallery" [class.gallery--closing]="closing()">
-      <button class="gallery__close" (click)="closeGallery(); $event.stopPropagation()">✕</button>
-      <button class="gallery__arrow gallery__arrow--left" (click)="galleryPrev(); $event.stopPropagation()">
-        <svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <button
+        type="button"
+        class="gallery__close"
+        (click)="closeGallery();
+        $event.stopPropagation()"
+        aria-label="Закрыть галерею"
+      >
+        <span aria-hidden="true">✕</span>
+      </button>
+      <button
+        type="button"
+        class="gallery__arrow gallery__arrow--left"
+        (click)="galleryPrev(); $event.stopPropagation()"
+        aria-label="Предыдущее изображение"
+      >
+        <svg
+          width="28"
+          height="24"
+          viewBox="0 0 28 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          focusable="false"
+        >
           <path d="M24 12H3M3 12L10 5M3 12L10 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>
@@ -27,8 +48,22 @@
         <img [src]="sliderItems()[galleryIndex()]['520']" [srcset]="sliderSrcset(sliderItems()[galleryIndex()])" sizes="95vw" [alt]="'Фото выступления ' + (galleryIndex() + 1)" class="gallery__image" />
         <div class="gallery__counter">{{ galleryIndex() + 1 }} / {{ totalSlides }}</div>
       </div>
-      <button class="gallery__arrow gallery__arrow--right" (click)="galleryNext(); $event.stopPropagation()">
-        <svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform: scaleX(-1)">
+      <button
+        type="button"
+        class="gallery__arrow gallery__arrow--right"
+        (click)="galleryNext(); $event.stopPropagation()"
+        aria-label="Следующее изображение"
+      >
+        <svg
+          width="28"
+          height="24"
+          viewBox="0 0 28 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style="transform: scaleX(-1)"
+          aria-hidden="true"
+          focusable="false"
+        >
           <path d="M24 12H3M3 12L10 5M3 12L10 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>

@@ -10,7 +10,7 @@ import {
   viewChild,
   viewChildren
 } from '@angular/core';
-import {isPlatformBrowser} from '@angular/common';
+import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {CarouselComponent} from '../../components/carousel/carousel.component';
@@ -21,7 +21,7 @@ import {initRevealOnScroll} from '../../utils/scroll-animations';
 @Component({
   selector: 'app-media',
   standalone: true,
-  imports: [CarouselComponent],
+  imports: [CarouselComponent, NgOptimizedImage],
   templateUrl: './media.component.html',
   styleUrl: './media.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,10 +42,25 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   private scrollTriggers: ScrollTrigger[] = [];
   private setTimeoutIds: ReturnType<typeof setTimeout>[] = [];
 
-  protected readonly videoUrls: Array<{youtube: string; vk: string}> = [
-    {youtube: 'https://www.youtube.com/embed/sNIPgihatyU?enablejsapi=1&autoplay=1', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239035&hash=9ae4ca3a7f22cc57&hd=4&autoplay=1'},
-    {youtube: 'https://www.youtube.com/embed/X3jvY2xpmfc?enablejsapi=1&autoplay=1', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239034&hash=69a23c2952842a28&hd=4&autoplay=1'},
-    {youtube: 'https://www.youtube.com/embed/YulDfOQiDk8?enablejsapi=1&autoplay=1', vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239036&hash=26ddd6f8d47e1ba1&hd=4&autoplay=1'},
+  protected readonly videoUrls: Array<{youtube: string; vk: string, preview: string, alt: string}> = [
+    {
+      youtube: 'https://www.youtube.com/embed/sNIPgihatyU?enablejsapi=1&autoplay=1',
+      vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239035&hash=9ae4ca3a7f22cc57&hd=4&autoplay=1',
+      preview: '/assets/images/preview-1.webp',
+      alt: 'Внушение сквозь 1000 км'
+    },
+    {
+      youtube: 'https://www.youtube.com/embed/X3jvY2xpmfc?enablejsapi=1&autoplay=1',
+      vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239034&hash=69a23c2952842a28&hd=4&autoplay=1',
+      preview: '/assets/images/preview-2.webp',
+      alt: 'Иллюзионно-психологическое шоу на свадьбу'
+    },
+    {
+      youtube: 'https://www.youtube.com/embed/YulDfOQiDk8?enablejsapi=1&autoplay=1',
+      vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239036&hash=26ddd6f8d47e1ba1&hd=4&autoplay=1',
+      preview: '/assets/images/preview-3.webp',
+      alt: 'Менталист о мошенниках'
+    },
   ];
 
   protected readonly resolvedVideos: SafeResourceUrl[] = this.videoUrls.map(v =>

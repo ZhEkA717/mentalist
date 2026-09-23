@@ -18,15 +18,15 @@
         @for (video of videoUrls; track $index) {
           <div class="video-container" #videoContainer>
             @if (!activeFlags()[$index]) {
-              <div type="button" class="video-poster" (click)="activateVideo($index)" aria-label="Включить видео">
-                <img src="/assets/images/IMG_16.png" alt="Видео шоу менталиста" loading="lazy" decoding="async">
+              <button type="button" class="video-poster" (click)="activateVideo($index)" aria-label="Включить видео">
+                <img [ngSrc]="video.preview" [alt]="video.alt" loading="lazy" decoding="async" width="360" height="198">
                 <span class="video-poster__play">
                   <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="24" cy="24" r="23" stroke="white" stroke-width="2" opacity="0.8"/>
                     <path d="M19 15L35 24L19 33V15Z" fill="white" opacity="0.9"/>
                   </svg>
                 </span>
-              </div>
+              </button>
             } @else {
               @if (loadingFlags()[$index]) {
                 <div class="video-spinner" aria-hidden="true">

@@ -18,6 +18,15 @@
     ],
     "headers": [
       {
+        "source": "/ai-catalog.json",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
         "source": "**/*.@(js|css|woff2|woff|ttf|eot)",
         "headers": [
           {

@@ -1,7 +1,8 @@
 <section class="main" id="hero">
   <div class="main__logo-bg" #logoBg>
-        <img ngSrc="/assets/images/logo.webp" alt="Александр Шишук — менталист" width="652" fetchpriority="high" decoding="async"
-             height="289">
+    <img ngSrc="/assets/images/logo-300.webp" alt="Александр Шишук — менталист" width="300" fetchpriority="high"
+         decoding="async"
+         height="133">
   </div>
   <div class="main__bg" #heroBg></div>
   <picture class="main__character" #character>
@@ -12,15 +13,16 @@
   <div class="container">
     <div class="main__content">
       <div class="main__content__logo" #logo>
-    <img ngSrc="/assets/images/logo.webp" alt="Александр Шишук — менталист" fetchpriority="high" decoding="async"
-         height="289" width="652">
+        <img ngSrc="/assets/images/logo.webp" alt="Александр Шишук — менталист" fetchpriority="high" decoding="async"
+             height="289" width="652">
       </div>
       <h1 class="visually-hidden">Александр Шишук — менталист, психологический иллюзионист</h1>
       <p class="main__content__subtitle" #subtitle>{{ subtitleText }}</p>
-      <button (click)="scrollTo($event, 'contacts-form', 'center')" style="margin-bottom: 24px;" class="main__content__button" #button>
+      <button (click)="scrollTo($event, 'contacts-form', 'center')" style="margin-bottom: 24px;"
+              class="main__content__button" #button>
         <span>обсудить мероприятие</span>
       </button>
-      <app-socials #socialsComponent class="hero-socials" />
+      <app-socials #socialsComponent class="hero-socials"/>
     </div>
   </div>
 </section>

@@ -38,6 +38,14 @@
     animation: slideToRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
+  &__top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60px;
+    padding: 8px 0 0;
+  }
+
   &__content {
     flex: 1;
     overflow: hidden;

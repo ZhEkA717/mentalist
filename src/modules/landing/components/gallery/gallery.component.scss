@@ -96,7 +96,7 @@
     justify-content: center;
     gap: 16px;
     width: 95vw;
-    height: 80vh;
+    height: calc(100vh - 120px);
   }
 
   &__viewport {

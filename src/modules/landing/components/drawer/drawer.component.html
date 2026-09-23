@@ -4,6 +4,9 @@
   [class.drawer--static]="!isMobile()"
   [class]="isMobile() ? animationClass() : ''"
 >
+  <div class="drawer__top">
+    <ng-content select="[drawerHeader]"></ng-content>
+  </div>
   <button
     type="button"
     class="drawer__close"

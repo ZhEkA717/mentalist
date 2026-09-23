@@ -69,7 +69,12 @@
                 }
               ],
               "outputHashing": "all",
-              "outputMode": "server"
+              "outputMode": "server",
+              "sourceMap": {
+                "scripts": true,
+                "styles": false,
+                "vendor": false
+              }
             },
             "development": {
               "optimization": false,

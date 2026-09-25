@@ -41,6 +41,10 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   private readonly isRuDomain = isPlatformBrowser(this.platformId)
     ? (this.activatedRoute.snapshot.queryParams['ru'] || window.location.hostname.endsWith('.ru'))
     : false;
+  private readonly isMobileBrowser = isPlatformBrowser(this.platformId)
+    ? /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+      (navigator.maxTouchPoints > 1 && /Macintosh/i.test(navigator.userAgent))
+    : false;
   private readonly el = inject(ElementRef);
 
   protected videoContainers = viewChildren<ElementRef<HTMLElement>>('videoContainer');
@@ -49,31 +53,40 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   private observer: IntersectionObserver | null = null;
   private scrollTriggers: ScrollTrigger[] = [];
   private setTimeoutIds: ReturnType<typeof setTimeout>[] = [];
+  private activeVideoIndex: number | null = null;
+  private loadingTimeoutIds = new Map<number, ReturnType<typeof setTimeout>>();
+  private loadingSpinnerTimeoutIds = new Map<number, ReturnType<typeof setTimeout>>();
+  private scrollLocked = false;
+  private previousDocumentOverflow = '';
+  private previousBodyOverflow = '';
+  private previousBodyTouchAction = '';
 
   protected readonly videoUrls: Array<{youtube: string; vk: string, preview: string, alt: string}> = [
     {
-      youtube: 'https://www.youtube.com/embed/sNIPgihatyU?enablejsapi=1&autoplay=1',
-      vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239035&hash=9ae4ca3a7f22cc57&hd=4&autoplay=1',
+      youtube: 'https://www.youtube.com/embed/sNIPgihatyU?enablejsapi=1&autoplay=1&playsinline=1',
+      vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239035&hash=9ae4ca3a7f22cc57&hd=4&autoplay=1&playsinline=1',
       preview: '/assets/images/preview-1.webp',
       alt: 'Внушение сквозь 1000 км'
     },
     {
-      youtube: 'https://www.youtube.com/embed/X3jvY2xpmfc?enablejsapi=1&autoplay=1',
-      vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239034&hash=69a23c2952842a28&hd=4&autoplay=1',
+      youtube: 'https://www.youtube.com/embed/X3jvY2xpmfc?enablejsapi=1&autoplay=1&playsinline=1',
+      vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239034&hash=69a23c2952842a28&hd=4&autoplay=1&playsinline=1',
       preview: '/assets/images/preview-2.webp',
       alt: 'Иллюзионно-психологическое шоу на свадьбу'
     },
     {
-      youtube: 'https://www.youtube.com/embed/YulDfOQiDk8?enablejsapi=1&autoplay=1',
-      vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239036&hash=26ddd6f8d47e1ba1&hd=4&autoplay=1',
+      youtube: 'https://www.youtube.com/embed/YulDfOQiDk8?enablejsapi=1&autoplay=1&playsinline=1',
+      vk: 'https://vkvideo.ru/video_ext.php?oid=-65614643&id=456239036&hash=26ddd6f8d47e1ba1&hd=4&autoplay=1&playsinline=1',
       preview: '/assets/images/preview-3.webp',
       alt: 'Менталист о мошенниках'
     },
   ];
 
-  protected readonly resolvedVideos: SafeResourceUrl[] = this.videoUrls.map(v =>
-    this.sanitizer.bypassSecurityTrustResourceUrl(this.isRuDomain ? v.vk : v.youtube),
-  );
+  protected readonly resolvedVideos: SafeResourceUrl[] = this.videoUrls.map(v => {
+    const source = this.isRuDomain ? v.vk : v.youtube;
+    const mobileAutoplayParams = this.isMobileBrowser ? '&mute=1&muted=1' : '';
+    return this.sanitizer.bypassSecurityTrustResourceUrl(source + mobileAutoplayParams);
+  });
   protected readonly activeFlags = signal<boolean[]>(this.videoUrls.map(() => false));
   protected readonly loadingFlags = signal<boolean[]>(this.videoUrls.map(() => false));
 
@@ -97,8 +110,11 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.observer?.disconnect();
     this.setTimeoutIds.forEach(id => clearTimeout(id));
+    this.loadingTimeoutIds.forEach(id => clearTimeout(id));
+    this.loadingSpinnerTimeoutIds.forEach(id => clearTimeout(id));
     this.scrollTriggers.forEach(t => t.kill());
     if (isPlatformBrowser(this.platformId)) {
+      this.unlockScroll();
       killGsapTweens(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
     }
   }
@@ -138,22 +154,35 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   private readonly loadingStartedAt = new Map<number, number>();
 
   protected activateVideo(index: number): void {
-    this.activeFlags.update(flags => {
-      const next = [...flags];
-      next[index] = true;
-      return next;
-    });
+    if (
+      index < 0 ||
+      index >= this.videoUrls.length ||
+      this.activeVideoIndex === index
+    ) return;
+
+    if (this.activeVideoIndex !== null) {
+      this.deactivateVideo(this.activeVideoIndex);
+    }
+
+    this.activeVideoIndex = index;
+    this.lockScroll();
     this.loadingStartedAt.set(index, Date.now());
-    this.loadingFlags.update(flags => {
-      const next = [...flags];
-      next[index] = true;
-      return next;
-    });
+    this.activeFlags.set(this.videoUrls.map((_, videoIndex) => videoIndex === index));
+    this.loadingFlags.set(this.videoUrls.map((_, videoIndex) => videoIndex === index));
+
     const id = setTimeout(() => this.clearLoading(index), 8000);
+    this.loadingTimeoutIds.set(index, id);
     this.setTimeoutIds.push(id);
   }
 
-  protected onVideoLoaded(index: number): void {
+  protected onVideoLoaded(index: number, iframe: HTMLIFrameElement): void {
+    if (
+      this.getVideoIframe(index) !== iframe ||
+      this.activeVideoIndex !== index ||
+      !this.loadingFlags()[index]
+    ) return;
+
+    this.requestVideoPlayback(index);
     const started = this.loadingStartedAt.get(index) ?? 0;
     const elapsed = Date.now() - started;
     const remaining = this.MIN_SPINNER_MS - elapsed;
@@ -161,63 +190,154 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
       this.clearLoading(index);
       return;
     }
+    if (this.loadingSpinnerTimeoutIds.has(index)) return;
     const id = setTimeout(() => this.clearLoading(index), remaining);
+    this.loadingSpinnerTimeoutIds.set(index, id);
     this.setTimeoutIds.push(id);
   }
 
+  protected onVideoError(index: number, iframe: HTMLIFrameElement): void {
+    if (this.getVideoIframe(index) !== iframe || this.activeVideoIndex !== index) return;
+    this.clearLoading(index);
+  }
+
   private clearLoading(index: number): void {
+    if (this.activeVideoIndex !== index || !this.loadingFlags()[index]) return;
+
+    const timeoutId = this.loadingTimeoutIds.get(index);
+    if (timeoutId !== undefined) {
+      clearTimeout(timeoutId);
+      this.loadingTimeoutIds.delete(index);
+    }
+    const spinnerTimeoutId = this.loadingSpinnerTimeoutIds.get(index);
+    if (spinnerTimeoutId !== undefined) {
+      clearTimeout(spinnerTimeoutId);
+      this.loadingSpinnerTimeoutIds.delete(index);
+    }
+    this.loadingStartedAt.delete(index);
     this.loadingFlags.update(flags => {
       const next = [...flags];
       next[index] = false;
       return next;
     });
+    this.unlockScroll();
   }
 
   private initVideoObserver(): void {
-    const section = this.videosSection()?.nativeElement;
-    if (!section) return;
+    const containers = this.videoContainers();
+    if (!containers.length) return;
 
-    this.observer = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (!entry.isIntersecting) {
-            this.pauseVideos();
+          if (entry.isIntersecting) continue;
+          const index = Number((entry.target as HTMLElement).dataset['videoIndex']);
+          if (!Number.isNaN(index)) {
+            this.pauseVideoAtIndex(index);
           }
         }
       },
       { threshold: 0 },
     );
-    this.observer.observe(section);
+    containers.forEach(container => observer.observe(container.nativeElement));
+    this.observer = observer;
   }
 
-  private pauseVideos(): void {
-    const section = this.videosSection()?.nativeElement;
-    if (!section) return;
+  private pauseVideoAtIndex(index: number): void {
+    if (this.activeVideoIndex !== index) return;
 
-    section.querySelectorAll<HTMLIFrameElement>('iframe').forEach((iframe) => {
-      const src = iframe.src;
-      const isYouTube = src.includes('youtube.com');
+    const iframe = this.getVideoIframe(index);
+    if (!iframe) return;
 
-      if (isYouTube) {
-        try {
-          iframe.contentWindow?.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-        } catch {}
-      } else {
-        const index = Number(iframe.getAttribute('data-video-index'));
-        if (!Number.isNaN(index)) {
-          this.deactivateVideo(index);
-        }
-      }
-    });
+    if (this.loadingFlags()[index]) {
+      this.deactivateVideo(index);
+      return;
+    }
+
+    if (iframe.src.includes('youtube.com')) {
+      this.postYouTubeCommand(iframe, 'pauseVideo');
+    } else {
+      this.deactivateVideo(index);
+    }
   }
 
   private deactivateVideo(index: number): void {
-    this.activeFlags.update(flags => {
-      const next = [...flags];
-      next[index] = false;
-      return next;
-    });
-    this.clearLoading(index);
+    if (this.activeVideoIndex !== index) return;
+
+    this.pauseVideo(index);
+    const timeoutId = this.loadingTimeoutIds.get(index);
+    if (timeoutId !== undefined) {
+      clearTimeout(timeoutId);
+      this.loadingTimeoutIds.delete(index);
+    }
+    const spinnerTimeoutId = this.loadingSpinnerTimeoutIds.get(index);
+    if (spinnerTimeoutId !== undefined) {
+      clearTimeout(spinnerTimeoutId);
+      this.loadingSpinnerTimeoutIds.delete(index);
+    }
     this.loadingStartedAt.delete(index);
+    this.activeFlags.set(this.videoUrls.map(() => false));
+    this.loadingFlags.set(this.videoUrls.map(() => false));
+    this.activeVideoIndex = null;
+    this.unlockScroll();
+  }
+
+  private requestVideoPlayback(index: number): void {
+    const iframe = this.getVideoIframe(index);
+    if (!iframe || !iframe.src.includes('youtube.com')) return;
+    this.postYouTubeCommand(iframe, 'playVideo');
+  }
+
+  private pauseVideo(index: number): void {
+    const iframe = this.getVideoIframe(index);
+    if (!iframe || !iframe.src.includes('youtube.com')) return;
+    this.postYouTubeCommand(iframe, 'pauseVideo');
+  }
+
+  private postYouTubeCommand(iframe: HTMLIFrameElement, func: 'playVideo' | 'pauseVideo'): void {
+    try {
+      iframe.contentWindow?.postMessage(
+        JSON.stringify({ event: 'command', func, args: '' }),
+        '*',
+      );
+    } catch {}
+  }
+
+  private getVideoIframe(index: number): HTMLIFrameElement | null {
+    if (index < 0 || index >= this.videoUrls.length) return null;
+    return this.videosSection()?.nativeElement.querySelector<HTMLIFrameElement>(
+      `iframe[data-video-index="${index}"]`,
+    ) ?? null;
+  }
+
+  private lockScroll(): void {
+    if (
+      this.scrollLocked ||
+      !isPlatformBrowser(this.platformId) ||
+      typeof document === 'undefined'
+    ) return;
+
+    const body = document.body;
+    if (!body) return;
+
+    this.previousDocumentOverflow = document.documentElement.style.overflow;
+    this.previousBodyOverflow = body.style.overflow;
+    this.previousBodyTouchAction = body.style.touchAction;
+    document.documentElement.style.overflow = 'hidden';
+    body.style.overflow = 'hidden';
+    body.style.touchAction = 'none';
+    this.scrollLocked = true;
+  }
+
+  private unlockScroll(): void {
+    if (!this.scrollLocked || !isPlatformBrowser(this.platformId) || typeof document === 'undefined') return;
+
+    const body = document.body;
+    if (body) {
+      body.style.overflow = this.previousBodyOverflow;
+      body.style.touchAction = this.previousBodyTouchAction;
+    }
+    document.documentElement.style.overflow = this.previousDocumentOverflow;
+    this.scrollLocked = false;
   }
 }

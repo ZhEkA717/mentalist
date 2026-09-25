@@ -1,22 +1,23 @@
 <section class="main" id="hero">
   <div class="main__logo-bg" #logoBg>
-    <img ngSrc="/assets/images/logo-768.png" alt="Александр Шишук — менталист" width="300"
-         decoding="async"
-         height="133">
+    <img ngSrc="/assets/images/logo-768.png" alt="Александр Шишук — менталист" width="300" height="133">
   </div>
-  <div class="main__bg" #heroBg></div>
+  <picture class="main__bg" #heroBg>
+    <source media="(max-width: 360px)" srcset="/assets/images/background-hero-360.webp">
+    <source media="(max-width: 520px)" srcset="/assets/images/background-hero-520.webp">
+    <source media="(max-width: 768px)" srcset="/assets/images/background-hero-768.webp">
+    <img src="/assets/images/background-hero.webp" alt="Задний фон сцена" aria-hidden="true" height="1201"
+         width="1920">
+  </picture>
   <picture class="main__character">
     <source media="(max-width: 360px)" srcset="/assets/images/hero-360.webp">
     <source media="(max-width: 768px)" srcset="/assets/images/hero-768.webp">
-    <img src="/assets/images/hero.webp" alt="Александр Шишук" width="671" height="1006" fetchpriority="high" decoding="sync" loading="eager">
+    <img src="/assets/images/hero.webp" alt="Александр Шишук" width="671" height="1006">
   </picture>
   <div class="container">
     <div class="main__content">
       <div class="main__content__logo">
-        <picture>
-          <img ngSrc="/assets/images/logo.webp" alt="Александр Шишук — менталист" fetchpriority="high" decoding="async"
-               height="289" width="652">
-        </picture>
+        <img src="/assets/images/logo.webp" alt="Александр Шишук — менталист" height="289" width="652">
       </div>
       <h1 class="visually-hidden">Александр Шишук — менталист, психологический иллюзионист</h1>
       <p class="main__content__subtitle">{{ subtitleText }}</p>

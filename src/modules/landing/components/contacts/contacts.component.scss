@@ -29,6 +29,10 @@
   background-size: cover;
   background-position-x: center;
 
+  @media (min-width: 1920px) {
+    background-image: url("/assets/images/background-contacts.webp");
+  }
+
   @media(max-width: 1400px) {
     background-image: url("/assets/images/background-contacts.webp");
   }

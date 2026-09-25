@@ -1,5 +1,7 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, PLATFORM_ID, signal} from '@angular/core';
-import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
+import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, PLATFORM_ID, Renderer2, signal} from '@angular/core';
+import {DOCUMENT, isPlatformBrowser, NgOptimizedImage} from '@angular/common';
+import {Meta, Title} from '@angular/platform-browser';
+import {landingMetaConfig} from '../../config/landing-meta.config';
 import {isGsapLoaded, loadGsap, onGsapLoaded} from '../../utils/gsap';
 import {MarqueeDirective} from '../../directives/marquee.directive';
 import {HeaderComponent} from '../../components/header/header.component';
@@ -30,8 +32,30 @@ import {ContactsSectionComponent} from '../../components/contacts/contacts.compo
 })
 export class LandingComponent implements AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
+  private readonly title = inject(Title);
+  private readonly meta = inject(Meta);
+  private readonly renderer = inject(Renderer2);
+  private readonly document = inject<Document>(DOCUMENT);
   private styleObserver: MutationObserver | null = null;
   private setTimeoutIds: ReturnType<typeof setTimeout>[] = [];
+  private structuredDataScript: HTMLScriptElement | null = null;
+
+  private readonly managedMetaSelectors = [
+    'name="description"',
+    'name="robots"',
+    'rel="canonical"',
+    'property="og:type"',
+    'property="og:locale"',
+    'property="og:site_name"',
+    'property="og:title"',
+    'property="og:description"',
+    'property="og:url"',
+    'property="og:image"',
+    'name="twitter:card"',
+    'name="twitter:title"',
+    'name="twitter:description"',
+    'name="twitter:image"',
+  ];
 
   protected showPromo = signal(false);
   protected showAbout = signal(false);
@@ -67,6 +91,8 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   ];
 
   constructor() {
+    this.applyMeta(landingMetaConfig);
+
     if (isPlatformBrowser(this.platformId)) {
       if (window.location.hash) {
         history.replaceState(null, '', window.location.pathname + window.location.search);
@@ -76,6 +102,43 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     inject(DestroyRef).onDestroy(() => {
       this.styleObserver?.disconnect();
     });
+  }
+
+  private applyMeta(config: typeof landingMetaConfig): void {
+    this.managedMetaSelectors.forEach(selector => this.meta.removeTag(selector));
+
+    this.title.setTitle(config.title);
+    this.meta.addTag({name: 'description', content: config.description});
+    this.meta.addTag({name: 'robots', content: config.robots});
+    this.meta.addTag({rel: 'canonical', href: config.canonical});
+    this.meta.addTag({property: 'og:type', content: config.og.type});
+    this.meta.addTag({property: 'og:locale', content: config.og.locale});
+    this.meta.addTag({property: 'og:site_name', content: config.og.siteName});
+    this.meta.addTag({property: 'og:title', content: config.og.title});
+    this.meta.addTag({property: 'og:description', content: config.og.description});
+    this.meta.addTag({property: 'og:url', content: config.og.url});
+    this.meta.addTag({property: 'og:image', content: config.og.image});
+    this.meta.addTag({name: 'twitter:card', content: config.twitter.card});
+    this.meta.addTag({name: 'twitter:title', content: config.twitter.title});
+    this.meta.addTag({name: 'twitter:description', content: config.twitter.description});
+    this.meta.addTag({name: 'twitter:image', content: config.twitter.image});
+
+    this.setStructuredData(config.structuredData);
+  }
+
+  private setStructuredData(data: Record<string, unknown>): void {
+    this.removeStructuredData();
+    const script = this.renderer.createElement('script');
+    this.renderer.setAttribute(script, 'type', 'application/ld+json');
+    this.renderer.setProperty(script, 'textContent', JSON.stringify(data));
+    this.renderer.appendChild(this.document.head, script);
+    this.structuredDataScript = script;
+  }
+
+  private removeStructuredData(): void {
+    if (!this.structuredDataScript) return;
+    this.renderer.removeChild(this.document.head, this.structuredDataScript);
+    this.structuredDataScript = null;
   }
 
   protected onSectionClick(id: string, block: ScrollLogicalPosition = 'start', offset = 0): void {
@@ -159,6 +222,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.removeStructuredData();
     this.styleObserver?.disconnect();
     this.setTimeoutIds.forEach(id => clearTimeout(id));
     if (isPlatformBrowser(this.platformId) && isGsapLoaded()) {

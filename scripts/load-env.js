@@ -47,4 +47,4 @@ const outPath = path.resolve(__dirname, '..', 'src', 'environments', 'environmen
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
 fs.writeFileSync(outPath, envTs, 'utf-8');
 
-console.log('✅ Generated src/environments/environment.ts');
+console.log('✅ Generated src/environment/environment.ts');

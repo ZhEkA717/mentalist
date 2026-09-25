@@ -2,12 +2,12 @@
   <div class="safe-area"></div>
   <app-header [items]="items" (sectionClick)="onSectionClick($event.id, $event.block, $event.offset)"/>
   <app-hero (sectionClick)="onSectionClick($event.id, $event.block, $event.offset)"/>
-  @defer (on viewport; when showPromo()) {
+<!--  @defer (on viewport; when showPromo()) {-->
     <app-promo-show/>
-  } @placeholder {
-    <div class="landing-section-placeholder landing-section-placeholder--promo"></div>
-  }
-  @defer (on viewport) {
+<!--  } @placeholder {-->
+<!--    <div class="landing-section-placeholder landing-section-placeholder&#45;&#45;promo"></div>-->
+<!--  }-->
+<!--  @defer (on viewport) {-->
     <section class="ribbon" id="ribbon" appMarquee marqueeMode="always">
       <div class="ribbon__content__items">
         @for (item of ribbonItems; track item.id) {
@@ -25,32 +25,32 @@
         }
       </div>
     </section>
-  } @placeholder {
-    <div class="landing-section-placeholder landing-section-placeholder--ribbon"></div>
-  }
-  @defer (on viewport; when showAbout()) {
+<!--  } @placeholder {-->
+<!--    <div class="landing-section-placeholder landing-section-placeholder&#45;&#45;ribbon"></div>-->
+<!--  }-->
+<!--  @defer (on viewport; when showAbout()) {-->
     <app-about/>
-  } @placeholder {
-    <div class="landing-section-placeholder landing-section-placeholder--about"></div>
-  }
-  @defer (on viewport; when showLectures()) {
+<!--  } @placeholder {-->
+<!--    <div class="landing-section-placeholder landing-section-placeholder&#45;&#45;about"></div>-->
+<!--  }-->
+<!--  @defer (on viewport; when showLectures()) {-->
     <app-lectures/>
-  } @placeholder {
-    <div class="landing-section-placeholder landing-section-placeholder--lectures"></div>
-  }
-  @defer (on viewport; when showMedia()) {
+<!--  } @placeholder {-->
+<!--    <div class="landing-section-placeholder landing-section-placeholder&#45;&#45;lectures"></div>-->
+<!--  }-->
+<!--  @defer (on viewport; when showMedia()) {-->
     <app-media/>
-  } @placeholder {
-    <div class="landing-section-placeholder landing-section-placeholder--media"></div>
-  }
+<!--  } @placeholder {-->
+<!--    <div class="landing-section-placeholder landing-section-placeholder&#45;&#45;media"></div>-->
+<!--  }-->
   <section class="ribbon2" id="ribbon2" appMarquee>
     <div class="ribbon2__track">
       <span>ШОУ ДЛЯ МЕРОПРИЯТИЙ · МОСКВА ·<br> САНКТ-ПЕТЕРБУРГ · МИНСК · ВЕСЬ МИР</span>
     </div>
   </section>
-  @defer (on viewport; when showContacts()) {
+<!--  @defer (on viewport; when showContacts()) {-->
     <app-contacts/>
-  } @placeholder {
-    <div class="landing-section-placeholder landing-section-placeholder--contacts"></div>
-  }
+<!--  } @placeholder {-->
+<!--    <div class="landing-section-placeholder landing-section-placeholder&#45;&#45;contacts"></div>-->
+<!--  }-->
 </main>

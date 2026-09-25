@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "env": "node scripts/load-env.js",
-    "start": "node scripts/load-env.js && ng serve --host 192.168.100.6",
+    "start": "node scripts/load-env.js && ng serve",
+    "start-host": "node scripts/load-env.js && ng serve --host 192.168.100.6",
     "build": "node scripts/load-env.js && ng build && node scripts/postbuild.js",
     "deploy": "npm run build && firebase deploy --only hosting",
     "watch": "node scripts/load-env.js && ng build --watch --configuration development",

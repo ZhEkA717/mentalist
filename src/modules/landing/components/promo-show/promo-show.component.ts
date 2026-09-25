@@ -132,28 +132,34 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   }
 
   protected closeVideo(): void {
-    this.videoLoadPending = false;
-    this.videoLoading.set(false);
-    this.videoUrl = this.blankUrl;
+    this.stopVideo();
     if (this.isMobile()) {
       this.videoOpen.set(false);
+      this.clearVideoSource();
     } else {
       this.videoModal.close(() => {
         this.videoOpen.set(false);
+        this.clearVideoSource();
       });
     }
   }
 
   protected onDrawerClosingStart(): void {
-    this.videoLoadPending = false;
-    this.videoLoading.set(false);
-    this.videoUrl = this.blankUrl;
+    this.stopVideo();
   }
 
   protected onDrawerClosed(): void {
     this.videoOpen.set(false);
+    this.stopVideo();
+    this.clearVideoSource();
+  }
+
+  private stopVideo(): void {
     this.videoLoadPending = false;
     this.videoLoading.set(false);
+  }
+
+  private clearVideoSource(): void {
     this.videoUrl = this.blankUrl;
   }
 

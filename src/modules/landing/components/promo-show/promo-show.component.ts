@@ -1,10 +1,21 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject, OnDestroy, PLATFORM_ID, signal, viewChild, viewChildren} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  inject,
+  OnDestroy,
+  PLATFORM_ID,
+  signal,
+  viewChild
+} from '@angular/core';
 import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {initDimOnScroll, initRevealOnScroll} from '../../utils/scroll-animations';
-import {killGsapTweens, loadGsap} from '../../utils/gsap';
 import type {ScrollTrigger} from '../../utils/gsap';
+import {killGsapTweens, loadGsap} from '../../utils/gsap';
 import {createModalClose} from '../../utils/modal-close';
 import {DrawerComponent} from '../drawer/drawer.component';
 
@@ -24,9 +35,6 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   private readonly destroyRef = inject(DestroyRef);
   private scrollTriggers: ScrollTrigger[] = [];
   private setTimeoutIds: ReturnType<typeof setTimeout>[] = [];
-
-  protected videoContainers = viewChildren<ElementRef<HTMLElement>>('videoContainer');
-  protected videosSection = viewChild<ElementRef<HTMLElement>>('videosSection');
   protected cardsContainer = viewChild<ElementRef<HTMLElement>>('cardsContainer');
   protected videoOpen = signal(false);
   private readonly blankUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
@@ -46,18 +54,21 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
     {
       id: 1,
       img: '/assets/images/card_1.webp',
+      imgSmall: '/assets/images/card_1-274x285.webp',
       title: 'Корпоративные мероприятия',
       description: 'Современное шоу для корпоративных мероприятий, компаний, деловых встреч, презентаций и специальных событий.'
     },
     {
       id: 2,
       img: '/assets/images/card_2.webp',
+      imgSmall: '/assets/images/card_2-274x284.webp',
       title: 'Свадьбы',
       description: 'Эмоциональное шоу, которое объединяет гостей, вовлекает молодоженов и делает свадебное событие по-настоящему запоминающимся.'
     },
     {
       id: 3,
       img: '/assets/images/card_3.webp',
+      imgSmall: '/assets/images/card_3-274x311.webp',
       title: 'Частные мероприятия',
       description: 'Формат для дней рождения, юбилеев, закрытых вечеров, семейных праздников и других частных событий.'
     },

@@ -70,6 +70,14 @@
               ],
               "outputHashing": "all",
               "outputMode": "server",
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": true
+                },
+                "fonts": true
+              },
               "sourceMap": {
                 "scripts": true,
                 "styles": false,

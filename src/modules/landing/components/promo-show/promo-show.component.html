@@ -45,7 +45,10 @@
             <div class="show__content__item dim-on-scroll">
               <div class="card-inner">
                 <div class="card-front">
-                  <img [ngSrc]="card.img" [alt]="card.title" loading="lazy" decoding="async" width="315" height="450" />
+                  <picture>
+                    <source media="(max-width: 1025px)" [srcset]="card.imgSmall">
+                    <img [ngSrc]="card.img" [alt]="card.title" loading="lazy" decoding="async" width="315" height="450" />
+                  </picture>
                   <div class="info">
                     <p class="info__title">{{ card.title }}</p>
                     <p class="info__description">{{ card.description }}</p>

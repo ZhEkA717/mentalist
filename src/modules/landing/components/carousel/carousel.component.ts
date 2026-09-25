@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, input, OnDestroy, signal} from '@angular/core';
 import {GalleryComponent} from '../gallery/gallery.component';
+import {ImageSkeletonDirective} from '../../directives/image-skeleton.directive';
 import {MediaIndicatorsComponent} from '@modules/landing/components/media-indicators/media-indicators.component';
 import {sliderPictureSources, SliderItem} from '@modules/landing/models/slider-item';
 
@@ -7,7 +8,8 @@ import {sliderPictureSources, SliderItem} from '@modules/landing/models/slider-i
   selector: 'app-carousel',
   imports: [
     GalleryComponent,
-    MediaIndicatorsComponent
+    MediaIndicatorsComponent,
+    ImageSkeletonDirective
   ],
   templateUrl: './carousel.component.html',
   styleUrl: './carousel.component.scss',

@@ -11,7 +11,7 @@
             @for (source of sliderPictureSources(slide.item); track source.media) {
               <source [media]="source.media" [srcset]="source.srcset" />
             }
-            <img [src]="slide.item['520']" [alt]="'Фото выступления ' + (slide.index + 1)" class="gallery__image" loading="lazy" decoding="async" />
+            <img [src]="slide.item['520']" [alt]="'Фото выступления ' + (slide.index + 1)" class="gallery__image" appSkeleton loading="lazy" decoding="async" />
           </picture>
         }
       </div>
@@ -60,7 +60,7 @@
               @for (source of sliderPictureSources(slide.item); track source.media) {
                 <source [media]="source.media" [srcset]="source.srcset" />
               }
-              <img [src]="slide.item['520']" [alt]="'Фото выступления ' + (slide.index + 1)" class="gallery__image" loading="lazy" decoding="async" />
+              <img [src]="slide.item['520']" [alt]="'Фото выступления ' + (slide.index + 1)" class="gallery__image" appSkeleton loading="lazy" decoding="async" />
             </picture>
           }
         </div>

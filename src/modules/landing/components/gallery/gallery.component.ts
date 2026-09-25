@@ -2,12 +2,13 @@ import {ChangeDetectionStrategy, Component, DestroyRef, effect, HostListener, in
 import {isPlatformBrowser} from '@angular/common';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {DrawerComponent} from '../drawer/drawer.component';
+import {ImageSkeletonDirective} from '../../directives/image-skeleton.directive';
 import {createModalClose} from '../../utils/modal-close';
 import {sliderPictureSources, SliderItem} from '@modules/landing/models/slider-item';
 
 @Component({
   selector: 'app-gallery',
-  imports: [DrawerComponent],
+  imports: [DrawerComponent, ImageSkeletonDirective],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
   standalone: true,

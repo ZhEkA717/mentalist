@@ -121,15 +121,47 @@
     &--active {
       opacity: 1;
     }
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-color: rgba(255, 255, 255, 0.04);
+      background-image: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0.04) 0%,
+        rgba(230, 204, 137, 0.18) 40%,
+        rgba(255, 255, 255, 0.04) 80%
+      );
+      background-size: 200% 100%;
+      background-repeat: no-repeat;
+      background-position: 100% 0;
+      animation: gallery-skeleton-shimmer 1.2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    &:has(img.is-loaded)::before {
+      opacity: 0;
+      animation: none;
+    }
   }
 
   &__image {
+    position: relative;
+    z-index: 1;
     width: 100%;
     height: auto;
     max-height: calc(100% - 40px);
     object-fit: contain;
     user-select: none;
     -webkit-user-drag: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    &.is-loaded {
+      opacity: 1;
+    }
   }
 
   &__counter {
@@ -159,4 +191,14 @@
 @keyframes slideToBottom {
   from { transform: translateY(0); }
   to { transform: translateY(100%); }
+}
+
+@keyframes gallery-skeleton-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: -100% 0;
+  }
 }

@@ -37,10 +37,41 @@
     }
 
     img {
+      position: relative;
+      z-index: 1;
       width: 100%;
       height: 100%;
       object-fit: cover;
       aspect-ratio: 425 / 283;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+
+      &.is-loaded {
+        opacity: 1;
+      }
+    }
+
+    &__skeleton {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-color: rgba(255, 255, 255, 0.04);
+      background-image: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0.04) 0%,
+        rgba(230, 204, 137, 0.18) 40%,
+        rgba(255, 255, 255, 0.04) 80%
+      );
+      background-size: 200% 100%;
+      background-repeat: no-repeat;
+      background-position: 100% 0;
+      animation: carousel-skeleton-shimmer 1.2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    &:has(img.is-loaded) &__skeleton {
+      opacity: 0;
+      animation: none;
     }
   }
 
@@ -100,6 +131,16 @@
       display: block;
       margin-top: 8px;
     }
+  }
+}
+
+@keyframes carousel-skeleton-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: -100% 0;
   }
 }
 

@@ -30,11 +30,12 @@
         (click)="openGallery(i)"
       >
         @if (isSlideNearby(i)) {
+          <div class="carousel__slide__skeleton" aria-hidden="true"></div>
           <picture>
             @for (source of sliderPictureSources(item); track source.media) {
               <source [media]="source.media" [srcset]="source.srcset" />
             }
-            <img [src]="item['520']" [alt]="'Фото выступления ' + (i + 1)" loading="lazy" decoding="async" width="425" height="283" />
+            <img [src]="item['520']" [alt]="'Фото выступления ' + (i + 1)" appSkeleton loading="lazy" decoding="async" width="425" height="283" />
           </picture>
         }
       </div>

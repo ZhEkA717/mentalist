@@ -11,10 +11,8 @@ import {
 } from '@angular/core';
 import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {SocialsComponent} from '../socials/socials.component';
-import {gsap} from 'gsap';
-import {ScrollTrigger} from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
+import {loadGsap} from '../../utils/gsap';
+import type {Gsap, ScrollTrigger, ScrollTriggerClass} from '../../utils/gsap';
 
 const SUBTITLE_TEXT = 'Менталист • Психологический иллюзионист • Дипломированный психолог • Гипнотизёр';
 @Component({
@@ -40,7 +38,7 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
-    this.initParallax();
+    void loadGsap().then(({gsap, ScrollTrigger}) => this.initParallax(gsap, ScrollTrigger));
   }
 
   ngOnDestroy(): void {
@@ -57,7 +55,7 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
     this.sectionClick.emit({id, block, offset: 0});
   }
 
-  private initParallax(): void {
+  private initParallax(gsap: Gsap, st: ScrollTriggerClass): void {
     const heroEl = document.getElementById('hero');
     const bgEl = this.heroBg()?.nativeElement;
     const logoBgEl = this.logoBg()?.nativeElement;

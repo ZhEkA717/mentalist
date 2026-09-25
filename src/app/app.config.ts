@@ -1,4 +1,5 @@
 import {ApplicationConfig, provideBrowserGlobalErrorListeners, signal} from '@angular/core';
+import {provideClientHydration, withEventReplay} from '@angular/platform-browser';
 import {provideRouter} from '@angular/router';
 import {provideHttpClient, withFetch} from '@angular/common/http';
 import {provideTaiga, tuiCommonIconsProvider} from '@taiga-ui/core';
@@ -10,6 +11,7 @@ import {routes} from './app.routes';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
+    provideClientHydration(withEventReplay()),
     provideRouter(routes),
     provideHttpClient(withFetch()),
     provideTaiga({mode: 'dark'}),

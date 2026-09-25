@@ -15,9 +15,9 @@ import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {CarouselComponent} from '../../components/carousel/carousel.component';
 import {SliderItem} from '@modules/landing/models/slider-item';
-import {gsap} from 'gsap';
-import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {initRevealOnScroll} from '../../utils/scroll-animations';
+import {killGsapTweens, loadGsap} from '../../utils/gsap';
+import type {ScrollTrigger} from '../../utils/gsap';
 
 const galleryPhoto = (id: number): SliderItem => ({
   1900: `/assets/images/carousel/${id}-1900.webp`,
@@ -86,7 +86,9 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
-    this.scrollTriggers.push(...initRevealOnScroll(this.el.nativeElement));
+    void initRevealOnScroll(this.el.nativeElement).then(triggers => {
+      this.scrollTriggers.push(...triggers);
+    });
     const id = setTimeout(() => this.initScrollToSecondVideo(), 2200);
     this.setTimeoutIds.push(id);
     this.initVideoObserver();
@@ -97,14 +99,15 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
     this.setTimeoutIds.forEach(id => clearTimeout(id));
     this.scrollTriggers.forEach(t => t.kill());
     if (isPlatformBrowser(this.platformId)) {
-      gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
+      killGsapTweens(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
     }
   }
 
-  private initScrollToSecondVideo(): void {
+  private async initScrollToSecondVideo(): Promise<void> {
     const el = this.videosSection()?.nativeElement;
     if (!el) return;
 
+    const {ScrollTrigger} = await loadGsap();
     let triggered = false;
 
     const st = ScrollTrigger.create({

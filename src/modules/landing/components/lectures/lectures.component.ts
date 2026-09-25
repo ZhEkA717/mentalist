@@ -1,8 +1,8 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, OnDestroy, PLATFORM_ID} from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
-import {gsap} from 'gsap';
-import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {initRevealOnScroll} from '../../utils/scroll-animations';
+import {killGsapTweens} from '../../utils/gsap';
+import type {ScrollTrigger} from '../../utils/gsap';
 
 @Component({
   selector: 'app-lectures',
@@ -18,13 +18,15 @@ export class LecturesSectionComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
-    this.triggers = initRevealOnScroll(this.el.nativeElement);
+    void initRevealOnScroll(this.el.nativeElement).then(triggers => {
+      this.triggers.push(...triggers);
+    });
   }
 
   ngOnDestroy(): void {
     this.triggers.forEach(t => t.kill());
     if (isPlatformBrowser(this.platformId)) {
-      gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
+      killGsapTweens(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
     }
   }
 }

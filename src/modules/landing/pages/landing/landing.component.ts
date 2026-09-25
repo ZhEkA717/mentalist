@@ -1,7 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, PLATFORM_ID, signal} from '@angular/core';
 import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
-import {gsap} from 'gsap';
-import {ScrollTrigger} from 'gsap/ScrollTrigger';
+import {isGsapLoaded, loadGsap, onGsapLoaded} from '../../utils/gsap';
 import {MarqueeDirective} from '../../directives/marquee.directive';
 import {HeaderComponent} from '../../components/header/header.component';
 import {HeroSectionComponent} from '../../components/hero/hero.component';
@@ -10,8 +9,6 @@ import {AboutSectionComponent} from '../../components/about/about.component';
 import {LecturesSectionComponent} from '../../components/lectures/lectures.component';
 import {MediaSectionComponent} from '../../components/media/media.component';
 import {ContactsSectionComponent} from '../../components/contacts/contacts.component';
-
-gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-landing',
@@ -127,19 +124,27 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) {
       window.scrollTo(0, 0);
       this.watchStyleChanges();
-      this.setTimeoutIds.push(setTimeout(() => {
-        ScrollTrigger.refresh(true);
-      }, 200));
+      onGsapLoaded(() => {
+        this.setTimeoutIds.push(setTimeout(() => {
+          this.refreshScrollTriggers();
+        }, 200));
+      });
     }
+  }
+
+  private refreshScrollTriggers(): void {
+    if (!isGsapLoaded()) return;
+    void loadGsap().then(({ScrollTrigger}) => ScrollTrigger.refresh(true));
   }
 
   private watchStyleChanges(): void {
     let refreshTimeout: ReturnType<typeof setTimeout> | null = null;
 
     const scheduleRefresh = () => {
+      if (!isGsapLoaded()) return;
       if (refreshTimeout) clearTimeout(refreshTimeout);
       refreshTimeout = setTimeout(() => {
-        ScrollTrigger.refresh(true);
+        this.refreshScrollTriggers();
       }, 100);
     };
 
@@ -156,9 +161,11 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.styleObserver?.disconnect();
     this.setTimeoutIds.forEach(id => clearTimeout(id));
-    ScrollTrigger.getAll().forEach(t => t.kill());
-    if (isPlatformBrowser(this.platformId)) {
-      gsap.killTweensOf(document.querySelectorAll('.reveal-on-scroll, .dim-on-scroll'));
+    if (isPlatformBrowser(this.platformId) && isGsapLoaded()) {
+      void loadGsap().then(({gsap, ScrollTrigger}) => {
+        ScrollTrigger.getAll().forEach(t => t.kill());
+        gsap.killTweensOf(document.querySelectorAll('.reveal-on-scroll, .dim-on-scroll'));
+      });
     }
   }
 }

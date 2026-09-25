@@ -11,9 +11,9 @@ import {catchError, EMPTY, finalize} from 'rxjs';
 import {TelegramService, RequestForm} from '../../services/telegram.service';
 import {SocialsComponent} from '../socials/socials.component';
 import {DrawerComponent} from '../drawer/drawer.component';
-import {gsap} from 'gsap';
-import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {initRevealOnScroll} from '../../utils/scroll-animations';
+import {killGsapTweens} from '../../utils/gsap';
+import type {ScrollTrigger} from '../../utils/gsap';
 import {createModalClose} from '../../utils/modal-close';
 
 @Component({
@@ -60,7 +60,9 @@ export class ContactsSectionComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.scrollTriggers.push(...initRevealOnScroll(this.el.nativeElement));
+      void initRevealOnScroll(this.el.nativeElement).then(triggers => {
+        this.scrollTriggers.push(...triggers);
+      });
 
       const sub = this.breakpointObserver.observe('(max-width: 950px)').subscribe(result => {
         this.isMobile.set(result.matches);
@@ -73,7 +75,7 @@ export class ContactsSectionComponent implements AfterViewInit, OnDestroy {
     this.calendarModal.destroy();
     this.scrollTriggers.forEach(t => t.kill());
     if (isPlatformBrowser(this.platformId)) {
-      gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
+      killGsapTweens(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
     }
   }
 

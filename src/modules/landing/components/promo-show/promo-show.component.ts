@@ -2,9 +2,9 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRe
 import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {gsap} from 'gsap';
-import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {initDimOnScroll, initRevealOnScroll} from '../../utils/scroll-animations';
+import {killGsapTweens, loadGsap} from '../../utils/gsap';
+import type {ScrollTrigger} from '../../utils/gsap';
 import {createModalClose} from '../../utils/modal-close';
 import {DrawerComponent} from '../drawer/drawer.component';
 
@@ -67,8 +67,12 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
     if (!isPlatformBrowser(this.platformId)) return;
 
     const container = this.el.nativeElement;
-    this.scrollTriggers.push(...initRevealOnScroll(container));
-    this.scrollTriggers.push(...initDimOnScroll(container));
+    void initRevealOnScroll(container).then(triggers => {
+      this.scrollTriggers.push(...triggers);
+    });
+    void initDimOnScroll(container).then(triggers => {
+      this.scrollTriggers.push(...triggers);
+    });
     const id = setTimeout(() => this.initCardFlip(), 2200);
     this.setTimeoutIds.push(id);
 
@@ -157,11 +161,12 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
     this.setTimeoutIds.forEach(id => clearTimeout(id));
     this.scrollTriggers.forEach(t => t.kill());
     if (isPlatformBrowser(this.platformId)) {
-      gsap.killTweensOf(this.el.nativeElement.querySelectorAll('.reveal-on-scroll, .dim-on-scroll'));
+      killGsapTweens(this.el.nativeElement.querySelectorAll('.reveal-on-scroll, .dim-on-scroll'));
     }
   }
 
-  private initCardFlip(): void {
+  private async initCardFlip(): Promise<void> {
+    const {gsap, ScrollTrigger} = await loadGsap();
     gsap.utils.toArray<HTMLElement>('.show__content__item', this.el.nativeElement).forEach((card) => {
       const inner = card.querySelector('.card-inner') as HTMLElement;
       if (!inner) return;

@@ -1,14 +1,11 @@
-import {gsap} from 'gsap';
-import {ScrollTrigger} from 'gsap/ScrollTrigger';
+import {loadGsap} from './gsap';
+import type {ScrollTrigger} from './gsap';
 
 const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
 
-if (isBrowser) {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-export function initRevealOnScroll(container: Element | HTMLElement): ScrollTrigger[] {
+export async function initRevealOnScroll(container: Element | HTMLElement): Promise<ScrollTrigger[]> {
   if (!isBrowser) return [];
+  const {gsap, ScrollTrigger} = await loadGsap();
   const triggers: ScrollTrigger[] = [];
 
   gsap.utils.toArray<HTMLElement>('.reveal-on-scroll', container).forEach((el) => {
@@ -33,8 +30,9 @@ export function initRevealOnScroll(container: Element | HTMLElement): ScrollTrig
   return triggers;
 }
 
-export function initDimOnScroll(container: Element | HTMLElement): ScrollTrigger[] {
+export async function initDimOnScroll(container: Element | HTMLElement): Promise<ScrollTrigger[]> {
   if (!isBrowser) return [];
+  const {gsap, ScrollTrigger} = await loadGsap();
   const triggers: ScrollTrigger[] = [];
 
   gsap.utils.toArray<HTMLElement>('.dim-on-scroll', container).forEach((el) => {

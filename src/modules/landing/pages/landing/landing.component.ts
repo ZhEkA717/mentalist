@@ -43,7 +43,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   private readonly managedMetaSelectors = [
     'name="description"',
     'name="robots"',
-    'rel="canonical"',
     'property="og:type"',
     'property="og:locale"',
     'property="og:site_name"',
@@ -110,7 +109,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     this.title.setTitle(config.title);
     this.meta.addTag({name: 'description', content: config.description});
     this.meta.addTag({name: 'robots', content: config.robots});
-    this.meta.addTag({rel: 'canonical', href: config.canonical});
     this.meta.addTag({property: 'og:type', content: config.og.type});
     this.meta.addTag({property: 'og:locale', content: config.og.locale});
     this.meta.addTag({property: 'og:site_name', content: config.og.siteName});

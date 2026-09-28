@@ -5,7 +5,6 @@ export interface LandingMetaConfig {
   description: string;
   robots: string;
   siteUrl: string;
-  canonical: string;
   og: {
     type: string;
     locale: string;
@@ -30,7 +29,6 @@ export const landingMetaConfig: LandingMetaConfig = {
     'Александр Шишук — один из лучших менталистов России и Беларуси, психологический иллюзионист. Более 15 лет на сцене, дипломированный психолог, автор интерактивных шоу и спикер международных фестивалей.',
   robots: 'index, follow',
   siteUrl: environment.baseUrl,
-  canonical: environment.baseUrl,
   og: {
     type: 'website',
     locale: 'ru_RU',

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mentalist-f4d9e.web.app/sitemap.xml
+Sitemap: https://alexshishuk.com/sitemap.xml

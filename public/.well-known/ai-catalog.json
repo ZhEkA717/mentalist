@@ -8,7 +8,7 @@
       "id": "main",
       "name": "Главная",
       "type": "website",
-      "url": "https://mentalist-f4d9e.web.app",
+      "url": "https://alexshishuk.com/",
       "description": "Лендинг шоу психологических иллюзий Александра Шишука",
       "_lang": "ru"
     },
@@ -16,7 +16,7 @@
       "id": "shows",
       "name": "Выступления",
       "type": "website",
-      "url": "https://mentalist-f4d9e.web.app#shows",
+      "url": "https://alexshishuk.com/#shows",
       "description": "Корпоративные мероприятия, свадьбы, частные мероприятия",
       "_lang": "ru"
     },
@@ -24,7 +24,7 @@
       "id": "about",
       "name": "Об Александре",
       "type": "website",
-      "url": "https://mentalist-f4d9e.web.app#about",
+      "url": "https://alexshishuk.com/#about",
       "description": "Менталист, психологический иллюзионист, дипломированный психолог, гипнотизёр. Более 15 лет на сцене",
       "_lang": "ru"
     },
@@ -32,7 +32,7 @@
       "id": "lectures",
       "name": "Шоу и лекции",
       "type": "website",
-      "url": "https://mentalist-f4d9e.web.app#lectures",
+      "url": "https://alexshishuk.com/#lectures",
       "description": "Авторские ментальные шоу, интерактивные лекции и тренинги о психологии восприятия, профайлинге, невербальном поведении и гипнозе",
       "_lang": "ru"
     },
@@ -40,7 +40,7 @@
       "id": "media",
       "name": "Медиа",
       "type": "website",
-      "url": "https://mentalist-f4d9e.web.app#media",
+      "url": "https://alexshishuk.com/#media",
       "description": "Фото и видео с выступлений",
       "_lang": "ru"
     },
@@ -48,7 +48,7 @@
       "id": "llms",
       "name": "llms.txt",
       "type": "website",
-      "url": "https://mentalist-f4d9e.web.app/llms.txt",
+      "url": "https://alexshishuk.com//llms.txt",
       "description": "Краткое описание сайта для больших языковых моделей и ИИ-агентов",
       "_lang": "ru",
       "_contentType": "text/markdown"
@@ -57,7 +57,7 @@
       "id": "sitemap",
       "name": "Sitemap",
       "type": "website",
-      "url": "https://mentalist-f4d9e.web.app/sitemap.xml",
+      "url": "https://alexshishuk.com//sitemap.xml",
       "description": "Карта сайта",
       "_contentType": "application/xml"
     },
@@ -65,7 +65,7 @@
       "id": "robots",
       "name": "robots.txt",
       "type": "website",
-      "url": "https://mentalist-f4d9e.web.app/robots.txt",
+      "url": "https://alexshishuk.com//robots.txt",
       "description": "Правила индексации",
       "_contentType": "text/plain"
     }

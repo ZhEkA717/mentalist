@@ -1,6 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 
+const outPath = path.resolve(__dirname, '..', 'src', 'environment', 'environment.ts');
+
+if (fs.existsSync(outPath)) {
+  console.log('ℹ️ src/environment/environment.ts already exists — keeping it as is');
+  process.exit(0);
+}
+
 // 1. Читаем .env файл если есть
 const envPath = path.resolve(__dirname, '..', '.env');
 const fileEnv = {};
@@ -18,6 +25,7 @@ if (fs.existsSync(envPath)) {
 
 // 2. process.env приоритетнее чем .env файл (для деплоа)
 const vars = {
+  BASE_URL: process.env.BASE_URL || fileEnv.BASE_URL,
   FIREBASE_API_KEY: process.env.FIREBASE_API_KEY || fileEnv.FIREBASE_API_KEY,
   FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN || fileEnv.FIREBASE_AUTH_DOMAIN,
   FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID || fileEnv.FIREBASE_PROJECT_ID,
@@ -28,8 +36,10 @@ const vars = {
   CLOUDFLARE_WORKER_URL: process.env.CLOUDFLARE_WORKER_URL || fileEnv.CLOUDFLARE_WORKER_URL,
 };
 
-const envTs = `// Auto-generated from .env — do not edit manually
+const envTs = `// Generated from .env by scripts/load-env.js — created once, then never overwritten.
+// Правьте вручную: файл больше не перезаписывается автоматически.
 export const environment = {
+  baseUrl: '${vars.BASE_URL}',
   firebaseConfig: {
     apiKey: '${vars.FIREBASE_API_KEY}',
     authDomain: '${vars.FIREBASE_AUTH_DOMAIN}',
@@ -43,8 +53,7 @@ export const environment = {
 };
 `;
 
-const outPath = path.resolve(__dirname, '..', 'src', 'environments', 'environment.ts');
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
 fs.writeFileSync(outPath, envTs, 'utf-8');
 
-console.log('✅ Generated src/environment/environment.ts');
+console.log('✅ Created src/environment/environment.ts');

@@ -7,6 +7,7 @@ import {TUI_LANGUAGE} from '@taiga-ui/i18n';
 import {TUI_RUSSIAN_LANGUAGE} from '@taiga-ui/i18n/languages/russian';
 
 import {routes} from './app.routes';
+import {provideYandexMetrika, provideYandexMetrikaRouter} from '@grandgular/yandex-metrika';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,5 +21,15 @@ export const appConfig: ApplicationConfig = {
       check: '',
     }),
     {provide: TUI_LANGUAGE, useValue: signal(TUI_RUSSIAN_LANGUAGE)},
+    provideYandexMetrika({
+      id: 113206264, // 113206264
+      options: {
+        webvisor: true,   // Включает Вебвизор
+        clickmap: true,   // Включает карту кликов
+        trackLinks: true, // Отслеживание внешних ссылок
+        accurateTrackBounce: true
+      }
+    }),
+    provideYandexMetrikaRouter()
   ]
 };

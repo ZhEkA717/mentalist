@@ -59,9 +59,9 @@ export const landingMetaConfig: LandingMetaConfig = {
     telephone: ['+7 (915) 442-28-54', '+375 (29) 857-60-57'],
     email: 'alex.mentalist@yandex.by',
     sameAs: [
-      'https://t.me/alex_shishuk',
-      'https://youtube.com/@alex.shishuk',
-      'https://vk.ru/alex.shishuk',
+      'https://t.me/alexshishuk',
+      'https://www.youtube.com/@alexshishuk',
+      'https://vk.ru/alexshishuk',
     ],
   },
 };

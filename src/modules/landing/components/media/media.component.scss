@@ -27,6 +27,7 @@
 .media {
   height: 900px;
   background: #000000;
+  overflow: hidden;
 
   @media (max-width: 430px) {
     height: 750px;
@@ -154,6 +155,7 @@
 
     &__videos {
       overscroll-behavior-x: contain;
+      isolation: isolate;
       margin-top: 73px;
       display: flex;
       gap: 24px;

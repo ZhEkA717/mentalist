@@ -6,7 +6,7 @@
 
 const HOST = 'alexshishuk.com';
 const KEY = '89cfc1f1598f4ef7b897971fd9d7ba80';
-const KEY_LOCATION = `https://${HOST}/.well-known/indexnow.txt`;
+const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
 const SITEMAP = `https://${HOST}/sitemap.xml`;
 
 async function submit() {

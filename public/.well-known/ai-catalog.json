@@ -48,7 +48,7 @@
       "id": "llms",
       "name": "llms.txt",
       "type": "website",
-      "url": "https://alexshishuk.com//llms.txt",
+      "url": "https://alexshishuk.com/llms.txt",
       "description": "Краткое описание сайта для больших языковых моделей и ИИ-агентов",
       "_lang": "ru",
       "_contentType": "text/markdown"
@@ -57,7 +57,7 @@
       "id": "sitemap",
       "name": "Sitemap",
       "type": "website",
-      "url": "https://alexshishuk.com//sitemap.xml",
+      "url": "https://alexshishuk.com/sitemap.xml",
       "description": "Карта сайта",
       "_contentType": "application/xml"
     },
@@ -65,7 +65,7 @@
       "id": "robots",
       "name": "robots.txt",
       "type": "website",
-      "url": "https://alexshishuk.com//robots.txt",
+      "url": "https://alexshishuk.com/robots.txt",
       "description": "Правила индексации",
       "_contentType": "text/plain"
     }

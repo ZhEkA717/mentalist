@@ -79,7 +79,7 @@
                 "fonts": true
               },
               "sourceMap": {
-                "scripts": true,
+                "scripts": false,
                 "styles": false,
                 "vendor": false
               }

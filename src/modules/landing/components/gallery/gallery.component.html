@@ -11,12 +11,12 @@
             @for (source of sliderPictureSources(slide.item); track source.media) {
               <source [media]="source.media" [srcset]="source.srcset" />
             }
-            <img [src]="slide.item['520']" [alt]="'Фото выступления ' + (slide.index + 1)" class="gallery__image" appSkeleton loading="lazy" decoding="async" />
+            <img [src]="slide.item['520']" [alt]="'Шоу менталиста Александра Шишука — фото ' + (slide.index + 1) + ' из ' + this.sliderItems().length" class="gallery__image" appSkeleton loading="lazy" decoding="async" />
           </picture>
         }
       </div>
     </div>
-    <div drawerHeader class="gallery__counter">{{ galleryIndex() + 1 }} / {{ totalSlides }}</div>
+    <div drawerHeader class="gallery__counter">{{ galleryIndex() + 1 }} / {{ this.sliderItems().length }}</div>
   </app-drawer>
 } @else {
   @if (rendered()) {
@@ -60,11 +60,11 @@
               @for (source of sliderPictureSources(slide.item); track source.media) {
                 <source [media]="source.media" [srcset]="source.srcset" />
               }
-              <img [src]="slide.item['520']" [alt]="'Фото выступления ' + (slide.index + 1)" class="gallery__image" appSkeleton loading="lazy" decoding="async" />
+              <img [src]="slide.item['520']" [alt]="'Шоу менталиста Александра Шишука — фото ' + (slide.index + 1) + ' из ' + this.sliderItems().length" class="gallery__image" appSkeleton loading="lazy" decoding="async" />
             </picture>
           }
         </div>
-        <div class="gallery__counter">{{ galleryIndex() + 1 }} / {{ totalSlides }}</div>
+        <div class="gallery__counter">{{ galleryIndex() + 1 }} / {{ this.sliderItems().length }}</div>
       </div>
       <button
         type="button"

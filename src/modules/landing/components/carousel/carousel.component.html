@@ -35,7 +35,7 @@
             @for (source of sliderPictureSources(item); track source.media) {
               <source [media]="source.media" [srcset]="source.srcset" />
             }
-            <img [src]="item['520']" [alt]="'Фото выступления ' + (i + 1)" appSkeleton loading="lazy" decoding="async" width="425" height="283" />
+            <img [src]="item['520']" [alt]="'Шоу менталиста Александра Шишука — фото ' + (i + 1) + ' из ' + this.sliderItems().length" appSkeleton loading="lazy" decoding="async" width="425" height="283" />
           </picture>
         }
       </div>
@@ -61,7 +61,7 @@
     </svg>
   </button>
 </div>
-<div class="carousel__counter">{{ currentSlideIndex() + 1 }} / {{ totalSlides }}</div>
+<div class="carousel__counter">{{ currentSlideIndex() + 1 }} / {{ this.sliderItems().length }}</div>
 <app-media-indicators
   class="carousel__dots"
   size="lg"

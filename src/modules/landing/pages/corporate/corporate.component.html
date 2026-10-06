@@ -1,7 +1,8 @@
 <main class="corporate">
   <div class="safe-area"></div>
   <app-header [items]="items" (sectionClick)="onSectionClick($event.id, $event.block, $event.offset)">
-    <img appHeaderStart src="/assets/images/corporate-logo.png" alt="Александр Шишук — менталист" height="40">
+    <img appHeaderStart ngSrc="/assets/images/corporate-logo.png" alt="Александр Шишук — менталист" height="55"
+         width="124">
     <h1 appHeaderStart class="visually-hidden">Александр Шишук — менталист, психологический иллюзионист</h1>
   </app-header>
   <app-corporate-hero (sectionClick)="onSectionClick($event.id, $event.block, $event.offset)"/>

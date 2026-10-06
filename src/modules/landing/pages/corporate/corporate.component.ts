@@ -1,5 +1,5 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, inject, OnDestroy, PLATFORM_ID} from '@angular/core';
-import {isPlatformBrowser} from '@angular/common';
+import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {Title} from '@angular/platform-browser';
 import {HeaderComponent, HeaderItem} from '../../components/header/header.component';
 import {CorporateHeroSectionComponent} from '../../components/corporate-hero/corporate-hero.component';
@@ -17,6 +17,7 @@ import {MediaSectionComponent} from '@modules/landing/components/media/media.com
     CorporateHeroSectionComponent,
     ContactsSectionComponent,
     MediaSectionComponent,
+    NgOptimizedImage,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

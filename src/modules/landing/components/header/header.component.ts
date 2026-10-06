@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnDestroy
 import {isPlatformBrowser} from '@angular/common';
 import {Router} from '@angular/router';
 import {DrawerComponent} from '../drawer/drawer.component';
+import {IsActivePipe} from './header-is-active.pipe';
 
 export interface HeaderItem {
   label: string;
@@ -14,7 +15,7 @@ export interface HeaderItem {
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [DrawerComponent],
+  imports: [DrawerComponent, IsActivePipe],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,18 +47,6 @@ export class HeaderComponent implements OnDestroy {
 
   protected toggleMenu(): void {
     this.menuOpen.set(!this.menuOpen());
-  }
-
-  protected isActive(item: HeaderItem): boolean {
-    console.log(1)
-    if (item.href && this.activeSection() === item.href.slice(1)) {
-      return true;
-    }
-    if (item.route && !this.activeSection()) {
-      const url = this.router.url.split('?')[0].split('#')[0];
-      if (url === item.route) return true;
-    }
-    return false;
   }
 
   protected scrollTo(event: Event, item: HeaderItem): void {

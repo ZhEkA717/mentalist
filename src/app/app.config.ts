@@ -23,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     {provide: TUI_LANGUAGE, useValue: signal(TUI_RUSSIAN_LANGUAGE)},
     provideYandexMetrika({
       id: 113206264, // 113206264
+      prodOnly: true,
       options: {
         webvisor: true,   // Включает Вебвизор
         clickmap: true,   // Включает карту кликов

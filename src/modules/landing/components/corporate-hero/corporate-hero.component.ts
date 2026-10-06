@@ -4,12 +4,13 @@ import {
   Component,
   ElementRef,
   inject,
-  OnDestroy, output,
+  OnDestroy,
+  output,
   PLATFORM_ID,
   viewChild,
 } from '@angular/core';
 import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
-import type {Gsap, ScrollTrigger, ScrollTriggerClass} from '../../utils/gsap';
+import type {Gsap, ScrollTrigger} from '../../utils/gsap';
 import {loadGsap} from '../../utils/gsap';
 
 @Component({

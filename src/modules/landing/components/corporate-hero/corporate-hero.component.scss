@@ -13,6 +13,10 @@
   color: #fff;
   font-family: Montserrat, sans-serif;
 
+  @media (max-width: 768px) {
+    height: 902px;
+  }
+
   &__bg {
     position: absolute;
     inset: 0;
@@ -21,6 +25,10 @@
     background-size: cover;
     background-position: center;
     will-change: transform;
+
+    //@media (max-width: 768px) {
+    //  background-image: url("/assets/images/background-corporate-hero-768.webp");
+    //}
   }
 
   &__character {
@@ -42,15 +50,23 @@
       object-position: calc(50% + 440px) bottom;
     }
 
-    @media (max-width: 950px) {
+    @media (max-width: 1400px) {
       img {
-        object-position: calc(50% + 260px) bottom;
+        object-position: calc(100% + 150px) bottom;
+      }
+    }
+
+    @media (max-width: 1050px) {
+      img {
+        object-fit: cover;
+        object-position: center 30px;
       }
     }
 
     @media (max-width: 768px) {
       img {
-        object-position: center bottom;
+        object-fit: none;
+        object-position: bottom;
       }
     }
   }
@@ -61,6 +77,16 @@
     flex-direction: column;
     gap: 36px;
     max-width: 750px;
+
+    @media (max-width: 1050px) {
+      margin: 420px auto auto;
+      gap: 16px;
+      max-width: 650px;
+    }
+
+    @media (max-width: 768px) {
+      margin-top: 92px;
+    }
   }
 
   &__title {
@@ -69,17 +95,68 @@
     z-index: 2;
 
     font-size: 50px;
+
+    @media (max-width: 1050px) {
+      font-size: 40px;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 36px;
+      margin-bottom: 223px;
+      order: 1;
+    }
+
+    @media (max-width: 600px) {
+      font-size: 32px;
+    }
   }
 
   &__subtitle {
     position: relative;
     z-index: 2;
-    font-size: clamp(16px, 2.4vw, 24px);
+    font-size: clamp(16px, 2vw, 24px);
     font-weight: 600;
     color: #E6CC89;
     max-width: 650px;
 
-    span {
+    @media (max-width: 1050px) {
+      max-width: 550px;
+    }
+
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      width: 305px;
+      order: 2;
+    }
+
+
+    .mdash {
+      display: inline;
+
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
+    .line {
+      height: 1px !important;
+      width: 227px !important;
+    }
+
+    .line,
+    br {
+      display: none;
+
+      @media (max-width: 768px) {
+        display: block !important;
+      }
+    }
+
+    p {
+      display: inline;
+    }
+    p:first-child {
       color: #FFFFFF;
       text-transform: uppercase;
     }
@@ -87,13 +164,27 @@
 
   &__description {
     font-weight: 400;
-    font-size: clamp(16px, 2.4vw, 20px);
+    font-size: clamp(16px, 1.8vw, 20px);
     max-width: 570px;
+
+    @media (max-width: 768px) {
+      order: 4;
+      font-size: 16px;
+      max-width: 470px;
+    }
   }
 
   .line {
     @include mixins.gradient-divider;
     max-width: 650px;
+
+    @media (max-width: 1050px) {
+      max-width: 550px;
+    }
+
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
 
   &__button {
@@ -111,7 +202,7 @@
     }
 
     @media (max-width: 768px) {
-      order: 2;
+      order: 3;
     }
 
     @media (max-width: 520px) {
@@ -120,10 +211,13 @@
   }
 
   &__note {
-    margin-left: 32px;
     display: flex;
     align-content: center;
     gap: 25px;
+
+    @media (max-width: 768px) {
+      order: 4;
+    }
 
     p {
       color: #E6CC89;

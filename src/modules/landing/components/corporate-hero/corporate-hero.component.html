@@ -1,6 +1,29 @@
 <section class="corporate-hero" id="corporate">
+  <div class="corporate-hero__bg" #bg></div>
+  <picture class="corporate-hero__character">
+    <img src="/assets/images/corporate-hero.webp" alt="Корпоративы с менталистом" width="904" height="825">
+  </picture>
   <div class="container">
-    <h1 class="corporate-hero__title">Корпоративы</h1>
-    <p class="corporate-hero__subtitle">Шоу менталиста для вашего мероприятия</p>
+    <div class="corporate-hero__content">
+      <h1 class="corporate-hero__title">Иллюзионно-ментальное
+        шоу на корпоратив</h1>
+      <p class="corporate-hero__subtitle">
+        <span>Александр Шишук</span> — Менталист, психологический иллюзионист с 15-летним опытом выступлений
+      </p>
+      <div class="line"></div>
+      <p class="corporate-hero__description">
+        Интерактивная шоу-программа Александра Шишука, в которой психологические иллюзии, чтение мыслей, предсказания и визуальные эффекты становятся частью вашего мероприятия.<br>
+        Это больше, чем привычное шоу фокусника на корпоратив. Гости не просто наблюдают за трюками, а сами становятся главными героями происходящего.
+      </p>
+      <button (click)="scrollTo($event, 'contacts-form', 'center')" style="margin-bottom: 24px;"
+              class="corporate-hero__button" #button>
+        <span>обсудить корпоратив</span>
+      </button>
+      <div class="corporate-hero__note">
+        <img ngSrc="/assets/icons/corporate-hero-icon.svg" alt="Иконка земного шара весь мир" height="46" width="46">
+        <p>Москва · Санкт-Петербург · Минск ·<br>
+          Выступления по всему миру</p>
+      </div>
+    </div>
   </div>
 </section>

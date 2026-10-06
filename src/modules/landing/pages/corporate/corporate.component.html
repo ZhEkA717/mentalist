@@ -1,7 +1,7 @@
 <main class="corporate">
   <div class="safe-area"></div>
   <app-header [items]="items" (sectionClick)="onSectionClick($event.id, $event.block, $event.offset)"/>
-  <app-corporate-hero/>
+  <app-corporate-hero (sectionClick)="onSectionClick($event.id, $event.block, $event.offset)"/>
 <!--  <section id="formats" class="corporate-stub">-->
 <!--    <div class="container">-->
 <!--      <h2>Форматы</h2>-->
@@ -12,7 +12,7 @@
 <!--      <h2>Отзывы</h2>-->
 <!--    </div>-->
 <!--  </section>-->
-<!--  <app-corporate-media/>-->
+  <app-media [isShowVideos]="false"/>
 <!--  <section id="faq" class="corporate-stub">-->
 <!--    <div class="container">-->
 <!--      <h2>Вопросы</h2>-->

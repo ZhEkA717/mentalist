@@ -25,17 +25,8 @@
 }
 
 .media {
-  height: 900px;
   background: #000000;
   overflow: hidden;
-
-  @media (max-width: 430px) {
-    height: 750px;
-  }
-
-  @media (max-width: 360px) {
-    height: 650px;
-  }
 
 
   &__content {

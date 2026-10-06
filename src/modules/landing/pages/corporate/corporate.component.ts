@@ -5,6 +5,7 @@ import {HeaderComponent, HeaderItem} from '../../components/header/header.compon
 import {CorporateHeroSectionComponent} from '../../components/corporate-hero/corporate-hero.component';
 import {ContactsSectionComponent} from '../../components/contacts/contacts.component';
 import {corporateMetaConfig} from '../../config/corporate-meta.config';
+import {MediaSectionComponent} from '@modules/landing/components/media/media.component';
 
 @Component({
   selector: 'app-corporate',
@@ -15,6 +16,7 @@ import {corporateMetaConfig} from '../../config/corporate-meta.config';
     HeaderComponent,
     CorporateHeroSectionComponent,
     ContactsSectionComponent,
+    MediaSectionComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -26,10 +28,10 @@ export class CorporateComponent implements AfterViewInit, OnDestroy {
   protected items: HeaderItem[] = [
     {label: 'Главная', route: '/'},
     {label: 'Корпоратив', href: '#corporate', route: '/corporate'},
-    {label: 'Форматы', href: '#formats'},
-    {label: 'Отзывы', href: '#reviews'},
+    // {label: 'Форматы', href: '#formats'},
+    // {label: 'Отзывы', href: '#reviews'},
     {label: 'Медиа', href: '#media'},
-    {label: 'Вопросы', href: '#faq'},
+    // {label: 'Вопросы', href: '#faq'},
     {label: 'Контакты', href: '#contacts'},
   ];
 

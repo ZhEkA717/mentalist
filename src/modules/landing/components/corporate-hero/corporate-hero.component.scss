@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+
+.corporate-hero {
+  padding: 160px 20px 80px;
+  background: #0a0a0a;
+  color: #fff;
+  font-family: Montserrat, sans-serif;
+
+  &__title {
+    font-size: clamp(40px, 8vw, 96px);
+    font-weight: 700;
+    margin: 0 0 16px;
+    background: linear-gradient(90deg, #80724C -17.31%, #E6CC89 93.14%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1.1;
+  }
+
+  &__subtitle {
+    font-size: clamp(16px, 2.4vw, 22px);
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0;
+    max-width: 640px;
+  }
+}

@@ -55,8 +55,8 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     contacts: () => this.showContacts.set(true),
   };
 
-  protected items: {label: string; href: string; block?: ScrollLogicalPosition; offset?: number}[] = [
-    {label: 'Главная', href: '#hero'},
+  protected items: {label: string; href: string; route?: string; block?: ScrollLogicalPosition; offset?: number}[] = [
+    {label: 'Главная', href: '#hero', route: '/'},
     {label: 'Выступления', href: '#shows', offset: 100},
     {label: 'Об александре', href: '#about'},
     {label: 'Шоу и лекции', href: '#lectures'},

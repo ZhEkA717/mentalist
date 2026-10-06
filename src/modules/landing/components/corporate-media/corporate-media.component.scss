@@ -1,0 +1,17 @@
+:host {
+  display: block;
+}
+
+.corporate-media {
+  padding: 80px 20px;
+  background: #0a0a0a;
+  color: #fff;
+  font-family: Montserrat, sans-serif;
+
+  &__title {
+    font-size: clamp(28px, 5vw, 56px);
+    font-weight: 700;
+    margin: 0;
+    color: #DFC784;
+  }
+}

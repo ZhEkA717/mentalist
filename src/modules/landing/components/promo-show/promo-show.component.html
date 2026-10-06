@@ -44,7 +44,9 @@
           @for (card of cards; track card.id) {
             <div class="show__content__item dim-on-scroll">
               <div class="card-inner">
-                <div class="card-front">
+                <div class="card-front"
+                     [class.card-front--clickable]="!!card.link"
+                     [routerLink]="card.link">
                   <picture>
                     <source media="(max-width: 1025px)" [srcset]="card.imgSmall">
                     <img [ngSrc]="card.img" [alt]="card.title" loading="lazy" decoding="async" width="315" height="450" />
@@ -52,7 +54,7 @@
                   <div class="info">
                     <p class="info__title">{{ card.title }}</p>
                     <p class="info__description">{{ card.description }}</p>
-                    <button class="info__button" type="button">
+                    <span class="info__button" type="button">
                       <span>Подробнее</span>
                       <svg
                         width="20"
@@ -65,7 +67,7 @@
                       >
                         <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                       </svg>
-                    </button>
+                    </span>
                   </div>
                 </div>
                 <div class="card-back-design">

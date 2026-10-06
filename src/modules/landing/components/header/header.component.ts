@@ -1,6 +1,15 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnDestroy, output, PLATFORM_ID, signal} from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
+import {Router} from '@angular/router';
 import {DrawerComponent} from '../drawer/drawer.component';
+
+export interface HeaderItem {
+  label: string;
+  href?: string;
+  route?: string;
+  block?: ScrollLogicalPosition;
+  offset?: number;
+}
 
 @Component({
   selector: 'app-header',
@@ -12,7 +21,8 @@ import {DrawerComponent} from '../drawer/drawer.component';
 })
 export class HeaderComponent implements OnDestroy {
   private platformId = inject(PLATFORM_ID);
-  items = input.required<{ label: string; href: string; block?: ScrollLogicalPosition; offset?: number }[]>();
+  private router = inject(Router);
+  items = input.required<HeaderItem[]>();
   sectionClick = output<{id: string; block: ScrollLogicalPosition; offset: number}>();
 
   menuOpen = signal(false);
@@ -38,13 +48,37 @@ export class HeaderComponent implements OnDestroy {
     this.menuOpen.set(!this.menuOpen());
   }
 
-  protected scrollTo(event: Event, id: string, block: ScrollLogicalPosition = 'start', offset = 0): void {
-    event.preventDefault();
-    if (isPlatformBrowser(this.platformId)) {
-      window.location.hash = id;
+  protected isActive(item: HeaderItem): boolean {
+    console.log(1)
+    if (item.href && this.activeSection() === item.href.slice(1)) {
+      return true;
     }
-    this.sectionClick.emit({id, block, offset});
+    if (item.route && !this.activeSection()) {
+      const url = this.router.url.split('?')[0].split('#')[0];
+      if (url === item.route) return true;
+    }
+    return false;
+  }
+
+  protected scrollTo(event: Event, item: HeaderItem): void {
+    event.preventDefault();
     this.menuOpen.set(false);
+
+    if (item.href) {
+      const id = item.href.slice(1);
+      const block = item.block ?? 'start';
+      const offset = item.offset ?? 0;
+
+      if (isPlatformBrowser(this.platformId)) {
+        window.location.hash = id;
+      }
+      this.sectionClick.emit({id, block, offset});
+      return;
+    }
+
+    if (item.route) {
+      void this.router.navigateByUrl(item.route);
+    }
   }
 
   ngOnDestroy(): void {

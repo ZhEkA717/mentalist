@@ -4,9 +4,9 @@
       <ul class="header__nav__items">
         @for (item of items(); track item.label) {
           <li class="header__nav__item">
-            <a [href]="item.href"
-               [class.active]="(activeSection() === item.href.slice(1)) || (!activeSection() && $index === 0)"
-               (click)="scrollTo($event, item.href.slice(1), item.block, item.offset)">{{ item.label }}</a>
+            <a [href]="item.href ?? item.route"
+               [class.active]="isActive(item)"
+               (click)="scrollTo($event, item)">{{ item.label }}</a>
           </li>
         }
       </ul>
@@ -44,9 +44,9 @@
     <ul class="drawer__nav__items">
       @for (item of items(); track item.label;) {
         <li class="drawer__nav__item">
-          <a [href]="item.href"
-             [class.active]="(activeSection() === item.href.slice(1)) || (!activeSection() && $index === 0)"
-             (click)="scrollTo($event, item.href.slice(1), item.block, item.offset)">{{ item.label }}</a>
+          <a [href]="item.href ?? item.route"
+             [class.active]="isActive(item)"
+             (click)="scrollTo($event, item)">{{ item.label }}</a>
         </li>
       }
     </ul>

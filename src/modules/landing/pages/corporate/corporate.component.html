@@ -1,0 +1,22 @@
+<main class="corporate">
+  <div class="safe-area"></div>
+  <app-header [items]="items" (sectionClick)="onSectionClick($event.id, $event.block, $event.offset)"/>
+  <app-corporate-hero/>
+<!--  <section id="formats" class="corporate-stub">-->
+<!--    <div class="container">-->
+<!--      <h2>Форматы</h2>-->
+<!--    </div>-->
+<!--  </section>-->
+<!--  <section id="reviews" class="corporate-stub">-->
+<!--    <div class="container">-->
+<!--      <h2>Отзывы</h2>-->
+<!--    </div>-->
+<!--  </section>-->
+<!--  <app-corporate-media/>-->
+<!--  <section id="faq" class="corporate-stub">-->
+<!--    <div class="container">-->
+<!--      <h2>Вопросы</h2>-->
+<!--    </div>-->
+<!--  </section>-->
+  <app-contacts/>
+</main>

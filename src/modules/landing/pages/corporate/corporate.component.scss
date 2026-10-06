@@ -1,0 +1,28 @@
+:host {
+  display: block;
+  background: #0a0a0a;
+  color: #fff;
+  font-family: Montserrat, sans-serif;
+  min-height: 100vh;
+}
+
+.corporate {
+  display: block;
+}
+
+.safe-area {
+  height: 60px;
+}
+
+.corporate-stub {
+  padding: 80px 20px;
+  background: #0a0a0a;
+
+  h2 {
+    font-size: clamp(28px, 5vw, 56px);
+    font-weight: 700;
+    margin: 0;
+    color: #DFC784;
+    text-transform: uppercase;
+  }
+}

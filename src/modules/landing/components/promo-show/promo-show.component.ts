@@ -13,6 +13,7 @@ import {
 import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {BreakpointObserver} from '@angular/cdk/layout';
+import {RouterLink} from '@angular/router';
 import {initDimOnScroll, initRevealOnScroll} from '../../utils/scroll-animations';
 import type {ScrollTrigger} from '../../utils/gsap';
 import {killGsapTweens, loadGsap} from '../../utils/gsap';
@@ -22,7 +23,7 @@ import {DrawerComponent} from '../drawer/drawer.component';
 @Component({
   selector: 'app-promo-show',
   standalone: true,
-  imports: [DrawerComponent, NgOptimizedImage],
+  imports: [DrawerComponent, NgOptimizedImage, RouterLink],
   templateUrl: './promo-show.component.html',
   styleUrls: ['./promo-show.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,21 +57,24 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
       img: '/assets/images/card_1.webp',
       imgSmall: '/assets/images/card_1-274x285.webp',
       title: 'Корпоративные мероприятия',
-      description: 'Современное шоу для корпоративных мероприятий, компаний, деловых встреч, презентаций и специальных событий.'
+      description: 'Современное шоу для корпоративных мероприятий, компаний, деловых встреч, презентаций и специальных событий.',
+      link: '/corporate',
     },
     {
       id: 2,
       img: '/assets/images/card_2.webp',
       imgSmall: '/assets/images/card_2-274x284.webp',
       title: 'Свадьбы',
-      description: 'Эмоциональное шоу, которое объединяет гостей, вовлекает молодоженов и делает свадебное событие по-настоящему запоминающимся.'
+      description: 'Эмоциональное шоу, которое объединяет гостей, вовлекает молодоженов и делает свадебное событие по-настоящему запоминающимся.',
+      link: null,
     },
     {
       id: 3,
       img: '/assets/images/card_3.webp',
       imgSmall: '/assets/images/card_3-274x311.webp',
       title: 'Частные мероприятия',
-      description: 'Формат для дней рождения, юбилеев, закрытых вечеров, семейных праздников и других частных событий.'
+      description: 'Формат для дней рождения, юбилеев, закрытых вечеров, семейных праздников и других частных событий.',
+      link: null,
     },
   ];
 

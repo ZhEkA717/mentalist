@@ -28,10 +28,10 @@ export class CorporateComponent implements AfterViewInit, OnDestroy {
   protected items: HeaderItem[] = [
     {label: 'Главная', route: '/'},
     {label: 'Корпоратив', href: '#corporate', route: '/corporate'},
-    // {label: 'Форматы', href: '#formats'},
-    // {label: 'Отзывы', href: '#reviews'},
+    {label: 'Форматы', href: '#formats'},
+    {label: 'Отзывы', href: '#reviews'},
     {label: 'Медиа', href: '#media'},
-    // {label: 'Вопросы', href: '#faq'},
+    {label: 'Вопросы', href: '#faq'},
     {label: 'Контакты', href: '#contacts'},
   ];
 

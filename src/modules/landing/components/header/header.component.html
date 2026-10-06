@@ -12,6 +12,10 @@
       </ul>
     </nav>
 
+    <div class="header__left">
+      <ng-content select="[appHeaderStart]"></ng-content>
+    </div>
+
     <button
       class="burger"
       [class.burger--hidden]="menuOpen()"

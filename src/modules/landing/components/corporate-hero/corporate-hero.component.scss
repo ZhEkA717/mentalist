@@ -17,6 +17,10 @@
     height: 902px;
   }
 
+  @media (max-width: 520px) {
+    height: 797px;
+  }
+
   &__bg {
     position: absolute;
     inset: 0;
@@ -26,9 +30,13 @@
     background-position: center;
     will-change: transform;
 
-    //@media (max-width: 768px) {
-    //  background-image: url("/assets/images/background-corporate-hero-768.webp");
-    //}
+    @media (max-width: 768px) {
+      background-image: url("/assets/images/background-corporate-hero-768.webp");
+    }
+
+    @media (max-width: 520px) {
+      background-image: url("/assets/images/background-corporate-hero-520.webp");
+    }
   }
 
   &__character {
@@ -69,6 +77,10 @@
         object-position: bottom;
       }
     }
+
+    @media (max-width: 520px) {
+      display: none;
+    }
   }
 
   &__content {
@@ -86,6 +98,10 @@
 
     @media (max-width: 768px) {
       margin-top: 92px;
+    }
+
+    @media (max-width: 520px) {
+      margin-top: 311px;
     }
   }
 
@@ -109,6 +125,12 @@
     @media (max-width: 600px) {
       font-size: 32px;
     }
+
+    @media (max-width: 520px) {
+      margin-bottom: 0;
+      font-size: 24px;
+      width: 256px;
+    }
   }
 
   &__subtitle {
@@ -129,6 +151,11 @@
       gap: 5px;
       width: 305px;
       order: 2;
+    }
+
+
+    @media (max-width: 520px) {
+      font-size: 14px;
     }
 
 
@@ -172,6 +199,10 @@
       font-size: 16px;
       max-width: 470px;
     }
+
+    @media (max-width: 520px) {
+      font-size: 12px;
+    }
   }
 
   .line {
@@ -206,7 +237,7 @@
     }
 
     @media (max-width: 520px) {
-      width: 300px;
+      width: 100%;
     }
   }
 
@@ -219,12 +250,20 @@
       order: 4;
     }
 
+    @media (max-width: 520px) {
+      gap: 16px;
+    }
+
     p {
       color: #E6CC89;
       font-weight: 600;
       letter-spacing: -0.25px;
       line-height: 30px;
       font-size: clamp(16px, 2.4vw, 20px);
+
+      @media (max-width: 520px) {
+        font-size: 14px;
+      }
     }
   }
 }

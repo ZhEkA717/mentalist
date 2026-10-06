@@ -105,6 +105,16 @@
   }
 }
 
+// Mobile left content slot (visible only on mobile)
+.header__left {
+  display: none;
+
+  img {
+    max-height: 55px;
+    width: auto;
+  }
+}
+
 // Burger button
 .burger {
   display: none;
@@ -223,5 +233,10 @@
   .burger {
     display: flex;
     margin-left: auto;
+  }
+
+  .header__left {
+    display: flex;
+    align-items: center;
   }
 }

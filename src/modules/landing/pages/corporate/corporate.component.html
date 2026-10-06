@@ -1,6 +1,9 @@
 <main class="corporate">
   <div class="safe-area"></div>
-  <app-header [items]="items" (sectionClick)="onSectionClick($event.id, $event.block, $event.offset)"/>
+  <app-header [items]="items" (sectionClick)="onSectionClick($event.id, $event.block, $event.offset)">
+    <img appHeaderStart src="/assets/images/corporate-logo.png" alt="Александр Шишук — менталист" height="40">
+    <h1 appHeaderStart class="visually-hidden">Александр Шишук — менталист, психологический иллюзионист</h1>
+  </app-header>
   <app-corporate-hero (sectionClick)="onSectionClick($event.id, $event.block, $event.offset)"/>
 <!--  <section id="formats" class="corporate-stub">-->
 <!--    <div class="container">-->
@@ -12,7 +15,7 @@
 <!--      <h2>Отзывы</h2>-->
 <!--    </div>-->
 <!--  </section>-->
-  <app-media [isShowVideos]="false"/>
+  <app-media/>
 <!--  <section id="faq" class="corporate-stub">-->
 <!--    <div class="container">-->
 <!--      <h2>Вопросы</h2>-->

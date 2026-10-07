@@ -1,0 +1,21 @@
+<section class="reviews" id="reviews">
+  <div class="container">
+    <h2 class="reviews__title reveal-on-scroll">Компании и отзывы</h2>
+    <div class="reviews__carousel reveal-on-scroll">
+      <app-carousel
+        [items]="items()"
+        [activeWidth]="315"
+        [activeHeight]="399"
+        [sideSlideWidth]="315"
+        [sideSlideHeight]="399"
+        [slideGap]="20"
+        [slideBorderPadding]="2"
+        [galleryEnabled]="false"
+      >
+        <ng-template #slideTemplate let-item>
+          <app-review-card [data]="item"/>
+        </ng-template>
+      </app-carousel>
+    </div>
+  </div>
+</section>

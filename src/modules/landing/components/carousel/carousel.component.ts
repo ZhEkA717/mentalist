@@ -1,23 +1,54 @@
-import {ChangeDetectionStrategy, Component, input, OnDestroy, signal} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  input,
+  OnDestroy,
+  signal,
+  TemplateRef,
+} from '@angular/core';
+import {NgTemplateOutlet} from '@angular/common';
 import {GalleryComponent} from '../gallery/gallery.component';
 import {ImageSkeletonDirective} from '../../directives/image-skeleton.directive';
 import {MediaIndicatorsComponent} from '@modules/landing/components/media-indicators/media-indicators.component';
 import {sliderPictureSources, SliderItem} from '@modules/landing/models/slider-item';
+
+const DEFAULT_ACTIVE_WIDTH = 425;
+const DEFAULT_ACTIVE_HEIGHT = 283;
+const DEFAULT_SIDE_WIDTH = 244;
+const DEFAULT_SIDE_HEIGHT = 163;
+const DEFAULT_FAR_SCALE = 0.6;
+const DEFAULT_SLIDE_GAP = 16;
 
 @Component({
   selector: 'app-carousel',
   imports: [
     GalleryComponent,
     MediaIndicatorsComponent,
-    ImageSkeletonDirective
+    ImageSkeletonDirective,
+    NgTemplateOutlet,
   ],
   templateUrl: './carousel.component.html',
   styleUrl: './carousel.component.scss',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CarouselComponent implements OnDestroy {
-  sliderItems = input<SliderItem[]>([]);
+  items = input<unknown[]>([]);
+  protected readonly slideTemplate = contentChild<TemplateRef<{$implicit: unknown; index: number}>>(
+    'slideTemplate',
+  );
+
+  activeWidth = input<number>(DEFAULT_ACTIVE_WIDTH);
+  activeHeight = input<number>(DEFAULT_ACTIVE_HEIGHT);
+  sideSlideWidth = input<number>(DEFAULT_SIDE_WIDTH);
+  sideSlideHeight = input<number>(DEFAULT_SIDE_HEIGHT);
+  farScale = input<number>(DEFAULT_FAR_SCALE);
+  slideGap = input<number>(DEFAULT_SLIDE_GAP);
+  galleryEnabled = input<boolean>(true);
+  slideBorderPadding = input<number>(0);
+
   protected currentSlideIndex = signal(0);
 
   private readonly transitionMs = 500;
@@ -30,7 +61,15 @@ export class CarouselComponent implements OnDestroy {
   galleryOpen = signal(false);
   galleryIndex = signal(0);
 
+  protected readonly sliderItems = computed<SliderItem[]>(() => this.items() as SliderItem[]);
+  protected readonly sliderPictureSources = sliderPictureSources;
+
+  protected get totalSlides(): number {
+    return this.items().length;
+  }
+
   protected openGallery(index: number): void {
+    if (!this.galleryEnabled()) return;
     if (this.blockedClick) {
       this.blockedClick = false;
       return;
@@ -58,11 +97,6 @@ export class CarouselComponent implements OnDestroy {
       else this.prevSlide();
       setTimeout(() => (this.blockedClick = false), 60);
     }
-  }
-
-  protected readonly sliderPictureSources = sliderPictureSources;
-  protected get totalSlides(): number {
-    return this.sliderItems().length;
   }
 
   protected isSlideNearby(index: number): boolean {
@@ -110,38 +144,45 @@ export class CarouselComponent implements OnDestroy {
     if (diff < -total / 2) normalizedDiff = diff + total;
 
     const absDiff = Math.abs(normalizedDiff);
+    const activeW = this.activeWidth();
+    const activeH = this.activeHeight();
+    const sideW = this.sideSlideWidth();
+    const sideH = this.sideSlideHeight();
+    const gap = this.slideGap();
+    const pad = this.slideBorderPadding();
+    const padTotal = pad * 2;
 
     if (absDiff === 0) {
       return {
-        transform: `translateX(0) scale(1)`,
+        transform: 'translateX(0) scale(1)',
         opacity: '1',
         zIndex: '3',
-        width: '425px',
-        height: '283px',
+        width: `${activeW + padTotal}px`,
+        height: `${activeH + padTotal}px`,
       };
     }
 
     if (absDiff === 1) {
       const direction = normalizedDiff > 0 ? 1 : -1;
-      const xOffset = direction * (425 / 2 + 244 / 2 + 16);
+      const xOffset = direction * ((activeW + padTotal) / 2 + (sideW + padTotal) / 2 + gap);
       return {
-        transform: `translateX(${xOffset}px) scale(${244 / 425})`,
+        transform: `translateX(${xOffset}px) scale(${sideW / activeW})`,
         opacity: '0.85',
         zIndex: '2',
-        width: '244px',
-        height: '163px',
+        width: `${sideW + padTotal}px`,
+        height: `${sideH + padTotal}px`,
       };
     }
 
     const direction = normalizedDiff > 0 ? 1 : -1;
     const xOffset =
-      direction * ((425 / 2 + 244 / 2 + 16) + (244 / 2 + 16) * (absDiff - 1));
+      direction * ((activeW + padTotal) / 2 + (sideW + padTotal) / 2 + gap + (sideW / 2 + gap) * (absDiff - 1));
     return {
-      transform: `translateX(${xOffset}px) scale(0.6)`,
+      transform: `translateX(${xOffset}px) scale(${this.farScale()})`,
       opacity: '0',
       zIndex: '1',
-      width: '244px',
-      height: '163px',
+      width: `${sideW + padTotal}px`,
+      height: `${sideH + padTotal}px`,
     };
   }
 }

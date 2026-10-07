@@ -1,0 +1,38 @@
+<div class="card" [class.card--video]="!!videoSrc()">
+  @if (reviewData(); as data) {
+    <img
+      class="card__quote"
+      src="/assets/icons/quotes.svg"
+      alt=""
+      width="20"
+      height="18"
+      loading="lazy"
+      decoding="async"
+    />
+    <p class="card__text">{{ data.review }}</p>
+    <div class="card__author">
+      <img
+        class="card__photo"
+        [src]="data.photo"
+        [alt]="data.name"
+        width="66"
+        height="66"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="card__info">
+        <div class="card__name">{{ data.name }}</div>
+        <div class="card__subtitle">{{ data.nameSubtitle }}</div>
+      </div>
+    </div>
+  } @else if (videoSrc(); as src) {
+    <iframe
+      class="card__video"
+      [src]="src"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+      title="Видеоотзыв"
+    ></iframe>
+  }
+</div>

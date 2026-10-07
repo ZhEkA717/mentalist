@@ -1,0 +1,49 @@
+@use 'mixins';
+
+:host {
+  display: block;
+  background-color: #000000;
+}
+
+.container {
+  height: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 80px 24px;
+
+  @media (max-width: 1200px) {
+    max-width: 100%;
+    padding: 60px 24px;
+  }
+}
+
+.reviews {
+  &__title {
+    @include mixins.title-block;
+    margin: 0 0 50px;
+    line-height: 100%;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    text-align: center;
+
+    @media (max-width: 950px) {
+      margin-bottom: 36px;
+    }
+
+    @media (max-width: 520px) {
+      margin-bottom: 28px;
+    }
+  }
+
+  &__carousel {
+    :host ::ng-deep .carousel__viewport {
+      min-height: 399px;
+    }
+
+    @media (max-width: 720px) {
+      :host ::ng-deep .carousel__viewport {
+        min-height: auto;
+      }
+    }
+  }
+}

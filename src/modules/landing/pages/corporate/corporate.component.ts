@@ -7,6 +7,8 @@ import {ContactsSectionComponent} from '../../components/contacts/contacts.compo
 import {corporateMetaConfig} from '../../config/corporate-meta.config';
 import {MediaSectionComponent} from '@modules/landing/components/media/media.component';
 import {FaqItem, FaqSectionComponent} from '@modules/landing/components/faq-section/faq-section.component';
+import {ReviewsSectionComponent} from '@modules/landing/components/reviews-section/reviews-section.component';
+import {ReviewCardData} from '@modules/landing/components/review-card/review-card.component';
 
 @Component({
   selector: 'app-corporate',
@@ -19,6 +21,7 @@ import {FaqItem, FaqSectionComponent} from '@modules/landing/components/faq-sect
     ContactsSectionComponent,
     MediaSectionComponent,
     FaqSectionComponent,
+    ReviewsSectionComponent,
     NgOptimizedImage,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -92,6 +95,63 @@ export class CorporateComponent implements AfterViewInit, OnDestroy {
       question: 'Можно ли пригласить Александра Шишука с лекцией или шоу-лекцией?',
       answer:
         'Да. Александр Шишук проводит лекции и интерактивные шоу-лекции, объединяющие психологию, когнитивные эффекты, ментализм и сценические эксперименты. Формат подходит для компаний, конференций, фестивалей и образовательных мероприятий.',
+    },
+  ];
+
+  protected readonly reviewsItems: ReviewCardData[] = [
+    {
+      type: 'review',
+      value: {
+        review:
+          'У нас, к сожалению, нет ни одного видео с Вашим выступлением 😅 Гости были настолько поражены, что даже не возникло мысли взяться за телефон.\n' +
+          'Как бы банально это ни звучало, но всё было «волшебно». Настолько круто, что даже немного страшно. У мамы вообще нервный срыв после Вашего выступления 😅\n' +
+          'Огромное Вам спасибо! Вы были фурором нашей свадьбы, мы не ошиблись ни разу, пригласив Вас ❤️\n' +
+          'Вы действительно Гарри Поттер 💫',
+        name: 'Яна',
+        photo: '/assets/images/reviews/review-1.webp',
+      },
+    },
+    {
+      type: 'review',
+      value: {
+        review:
+          'Хочу ещё раз Вас поблагодарить!!! Шоу получилось просто супер! 👍 Все гости были в восторге, Вы реально удивили всех)) Мы до сих пор не понимаем, как Вы это делаете — такое ощущение, что Вы действительно читаете мысли 😄   Ваше шоу потом ещё два дня обсуждали)) Спасибо Вам огромное!!! ❤️❤️❤️ Удачи Вам в творчестве и ещё больше таких крутых выступлений!',
+        name: 'Алена',
+        photo: '/assets/images/reviews/review-2.webp',
+      },
+    },
+    {
+      type: 'review',
+      value: {
+        review:
+          'Александр, хочу ещё раз сказать тебе огромное спасибо за выступление! Все гости были просто в восторге от шоу! Столько эмоций, столько разговоров потом было 😍 Ты получил просто кучу комплиментов, все спрашивали, как вообще такое возможно)) Было очень круто! Спасибо, что приехал и так удивил всех наших гостей ❤️🤝',
+        name: 'Юлия',
+        photo: '/assets/images/reviews/review-3.webp',
+      },
+    },
+    {
+      type: 'review',
+      value: {
+        review:
+          'Добрый день, хотела бы ещё раз поблагодарить вас за наш день) Всё прошло супер, на следующий день ещё долго обсуждались ваше выступление)\n' +
+          'Как вы могли угадать имя школьной подруги?! Вы оставили хороший след в нашем дне, благодарим 🙂',
+        name: 'Анна',
+        photo: '/assets/images/reviews/review-4.webp',
+      },
+    },
+    {
+      type: 'review',
+      value: {
+        review:
+          'Я много разных артистов видела, но менталиста встретила впервые. И сегодня Саша меня просто поразил.\n' +
+          'От некоторых вещей меня просто развалило в щепки 😳 \n' +
+          'Я расплакалась, но даже не поняла почему. Гости тоже были в шоке))) Все потом обсуждали как вообще можно так читать людей и откуда он всё это знает.\n' +
+          'Я такого раньше вообще не видела. Очень сильно.\n' +
+          'Вот что значит, когда психолог на своем месте)))',
+        name: 'Антонина',
+        nameSubtitle: 'Организатор',
+        photo: '/assets/images/reviews/review-5.webp',
+      },
     },
   ];
 

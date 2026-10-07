@@ -100,6 +100,10 @@ export class CorporateComponent implements AfterViewInit, OnDestroy {
 
   protected readonly reviewsItems: ReviewCardData[] = [
     {
+      type: 'video',
+      value: 'https://vk.com/video_ext.php?oid=-65614643&id=456239031',
+    },
+    {
       type: 'review',
       value: {
         review:

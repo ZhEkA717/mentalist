@@ -1,0 +1,60 @@
+@use 'mixins';
+
+:host {
+  display: block;
+  background-color: #000000;
+}
+
+.container {
+  height: 100%;
+  margin: auto;
+  max-width: 1200px;
+  padding: 80px 20px;
+
+  @media (max-width: 1400px) { max-width: 1100px; }
+  @media (max-width: 1280px) { max-width: 1000px; }
+  @media (max-width: 1024px) { max-width: 900px; }
+  @media (max-width: 950px) {
+    max-width: 100%;
+    padding: 60px 24px;
+  }
+  @media (max-width: 520px) {
+    padding: 40px 24px;
+  }
+}
+
+.faq {
+  &__title {
+    @include mixins.title-block;
+    margin: 0 0 50px;
+    line-height: 100%;
+    letter-spacing: 0;
+    text-transform: uppercase;
+
+    @media (max-width: 950px) {
+      margin-bottom: 36px;
+    }
+
+    @media (max-width: 520px) {
+      margin-bottom: 28px;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 530px));
+    justify-content: space-between;
+    column-gap: 40px;
+    row-gap: 20px;
+
+    @media (max-width: 1100px) {
+      column-gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      grid-template-columns: minmax(0, 530px);
+      justify-content: center;
+      row-gap: 16px;
+    }
+  }
+}

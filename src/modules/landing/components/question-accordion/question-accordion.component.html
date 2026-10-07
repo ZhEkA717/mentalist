@@ -1,0 +1,23 @@
+<div class="accordion" [class.is-open]="expanded()">
+  <button
+    type="button"
+    class="accordion__header"
+    [attr.aria-expanded]="expanded()"
+    aria-controls="accordion-panel"
+    (click)="toggle()"
+  >
+    <span class="accordion__question">{{ question() }}</span>
+    <span class="accordion__icon" aria-hidden="true">
+      <span class="accordion__icon-line accordion__icon-line--h"></span>
+      <span class="accordion__icon-line accordion__icon-line--v"></span>
+    </span>
+  </button>
+  <div
+    id="accordion-panel"
+    class="accordion__panel"
+    role="region"
+    [attr.aria-labelledby]="'accordion-header'"
+  >
+    <p class="accordion__answer">{{ answer() }}</p>
+  </div>
+</div>

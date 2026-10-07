@@ -1,0 +1,15 @@
+<section id="faq" class="faq">
+  <div class="container">
+    <h2 class="faq__title reveal-on-scroll">Вопросы</h2>
+    <div class="faq__grid reveal-on-scroll">
+      @for (item of items(); track item.id) {
+        <app-question-accordion
+          [question]="item.question"
+          [answer]="item.answer"
+          [expanded]="!!expandedMap()[item.id]"
+          (expandedChange)="onAccordionChange(item.id, $event)"
+        />
+      }
+    </div>
+  </div>
+</section>

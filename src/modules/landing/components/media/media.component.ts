@@ -35,6 +35,8 @@ const galleryPhoto = (id: number): SliderItem => ({
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MediaSectionComponent implements AfterViewInit, OnDestroy {
+  background = input<string>('#000000');
+
   private platformId = inject(PLATFORM_ID);
   private readonly sanitizer = inject(DomSanitizer);
   private readonly activatedRoute = inject(ActivatedRoute);

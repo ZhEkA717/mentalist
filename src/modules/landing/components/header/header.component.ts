@@ -26,7 +26,7 @@ export interface HeaderItem {
 }
 
 const SCROLL_THRESHOLD_PX = 24;
-const LOGO_HIDE_THRESHOLD_PX = 320;
+const LOGO_HIDE_THRESHOLD_PX = 240;
 
 @Component({
   selector: 'app-header',

@@ -13,6 +13,8 @@ import {
 import {isPlatformBrowser} from '@angular/common';
 import {Router} from '@angular/router';
 import {DrawerComponent} from '../drawer/drawer.component';
+import {ImagePreloadService} from '../../services/image-preload.service';
+import {CORPORATE_HERO_BACKGROUNDS, CORPORATE_HERO_CHARACTERS} from '../../config/corporate-hero-assets';
 import {IsActivePipe} from './header-is-active.pipe';
 
 export interface HeaderItem {
@@ -38,6 +40,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly imagePreload = inject(ImagePreloadService);
   items = input.required<HeaderItem[]>();
   sectionClick = output<{id: string; block: ScrollLogicalPosition; offset: number}>();
 
@@ -78,6 +81,13 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
 
   protected toggleMenu(): void {
     this.menuOpen.set(!this.menuOpen());
+  }
+
+  protected preloadOnHover(route?: string): void {
+    if (route === '/corporate') {
+      this.imagePreload.preloadResponsive(CORPORATE_HERO_BACKGROUNDS);
+      this.imagePreload.preloadResponsive(CORPORATE_HERO_CHARACTERS);
+    }
   }
 
   protected scrollTo(event: Event, item: HeaderItem): void {

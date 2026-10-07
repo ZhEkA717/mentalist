@@ -18,6 +18,8 @@ import {initDimOnScroll, initRevealOnScroll} from '../../utils/scroll-animations
 import type {ScrollTrigger} from '../../utils/gsap';
 import {killGsapTweens, loadGsap} from '../../utils/gsap';
 import {createModalClose} from '../../utils/modal-close';
+import {ImagePreloadService} from '../../services/image-preload.service';
+import {CORPORATE_HERO_BACKGROUNDS, CORPORATE_HERO_CHARACTERS} from '../../config/corporate-hero-assets';
 import {DrawerComponent} from '../drawer/drawer.component';
 
 @Component({
@@ -34,6 +36,7 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
   private readonly sanitizer = inject(DomSanitizer);
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly imagePreload = inject(ImagePreloadService);
   private scrollTriggers: ScrollTrigger[] = [];
   private setTimeoutIds: ReturnType<typeof setTimeout>[] = [];
   protected cardsContainer = viewChild<ElementRef<HTMLElement>>('cardsContainer');
@@ -99,6 +102,13 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
       }
     });
     this.destroyRef.onDestroy(() => sub.unsubscribe());
+  }
+
+  protected preloadOnHover(link: string | null): void {
+    if (link === '/corporate') {
+      this.imagePreload.preloadResponsive(CORPORATE_HERO_BACKGROUNDS);
+      this.imagePreload.preloadResponsive(CORPORATE_HERO_CHARACTERS);
+    }
   }
 
   protected openVideo(): void {

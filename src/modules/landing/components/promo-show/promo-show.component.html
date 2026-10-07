@@ -46,7 +46,9 @@
               <div class="card-inner">
                 <div class="card-front"
                      [class.card-front--clickable]="!!card.link"
-                     [routerLink]="card.link">
+                     [routerLink]="card.link"
+                     (mouseenter)="preloadOnHover(card.link)"
+                     (touchstart)="preloadOnHover(card.link)">
                   <picture>
                     <source media="(max-width: 1025px)" [srcset]="card.imgSmall">
                     <img [ngSrc]="card.img" [alt]="card.title" loading="lazy" decoding="async" width="315" height="450" />

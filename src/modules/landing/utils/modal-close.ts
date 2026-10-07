@@ -8,6 +8,7 @@ export function createModalClose(options: ModalCloseOptions = {}) {
   const closing = signal(false);
   const rendered = signal(false);
   let closeTimeout: ReturnType<typeof setTimeout> | null = null;
+  let scrollLocked = false;
 
   function cancelClose(): void {
     if (closeTimeout) {
@@ -17,17 +18,19 @@ export function createModalClose(options: ModalCloseOptions = {}) {
   }
 
   function lockScroll(): void {
-    if (typeof document === 'undefined') return;
+    if (typeof document === 'undefined' || scrollLocked) return;
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
     document.body.style.touchAction = 'none';
+    scrollLocked = true;
   }
 
   function unlockScroll(): void {
-    if (typeof document === 'undefined') return;
+    if (typeof document === 'undefined' || !scrollLocked) return;
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
     document.body.style.touchAction = '';
+    scrollLocked = false;
   }
 
   function prepareOpen(): void {
@@ -54,6 +57,11 @@ export function createModalClose(options: ModalCloseOptions = {}) {
 
   function destroy(): void {
     cancelClose();
+    if (options.lockScroll && scrollLocked) {
+      unlockScroll();
+    }
+    closing.set(false);
+    rendered.set(false);
   }
 
   return {

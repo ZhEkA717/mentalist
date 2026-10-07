@@ -12,7 +12,7 @@
       </ul>
     </nav>
 
-    <div class="header__left">
+    <div class="header__left" [class.header__left--hidden]="isLogoHidden()">
       <ng-content select="[appHeaderStart]"></ng-content>
     </div>
 

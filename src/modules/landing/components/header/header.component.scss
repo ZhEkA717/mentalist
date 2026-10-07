@@ -108,6 +108,15 @@
 // Mobile left content slot (visible only on mobile)
 .header__left {
   display: none;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+
+  &--hidden {
+    opacity: 0;
+    transform: translateY(-12px);
+    pointer-events: none;
+  }
 
   img {
     max-height: 55px;

@@ -1,4 +1,15 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnDestroy, output, PLATFORM_ID, signal} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  input,
+  OnDestroy,
+  output,
+  PLATFORM_ID,
+  signal,
+} from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
 import {Router} from '@angular/router';
 import {DrawerComponent} from '../drawer/drawer.component';
@@ -12,6 +23,9 @@ export interface HeaderItem {
   offset?: number;
 }
 
+const SCROLL_THRESHOLD_PX = 24;
+const LOGO_HIDE_THRESHOLD_PX = 320;
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -20,14 +34,17 @@ export interface HeaderItem {
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent implements OnDestroy {
+export class HeaderComponent implements AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
   items = input.required<HeaderItem[]>();
   sectionClick = output<{id: string; block: ScrollLogicalPosition; offset: number}>();
 
   menuOpen = signal(false);
   activeSection = signal('');
+  isScrolled = signal(false);
+  isLogoHidden = signal(false);
 
   private onHashChange = () => {
     if (isPlatformBrowser(this.platformId)) {
@@ -35,14 +52,28 @@ export class HeaderComponent implements OnDestroy {
     }
   };
 
+  private readonly onScroll = (): void => {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const y = window.scrollY;
+    this.isScrolled.set(y > SCROLL_THRESHOLD_PX);
+    this.isLogoHidden.set(y > LOGO_HIDE_THRESHOLD_PX);
+  };
+
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
       this.activeSection.set(window.location.hash.slice(1));
       window.addEventListener('hashchange', this.onHashChange);
-      inject(DestroyRef).onDestroy(() => {
+      this.destroyRef.onDestroy(() => {
         window.removeEventListener('hashchange', this.onHashChange);
+        window.removeEventListener('scroll', this.onScroll);
       });
     }
+  }
+
+  ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.onScroll();
+    window.addEventListener('scroll', this.onScroll, {passive: true});
   }
 
   protected toggleMenu(): void {
@@ -73,6 +104,7 @@ export class HeaderComponent implements OnDestroy {
   ngOnDestroy(): void {
     if (isPlatformBrowser(this.platformId)) {
       window.removeEventListener('hashchange', this.onHashChange);
+      window.removeEventListener('scroll', this.onScroll);
     }
   }
 }

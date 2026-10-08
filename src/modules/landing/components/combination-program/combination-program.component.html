@@ -1,0 +1,50 @@
+<section class="combination-program" id="formats">
+  <div class="container">
+    <h2 class="combination-program__title reveal-on-scroll">
+      <span class="combination-program__title__number">04</span>
+      <span class="combination-program__title__text">Комбинации программ</span>
+    </h2>
+    <div class="combination-program__list">
+      @for (program of combinationPrograms; track program.title) {
+        <button
+          type="button"
+          class="program reveal-on-scroll"
+          (click)="openLink(program.route)"
+        >
+          <img
+            class="program__photo"
+            [src]="program.photo"
+            [alt]="program.title"
+            width="139"
+            height="138"
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="program__info">
+            <span class="program__title">
+              {{ program.title }}
+            </span>
+            <span class="program__subtitle">{{ program.subtitle }}</span>
+          </span>
+          <span class="program__arrow" aria-hidden="true">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              focusable="false"
+            >
+              <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </button>
+      }
+    </div>
+    <div class="combination-program__cta reveal-on-scroll">
+      <button type="button" class="combination-program__button" (click)="openLink('#contacts')">
+        <span>Обсудить специальную программу</span>
+      </button>
+    </div>
+  </div>
+</section>

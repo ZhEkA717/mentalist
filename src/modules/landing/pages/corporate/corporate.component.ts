@@ -8,6 +8,7 @@ import {corporateMetaConfig} from '../../config/corporate-meta.config';
 import {MediaSectionComponent} from '@modules/landing/components/media/media.component';
 import {FaqItem, FaqSectionComponent} from '@modules/landing/components/faq-section/faq-section.component';
 import {ReviewsSectionComponent} from '@modules/landing/components/reviews-section/reviews-section.component';
+import {CombinationProgramComponent} from '@modules/landing/components/combination-program/combination-program.component';
 import {ReviewCardData} from '@modules/landing/components/review-card/review-card.component';
 
 @Component({
@@ -22,6 +23,7 @@ import {ReviewCardData} from '@modules/landing/components/review-card/review-car
     MediaSectionComponent,
     FaqSectionComponent,
     ReviewsSectionComponent,
+    CombinationProgramComponent,
     NgOptimizedImage,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

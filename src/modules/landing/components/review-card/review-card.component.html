@@ -1,4 +1,4 @@
-<div class="card" [class.card--video]="!!videoSrc() || isVideo()">
+<div class="card" [class.card--video]="isVideo()">
   @if (reviewData(); as data) {
     <img
       class="card__quote"
@@ -28,40 +28,27 @@
       </div>
     </div>
   } @else if (isVideo()) {
-    @if (isVideoPlaying() && videoSrc(); as src) {
-      @if (isVideoLoading()) {
-        <div class="card__video-spinner" aria-hidden="true">
-          <span class="card__video-spinner__ring"></span>
-        </div>
-      }
-      <iframe
-        class="card__video"
-        [class.card__video--loaded]="!isVideoLoading()"
-        [src]="src"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
-        title="Видеоотзыв"
-        (load)="onVideoLoaded()"
-        (error)="onVideoError()"
-      ></iframe>
-    } @else {
-      <button
-        type="button"
-        class="card__video-poster"
-        (click)="playVideo()"
-        aria-label="Включить видеоотзыв"
-      >
-        <img
-          class="card__video-poster__image"
-          src="/assets/images/reviews/review-video.webp"
-          alt="Видеоотзыв"
-          width="315"
-          height="399"
-          loading="lazy"
-          decoding="async"
-        />
-        <span class="card__video-poster__overlay" aria-hidden="true"></span>
+    <button
+      type="button"
+      class="card__video-poster"
+      (click)="onVideoClick()"
+      aria-label="Включить видеоотзыв"
+    >
+      <img
+        class="card__video-poster__image"
+        [src]="posterUrl()"
+        alt="Видеоотзыв"
+        width="315"
+        height="399"
+        loading="lazy"
+        decoding="async"
+      />
+      <span class="card__video-poster__overlay" aria-hidden="true"></span>
+      @if (loading()) {
+        <span class="card__video-poster__spinner" aria-hidden="true">
+          <span class="card__video-poster__spinner__ring"></span>
+        </span>
+      } @else {
         <span class="card__video-poster__play" aria-hidden="true">
           <svg
             width="64"
@@ -75,7 +62,7 @@
             <path d="M19 15L35 24L19 33V15Z" fill="#E6CC89" opacity="0.95"/>
           </svg>
         </span>
-      </button>
-    }
+      }
+    </button>
   }
 </div>

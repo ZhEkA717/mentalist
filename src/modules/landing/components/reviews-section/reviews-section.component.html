@@ -13,9 +13,60 @@
         [galleryEnabled]="false"
       >
         <ng-template #slideTemplate let-item>
-          <app-review-card [data]="item"/>
+          <app-review-card
+            [data]="item"
+            [loading]="isVideoLoading(item)"
+            (videoOpen)="onVideoOpen($event)"
+          />
         </ng-template>
       </app-carousel>
     </div>
   </div>
 </section>
+
+@if (isMobile()) {
+  <app-drawer
+    [isOpen]="videoOpen()"
+    (closingStart)="onDrawerClosingStart()"
+    (closed)="onDrawerClosed()"
+  >
+    @if (videoLoading() || videoOpen()) {
+      <iframe
+        class="video-iframe"
+        [src]="videoUrl"
+        allow="autoplay; fullscreen; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        (load)="onVideoLoaded()"
+      ></iframe>
+    }
+  </app-drawer>
+} @else {
+  @if (videoRendered() || videoLoading()) {
+    <div
+      class="video-backdrop"
+      [class.video-backdrop--closing]="videoClosing()"
+      [class.video-backdrop--loading]="videoLoading()"
+      (click)="closeVideo()"
+      (touchmove)="$event.preventDefault()"
+    ></div>
+    <div
+      class="video-overlay"
+      [class.video-overlay--closing]="videoClosing()"
+      [class.video-overlay--loading]="videoLoading()"
+    >
+      <button
+        class="video-overlay__close"
+        (click)="closeVideo()"
+        aria-label="Закрыть видео"
+      >
+        ✕
+      </button>
+      <iframe
+        [src]="videoUrl"
+        allow="autoplay; fullscreen; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        (load)="onVideoLoaded()"
+      ></iframe>
+    </div>
+  }
+}

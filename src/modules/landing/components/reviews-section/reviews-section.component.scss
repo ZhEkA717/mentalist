@@ -47,3 +47,93 @@
     }
   }
 }
+
+// Video modal (desktop)
+.video-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: rgba(0, 0, 0, 0.85);
+  animation: reviews-video-fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &--closing {
+    animation: reviews-video-fade-out 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+}
+
+.video-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: reviews-video-fade-in 0.3s ease;
+
+  &--closing {
+    animation: reviews-video-fade-out 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  iframe {
+    width: auto;
+    max-width: calc(100vw - 80px);
+    height: calc(100vh - 40px);
+    aspect-ratio: 9 / 16;
+    border: none;
+    border-radius: 12px;
+  }
+
+  &__close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-size: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: background 0.3s ease;
+    z-index: 1;
+
+    @media (hover: hover) {
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+    }
+  }
+}
+
+// Mobile video iframe (inside drawer)
+.video-iframe {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: calc(100dvh - 120px);
+  aspect-ratio: 9 / 16;
+  border: none;
+  border-radius: 16px 16px 0 0;
+}
+
+.video-backdrop--loading,
+.video-overlay--loading {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@keyframes reviews-video-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes reviews-video-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}

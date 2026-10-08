@@ -3,6 +3,7 @@ import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {Title} from '@angular/platform-browser';
 import {HeaderComponent, HeaderItem} from '../../components/header/header.component';
 import {CorporateHeroSectionComponent} from '../../components/corporate-hero/corporate-hero.component';
+import {CorporateAboutSectionComponent} from '../../components/corporate-about/corporate-about.component';
 import {ContactsSectionComponent} from '../../components/contacts/contacts.component';
 import {corporateMetaConfig} from '../../config/corporate-meta.config';
 import {MediaSectionComponent} from '@modules/landing/components/media/media.component';
@@ -19,6 +20,7 @@ import {ReviewCardData} from '@modules/landing/components/review-card/review-car
   imports: [
     HeaderComponent,
     CorporateHeroSectionComponent,
+    CorporateAboutSectionComponent,
     ContactsSectionComponent,
     MediaSectionComponent,
     FaqSectionComponent,

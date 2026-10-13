@@ -61,6 +61,7 @@ export class CorporateAboutSectionComponent implements AfterViewInit, OnDestroy 
 
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
+    if (window.innerWidth < 768) return;
 
     void loadGsap().then(({gsap}) => this.initParallax(gsap));
   }

@@ -18,6 +18,7 @@ import {SliderItem} from '@modules/landing/models/slider-item';
 import {initRevealOnScroll} from '../../utils/scroll-animations';
 import {killGsapTweens, loadGsap} from '../../utils/gsap';
 import type {ScrollTrigger} from '../../utils/gsap';
+import {environment} from '@environment/environment';
 
 const galleryPhoto = (id: number): SliderItem => ({
   1900: `/assets/images/carousel/${id}-1900.webp`,
@@ -342,4 +343,6 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
     document.documentElement.style.overflow = this.previousDocumentOverflow;
     this.scrollLocked = false;
   }
+
+  protected readonly environment = environment;
 }

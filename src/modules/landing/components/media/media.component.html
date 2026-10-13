@@ -3,12 +3,14 @@
     <div class="media__content">
       <div class="media__content__header">
         <h2 class="title reveal-on-scroll">МЕДИА</h2>
-        <button class="button">
-          <span>смотреть все материалы</span>
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
+        @if (environment.mode === 'DEV') {
+          <button class="button">
+            <span>смотреть все материалы</span>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        }
       </div>
       <div class="media__content__slider">
         <app-carousel [items]="sliderItems"></app-carousel>

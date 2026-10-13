@@ -3,6 +3,7 @@ import {isPlatformBrowser} from '@angular/common';
 import {initRevealOnScroll} from '../../utils/scroll-animations';
 import {killGsapTweens} from '../../utils/gsap';
 import type {ScrollTrigger} from '../../utils/gsap';
+import {environment} from '@environment/environment';
 
 @Component({
   selector: 'app-about',
@@ -29,4 +30,6 @@ export class AboutSectionComponent implements AfterViewInit, OnDestroy {
       killGsapTweens(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
     }
   }
+
+  protected readonly environment = environment;
 }

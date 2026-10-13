@@ -6,7 +6,9 @@
     <h1 appHeaderStart class="visually-hidden">Александр Шишук — менталист, психологический иллюзионист</h1>
   </app-header>
   <app-corporate-hero (sectionClick)="onSectionClick($event.id, $event.block, $event.offset)"/>
-  <app-corporate-about/>
+  @if (environment.mode === 'DEV') {
+    <app-corporate-about/>
+  }
 <!--  <section id="formats" class="corporate-stub">-->
 <!--    <div class="container">-->
 <!--      <h2>Форматы</h2>-->

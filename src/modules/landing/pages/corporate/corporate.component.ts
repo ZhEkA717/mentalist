@@ -11,6 +11,7 @@ import {FaqItem, FaqSectionComponent} from '@modules/landing/components/faq-sect
 import {ReviewsSectionComponent} from '@modules/landing/components/reviews-section/reviews-section.component';
 import {CombinationProgramComponent} from '@modules/landing/components/combination-program/combination-program.component';
 import {ReviewCardData} from '@modules/landing/components/review-card/review-card.component';
+import {environment} from '@environment/environment';
 
 @Component({
   selector: 'app-corporate',
@@ -193,4 +194,6 @@ export class CorporateComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.setTimeoutIds.forEach(id => clearTimeout(id));
   }
+
+  protected readonly environment = environment;
 }

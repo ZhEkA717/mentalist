@@ -1,12 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const outPath = path.resolve(__dirname, '..', 'src', 'environment', 'environment.ts');
-
-if (fs.existsSync(outPath)) {
-  console.log('ℹ️ src/environment/environment.ts already exists — keeping it as is');
-  process.exit(0);
-}
+const envDir = path.resolve(__dirname, '..', 'src', 'environment');
+const prodPath = path.join(envDir, 'environment.ts');
+const devPath = path.join(envDir, 'environment.dev.ts');
 
 // 1. Читаем .env файл если есть
 const envPath = path.resolve(__dirname, '..', '.env');
@@ -36,9 +33,11 @@ const vars = {
   CLOUDFLARE_WORKER_URL: process.env.CLOUDFLARE_WORKER_URL || fileEnv.CLOUDFLARE_WORKER_URL,
 };
 
-const envTs = `// Generated from .env by scripts/load-env.js — created once, then never overwritten.
+function buildEnvTs(mode) {
+  return `// Generated from .env by scripts/load-env.js — created once, then never overwritten.
 // Правьте вручную: файл больше не перезаписывается автоматически.
 export const environment = {
+  mode: '${mode}',
   baseUrl: '${vars.BASE_URL}',
   firebaseConfig: {
     apiKey: '${vars.FIREBASE_API_KEY}',
@@ -52,8 +51,20 @@ export const environment = {
   cloudflareWorkerUrl: '${vars.CLOUDFLARE_WORKER_URL}',
 };
 `;
+}
 
-fs.mkdirSync(path.dirname(outPath), { recursive: true });
-fs.writeFileSync(outPath, envTs, 'utf-8');
+fs.mkdirSync(envDir, { recursive: true });
 
-console.log('✅ Created src/environment/environment.ts');
+if (fs.existsSync(prodPath)) {
+  console.log('ℹ️ src/environment/environment.ts already exists — keeping it as is');
+} else {
+  fs.writeFileSync(prodPath, buildEnvTs('PROD'), 'utf-8');
+  console.log('✅ Created src/environment/environment.ts');
+}
+
+if (fs.existsSync(devPath)) {
+  console.log('ℹ️ src/environment/environment.dev.ts already exists — keeping it as is');
+} else {
+  fs.writeFileSync(devPath, buildEnvTs('DEV'), 'utf-8');
+  console.log('✅ Created src/environment/environment.dev.ts');
+}

@@ -1,16 +1,20 @@
 <section class="corporate-about" id="about">
-  <div class="corporate-about__bg" #bg></div>
+  <picture class="corporate-about__bg" #bg>
+    <source media="(max-width: 768px)" srcset="/assets/images/corporate/background-corporate-about-768.webp">
+    <img src="/assets/images/corporate/background-corporate-about.webp" alt="" aria-hidden="true">
+  </picture>
   <picture class="corporate-about__character" #character>
-    <img src="/assets/images/corporate/corporate-about-hero.webp"
+    <source media="(max-width: 768px)" srcset="/assets/images/corporate/corporate-about-hero-768.webp">
+    <img ngSrc="/assets/images/corporate/corporate-about-hero.webp"
          alt="Менталист Александр Шишук на корпоративе"
          width="470" height="417">
   </picture>
   <div class="container">
-    <h2 class="corporate-about__title">
-      <span>Шоу менталиста для</span><br>
-      корпоративного мероприятия
-    </h2>
     <div class="corporate-about__content">
+      <h2 class="corporate-about__title">
+        <span>Шоу менталиста для</span><br>
+        корпоративного мероприятия
+      </h2>
       <p class="corporate-about__description">Ищете фокусника на корпоратив, но хотите более современное и необычное выступление? Выступление менталиста объединяет зрелищные иллюзии, психологию и живой интерактив с гостями.</p>
       <p class="corporate-about__description">Моё шоу — современный развлекательный формат для корпоративов, деловых событий, праздничных вечеров и мероприятий компаний.</p>
       <div class="corporate-about__items">

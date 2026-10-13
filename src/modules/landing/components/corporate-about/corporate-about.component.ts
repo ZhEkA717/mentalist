@@ -8,7 +8,7 @@ import {
   PLATFORM_ID,
   viewChild,
 } from '@angular/core';
-import {isPlatformBrowser} from '@angular/common';
+import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import type {Gsap, ScrollTrigger} from '../../utils/gsap';
 import {loadGsap} from '../../utils/gsap';
 
@@ -18,7 +18,9 @@ import {loadGsap} from '../../utils/gsap';
   templateUrl: './corporate-about.component.html',
   styleUrl: './corporate-about.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: []
+  imports: [
+    NgOptimizedImage
+  ]
 })
 export class CorporateAboutSectionComponent implements AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);

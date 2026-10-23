@@ -8,7 +8,7 @@ import {
   PLATFORM_ID,
   viewChild,
 } from '@angular/core';
-import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
+import {isPlatformBrowser, NgOptimizedImage, NgTemplateOutlet} from '@angular/common';
 import type {Gsap, ScrollTrigger} from '../../utils/gsap';
 import {loadGsap} from '../../utils/gsap';
 
@@ -19,7 +19,8 @@ import {loadGsap} from '../../utils/gsap';
   styleUrl: './corporate-about.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgOptimizedImage
+    NgOptimizedImage,
+    NgTemplateOutlet
   ]
 })
 export class CorporateAboutSectionComponent implements AfterViewInit, OnDestroy {

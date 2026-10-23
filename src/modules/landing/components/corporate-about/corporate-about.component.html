@@ -1,6 +1,7 @@
 <section class="corporate-about" id="about">
   <picture class="corporate-about__bg" #bg>
     <source media="(max-width: 768px)" srcset="/assets/images/corporate/background-corporate-about-768.webp">
+    <source media="(max-width: 615px)" srcset="/assets/images/corporate/background-corporate-about-360.webp">
     <img src="/assets/images/corporate/background-corporate-about.webp" alt="" aria-hidden="true">
   </picture>
   <picture class="corporate-about__character" #character>
@@ -15,8 +16,7 @@
         <span>Шоу менталиста для</span><br>
         корпоративного мероприятия
       </h2>
-      <p class="corporate-about__description">Ищете фокусника на корпоратив, но хотите более современное и необычное выступление? Выступление менталиста объединяет зрелищные иллюзии, психологию и живой интерактив с гостями.</p>
-      <p class="corporate-about__description">Моё шоу — современный развлекательный формат для корпоративов, деловых событий, праздничных вечеров и мероприятий компаний.</p>
+      <ng-container *ngTemplateOutlet="description"></ng-container>
       <div class="corporate-about__items">
         @for (item of items; track item.icon) {
           <div class="corporate-about__item">
@@ -30,3 +30,11 @@
     </div>
   </div>
 </section>
+<div class="corporate-about__mobile-description">
+  <ng-container *ngTemplateOutlet="description"></ng-container>
+</div>
+
+<ng-template #description>
+  <p class="corporate-about__description">Ищете фокусника на корпоратив, но хотите более современное и необычное выступление? Выступление менталиста объединяет зрелищные иллюзии, психологию и живой интерактив с гостями.</p>
+  <p class="corporate-about__description">Моё шоу — современный развлекательный формат для корпоративов, деловых событий, праздничных вечеров и мероприятий компаний.</p>
+</ng-template>

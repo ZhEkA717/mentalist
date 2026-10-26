@@ -1,0 +1,38 @@
+<section id="formats" class="formats">
+  <div class="formats__header">
+    <h2>Форматы</h2>
+  </div>
+
+  <div class="scene" id="scene">
+    <div class="scene__bg" #bg></div>
+    <picture class="scene__character">
+      <img src="/assets/images/formats/formats-hero-1.webp" alt="Корпоративы с менталистом" width="671" height="1006">
+    </picture>
+    <div class="container">
+      <div class="scene__content">
+        <h2 class="scene__title reveal-on-scroll">
+          <span class="scene__title__number">01</span>
+          <span class="scene__title__text">
+            <p>Сценическое</p>
+            <p>интерактивное шоу</p>
+          </span>
+        </h2>
+        <div class="scene__description">
+          <p>Яркая шоу-программа с чтением мыслей, неожиданными предсказаниями, визуальными эффектами и живым взаимодействием со всем залом.</p>
+          <ng-container *ngTemplateOutlet="bigDescription"></ng-container>
+        </div>
+        <div class="scene__time">
+          <img ngSrc="/assets/icons/time-icon.png" height="56" width="38" alt="scene-duration">
+          <p class="scene__time__text">25 минут</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #bigDescription>
+  <p>
+    Это не набор отдельных фокусов, а полноценное сценическое шоу, где каждый номер становится частью динамичной истории — от первых неожиданных совпадений до сильного финала, меняя эмоции гостей, удивляя и вовлекая.
+    Зрители участвуют не только со сцены: даже оставаясь на своих местах, они становятся частью происходящего и получают свой личный «момент чуда».
+  </p>
+</ng-template>

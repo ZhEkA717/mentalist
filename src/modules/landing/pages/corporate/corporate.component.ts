@@ -12,6 +12,7 @@ import {ReviewsSectionComponent} from '@modules/landing/components/reviews-secti
 import {CombinationProgramComponent} from '@modules/landing/components/combination-program/combination-program.component';
 import {ReviewCardData} from '@modules/landing/components/review-card/review-card.component';
 import {environment} from '@environment/environment';
+import {FormatsComponent} from '@modules/landing/components/formats/formats.component';
 
 @Component({
   selector: 'app-corporate',
@@ -28,6 +29,7 @@ import {environment} from '@environment/environment';
     ReviewsSectionComponent,
     CombinationProgramComponent,
     NgOptimizedImage,
+    FormatsComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

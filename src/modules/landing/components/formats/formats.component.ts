@@ -6,6 +6,7 @@ import {
   inject, OnDestroy,
   output,
   PLATFORM_ID,
+  signal,
   viewChild
 } from '@angular/core';
 import {Gsap, loadGsap, ScrollTrigger} from '@modules/landing/utils/gsap';
@@ -27,6 +28,12 @@ export class FormatsComponent implements AfterViewInit, OnDestroy {
 
   bg = viewChild<ElementRef<HTMLElement>>('bg');
   sectionClick = output<{id: string; block: ScrollLogicalPosition; offset: number}>();
+
+  readonly descriptionOpen = signal(false);
+
+  toggleDescription(): void {
+    this.descriptionOpen.update(open => !open);
+  }
 
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;

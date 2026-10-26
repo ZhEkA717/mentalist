@@ -26,9 +26,26 @@
           <p class="scene__time__text">25 минут</p>
         </div>
       </div>
+      <button
+        type="button"
+        class="scene__bottom-description"
+        [attr.aria-expanded]="descriptionOpen()"
+        (click)="toggleDescription()"
+      >
+        Описание
+        <img ngSrc="/assets/icons/down-icon.svg" alt="down-icon" height="35" width="35">
+      </button>
+    </div>
+  </div>
+  <div class="scene__description-mobile" [class.scene__description-mobile--open]="descriptionOpen()">
+    <div class="scene__description-mobile__clip">
+      <div class="scene__description-mobile__inner">
+        <ng-container *ngTemplateOutlet="bigDescription"></ng-container>
+      </div>
     </div>
   </div>
 </section>
+
 
 <ng-template #bigDescription>
   <p>

@@ -26,7 +26,9 @@ export class FormatsComponent implements AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private scrollTriggers: ScrollTrigger[] = [];
 
-  bg = viewChild<ElementRef<HTMLElement>>('bg');
+  sceneBg = viewChild<ElementRef<HTMLElement>>('sceneBg');
+  tableBg = viewChild<ElementRef<HTMLElement>>('tableBg');
+  mentalismBg = viewChild<ElementRef<HTMLElement>>('mentalismBg');
   sectionClick = output<{id: string; block: ScrollLogicalPosition; offset: number}>();
 
   readonly descriptionOpenScene = signal(false);
@@ -53,15 +55,20 @@ export class FormatsComponent implements AfterViewInit, OnDestroy {
   }
 
   private initParallax(gsap: Gsap): void {
-    const heroEl = document.getElementById('scene');
-    const bgEl = this.bg()?.nativeElement;
-    if (!heroEl || !bgEl) return;
+    this.setupParallax(gsap, 'scene', this.sceneBg()?.nativeElement);
+    this.setupParallax(gsap, 'table', this.tableBg()?.nativeElement);
+    this.setupParallax(gsap, 'mentalism', this.mentalismBg()?.nativeElement);
+  }
+
+  private setupParallax(gsap: Gsap, sectionId: string, bgEl: HTMLElement | undefined): void {
+    const sectionEl = document.getElementById(sectionId);
+    if (!sectionEl || !bgEl) return;
 
     const bgTrigger = gsap.to(bgEl, {
       y: 300,
       ease: 'none',
       scrollTrigger: {
-        trigger: heroEl,
+        trigger: sectionEl,
         start: 'top top',
         end: 'bottom top',
         scrub: true,

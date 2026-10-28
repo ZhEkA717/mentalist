@@ -6,7 +6,8 @@
   <div class="scene" id="scene">
     <div class="scene__bg" #sceneBg></div>
     <picture class="scene__character">
-      <img src="/assets/images/formats/formats-hero-1.webp" alt="Корпоративы с менталистом" width="671" height="1006">
+      <source media="(max-width: 768px)" srcset="/assets/images/formats/formats-hero-1-768.webp">
+      <img ngSrc="/assets/images/formats/formats-hero-1.webp" alt="Корпоративы с менталистом" width="454" height="642">
     </picture>
     <div class="container">
       <div class="scene__content">
@@ -49,6 +50,7 @@
   <div class="table" id="table">
     <div class="table__bg" #tableBg></div>
     <picture class="table__character">
+      <source media="(max-width: 768px)" srcset="/assets/images/formats/formats-hero-2-768.webp">
       <img ngSrc="/assets/images/formats/formats-hero-2.webp" alt="Корпоративы с менталистом" width="688" height="594">
     </picture>
     <div class="container">

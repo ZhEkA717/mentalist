@@ -76,6 +76,10 @@
       background-size: cover;
       background-position: center;
       will-change: transform;
+
+      @media(max-width: 768px) {
+        background-image: url("/assets/images/formats/formats-background-3-768.webp");
+      }
     }
 
     &__character {
@@ -252,6 +256,7 @@
       font-size: 26px;
       width: 100%;
       margin-top: auto;
+      padding-bottom: 16px;
       position: relative;
       cursor: pointer;
 
@@ -323,6 +328,10 @@
       background-size: cover;
       background-position: center;
       will-change: transform;
+
+      @media(max-width: 768px) {
+        background-image: url("/assets/images/formats/formats-background-3-768.webp");
+      }
     }
 
     &__character {
@@ -515,6 +524,7 @@
       font-size: 26px;
       width: 100%;
       margin-top: auto;
+      padding-bottom: 6px;
       position: relative;
       cursor: pointer;
 
@@ -587,6 +597,10 @@
       background-size: cover;
       background-position: center;
       will-change: transform;
+
+      @media(max-width: 768px) {
+        background-image: url("/assets/images/formats/formats-background-3-768.webp");
+      }
     }
 
     &__character {
@@ -765,6 +779,7 @@
       font-size: 26px;
       width: 100%;
       margin-top: auto;
+      padding-bottom: 16px;
       position: relative;
       cursor: pointer;
 

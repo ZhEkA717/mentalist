@@ -479,13 +479,6 @@
         }
 
       }
-
-      @media(max-width: 520px) {
-        text-align: end;
-        margin-left: auto;
-        width: 140px;
-        margin-right: initial;
-      }
     }
 
     &__time {
@@ -497,20 +490,14 @@
         transform: translateY(-240px);
       }
 
-      @media(max-width: 520px) {
-        justify-content: center;
-        transform: translateY(260px);
-      }
-
-      @media(max-width: 380px) {
-        justify-content: center;
-        transform: translateY(280px);
-      }
-
       &__text {
         transform: translateY(4px);
         font-size: 38px;
         font-weight: 500;
+
+        @media(max-width: 490px) {
+          font-size: 30px;
+        }
       }
     }
 

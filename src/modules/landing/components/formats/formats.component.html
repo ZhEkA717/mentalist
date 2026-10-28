@@ -30,25 +30,74 @@
       <button
         type="button"
         class="scene__bottom-description"
-        [attr.aria-expanded]="descriptionOpen()"
-        (click)="toggleDescription()"
+        [attr.aria-expanded]="descriptionOpenScene()"
+        (click)="toggleDescriptionScene()"
       >
         Описание
         <img ngSrc="/assets/icons/down-icon.svg" alt="down-icon" height="35" width="35">
       </button>
     </div>
   </div>
-  <div class="scene__description-mobile" [class.scene__description-mobile--open]="descriptionOpen()">
+  <div class="scene__description-mobile" [class.scene__description-mobile--open]="descriptionOpenScene()">
     <div class="scene__description-mobile__clip">
       <div class="scene__description-mobile__inner">
         <ng-container *ngTemplateOutlet="bigDescriptionScene"></ng-container>
       </div>
     </div>
   </div>
+
+  <div class="table" id="table">
+    <div class="table__bg" #bg></div>
+    <picture class="table__character">
+      <img ngSrc="/assets/images/formats/formats-hero-2.webp" alt="Корпоративы с менталистом" width="688" height="594">
+    </picture>
+    <div class="container">
+      <div class="table__content">
+        <h2 class="table__title reveal-on-scroll">
+          <span class="table__title__number">02</span>
+          <span class="table__title__text">
+            <p>Стол</p>
+            <p>менталиста</p>
+          </span>
+        </h2>
+        <div class="table__description">
+          <p>Отдельная интерактивная зона, где ментализм становится максимально личным.
+            <span>
+              Гости подходят небольшими
+            группами, а происходящее строится вокруг их мыслей, решений, значимых имён и событий — буквально на
+            расстоянии вытянутой руки.
+            </span>
+          </p>
+          <ng-container *ngTemplateOutlet="bigDescriptionTable"></ng-container>
+        </div>
+        <div class="table__time">
+          <img ngSrc="/assets/icons/time-icon.png" height="56" width="38" alt="table-duration">
+          <p class="table__time__text">40-60 минут</p>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="table__bottom-description"
+        [attr.aria-expanded]="descriptionOpenTable()"
+        (click)="toggleDescriptionTable()"
+      >
+        Описание
+        <img ngSrc="/assets/icons/down-icon.svg" alt="down-icon" height="35" width="35">
+      </button>
+    </div>
+  </div>
+  <div class="table__description-mobile" [class.table__description-mobile--open]="descriptionOpenTable()">
+    <div class="table__description-mobile__clip">
+      <div class="table__description-mobile__inner">
+        <ng-container *ngTemplateOutlet="bigDescriptionTable"></ng-container>
+      </div>
+    </div>
+  </div>
+
   <div class="mentalism" id="mentalism">
     <div class="mentalism__bg" #bg></div>
     <picture class="mentalism__character">
-      <img ngSrc="/assets/images/formats/formats-hero-3.webp" alt="Корпоративы с менталистом" width="688" height="594">
+      <img ngSrc="/assets/images/formats/formats-hero-3.webp" alt="Корпоративы с менталистом" width="1295" height="736">
     </picture>
     <div class="container">
       <div class="mentalism__content">
@@ -60,7 +109,8 @@
           </span>
         </h2>
         <div class="mentalism__description">
-          <p>Я работаю с небольшими компаниями гостей, перемещаясь по площадке и показывая ментализм буквально на расстоянии вытянутой руки.</p>
+          <p>Я работаю с небольшими компаниями гостей, перемещаясь по площадке и показывая ментализм буквально на
+            расстоянии вытянутой руки.</p>
           <ng-container *ngTemplateOutlet="bigDescriptionMentalism"></ng-container>
         </div>
         <div class="mentalism__time">
@@ -71,15 +121,15 @@
       <button
         type="button"
         class="mentalism__bottom-description"
-        [attr.aria-expanded]="descriptionOpen()"
-        (click)="toggleDescription()"
+        [attr.aria-expanded]="descriptionOpenMentalism()"
+        (click)="toggleDescriptionMentalism()"
       >
         Описание
         <img ngSrc="/assets/icons/down-icon.svg" alt="down-icon" height="35" width="35">
       </button>
     </div>
   </div>
-  <div class="mentalism__description-mobile" [class.mentalism__description-mobile--open]="descriptionOpen()">
+  <div class="mentalism__description-mobile" [class.mentalism__description-mobile--open]="descriptionOpenMentalism()">
     <div class="mentalism__description-mobile__clip">
       <div class="mentalism__description-mobile__inner">
         <ng-container *ngTemplateOutlet="bigDescriptionMentalism"></ng-container>
@@ -97,12 +147,22 @@
     свой личный «момент чуда».
   </p>
 </ng-template>
+<ng-template #bigDescriptionTable>
+  <p>
+    К шоу можно присоединиться в любой момент: гости сменяют друг друга, и каждый получает персональное психологическое
+    чтение с одним вопросом в конце: «Как он мог это узнать?»
+  </p>
+  <p>
+    Формат идеально подходит для welcome, фуршета или перерывов — стол становится точкой притяжения, где гости
+    знакомятся, удивляются и получают яркие эмоции. </p>
+</ng-template>
 <ng-template #bigDescriptionMentalism>
   <p>Это не классические фокусы с картами, а персональный интерактив — чтение мыслей, неожиданные предсказания,
     угадывание имён, личных деталей и загаданных выборов. Каждый участник получает собственный «момент чуда», которым
     хочется поделиться с остальными.
   </p>
   <p>
-    Формат идеально дополняет welcome, фуршет или перерывы — помогает гостям знакомиться, общаться и с первых минут погружает их в атмосферу мероприятия.
+    Формат идеально дополняет welcome, фуршет или перерывы — помогает гостям знакомиться, общаться и с первых минут
+    погружает их в атмосферу мероприятия.
   </p>
 </ng-template>

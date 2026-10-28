@@ -6,6 +6,7 @@
     "env": "node scripts/load-env.js",
     "start": "node scripts/load-env.js && ng serve",
     "start-host": "node scripts/load-env.js && ng serve --host 192.168.100.6",
+    "start-mobile": "node scripts/load-env.js && ng serve --host 172.20.10.3",
     "build": "node scripts/load-env.js && ng build && node scripts/postbuild.js && node scripts/update-lastmod.js",
     "deploy": "npm run build && firebase deploy --only hosting && node scripts/submit-indexnow.js",
     "indexnow": "node scripts/submit-indexnow.js",

@@ -29,10 +29,20 @@ export class FormatsComponent implements AfterViewInit, OnDestroy {
   bg = viewChild<ElementRef<HTMLElement>>('bg');
   sectionClick = output<{id: string; block: ScrollLogicalPosition; offset: number}>();
 
-  readonly descriptionOpen = signal(false);
+  readonly descriptionOpenScene = signal(false);
+  readonly descriptionOpenMentalism = signal(false);
+  readonly descriptionOpenTable = signal(false);
 
-  toggleDescription(): void {
-    this.descriptionOpen.update(open => !open);
+  toggleDescriptionScene(): void {
+    this.descriptionOpenScene.update(open => !open);
+  }
+
+  toggleDescriptionMentalism(): void {
+    this.descriptionOpenMentalism.update(open => !open);
+  }
+
+  toggleDescriptionTable(): void {
+    this.descriptionOpenTable.update(open => !open);
   }
 
   ngAfterViewInit(): void {

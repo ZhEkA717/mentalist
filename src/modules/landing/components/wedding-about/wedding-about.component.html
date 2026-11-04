@@ -1,0 +1,41 @@
+<section class="wedding-about" id="about">
+  <picture class="wedding-about__bg">
+    <source media="(max-width: 768px)" srcset="/assets/images/wedding/background-wedding-about-768.webp">
+    <source media="(max-width: 615px)" srcset="/assets/images/wedding/background-wedding-about-520.webp">
+    <img ngSrc="/assets/images/wedding/background-wedding-about.webp" alt="background-wedding-about" aria-hidden="true" height="601"
+         width="1920">
+  </picture>
+  <picture class="wedding-about__character">
+    <source media="(max-width: 768px)" srcset="/assets/images/wedding/wedding-about-hero-768.webp">
+    <img ngSrc="/assets/images/wedding/wedding-about-hero.webp"
+         alt="Менталист Александр Шишук на корпоративе"
+         width="864" height="576">
+  </picture>
+  <div class="container">
+    <div class="wedding-about__content">
+      <h2 class="wedding-about__title">
+        <span>Шоу менталиста для</span><br>
+        СВАДЕБНОГО ТОРЖЕСТВА
+      </h2>
+      <ng-container *ngTemplateOutlet="description"></ng-container>
+      <div class="wedding-about__items">
+        @for (item of items; track item.icon) {
+          <div class="wedding-about__item">
+            <div class="wedding-about__item__image">
+              <img [src]="item.icon" class="wedding-about__item__image" width="174" height="140"  [alt]="'иконка с текстом ' + item.icon"/>
+            </div>
+            <div class="wedding-about__item__subtitle">{{ item.text }}</div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+<div class="wedding-about__mobile-description">
+  <ng-container *ngTemplateOutlet="description"></ng-container>
+</div>
+
+<ng-template #description>
+  <p class="wedding-about__description">Ищете фокусника на свадьбу, но хотите удивить гостей чем-то по-настоящему необычным? Шоу менталиста объединяет зрелищные иллюзии, чтение мыслей, неожиданные предсказания и живой интерактив с гостями.</p>
+  <p class="wedding-about__description">Моё шоу — современный развлекательный формат для свадьбы, который подарит молодожёнам и гостям яркие эмоции, удивительные моменты и воспоминания, которыми захочется делиться.</p>
+</ng-template>

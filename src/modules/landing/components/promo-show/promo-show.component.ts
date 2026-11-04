@@ -69,7 +69,7 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
       imgSmall: '/assets/images/card_2-274x284.webp',
       title: 'Свадьбы',
       description: 'Эмоциональное шоу, которое объединяет гостей, вовлекает молодоженов и делает свадебное событие по-настоящему запоминающимся.',
-      link: null,
+      link: '/wedding',
     },
     {
       id: 3,

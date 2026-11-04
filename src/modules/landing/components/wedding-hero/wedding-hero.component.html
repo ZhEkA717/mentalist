@@ -1,0 +1,34 @@
+<section class="wedding-hero" id="wedding">
+  <div class="wedding-hero__bg" #bg></div>
+  <picture class="wedding-hero__character">
+    <source media="(max-width: 520px)" srcset="/assets/images/wedding/wedding-hero-520.webp">
+    <source media="(max-width: 768px)" srcset="/assets/images/wedding/wedding-hero-768.webp">
+    <img src="/assets/images/wedding/wedding-hero.webp" alt="Корпоративы с менталистом" width="1356" height="946">
+  </picture>
+  <div class="container">
+    <div class="wedding-hero__content">
+      <h1 class="wedding-hero__title">Иллюзионно-ментальное
+        шоу на свадьбу</h1>
+      <div class="wedding-hero__subtitle">
+        <p>Александр Шишук</p>
+        <span class="mdash"> &mdash; </span>
+        <span class="line"></span>
+        <p>Менталист, психологический иллюзионист с 15-летним опытом выступлений</p>
+      </div>
+      <div class="line"></div>
+      <p class="wedding-hero__description">
+        Сделайте свадебный вечер по-настоящему незабываемым! Интерактивное шоу Александра Шишука объединяет чтение мыслей, неожиданные предсказания, психологические иллюзии и яркие визуальные эффекты.
+        Это больше, чем привычное шоу фокусника на свадьбу. Молодожёны и гости не просто наблюдают за трюками, а сами становятся главными героями происходящего.
+      </p>
+      <button (click)="scrollTo($event, 'contacts-form', 'center')"
+              class="wedding-hero__button" #button>
+        <span>обсудить свадьбу</span>
+      </button>
+      <div class="wedding-hero__note">
+        <img ngSrc="/assets/icons/globe-hero-icon.svg" alt="Иконка земного шара весь мир" height="46" width="46">
+        <p>Москва · Санкт-Петербург · Минск ·<br>
+          Выступления по всему миру</p>
+      </div>
+    </div>
+  </div>
+</section>

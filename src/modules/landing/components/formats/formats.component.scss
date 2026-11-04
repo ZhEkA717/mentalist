@@ -13,11 +13,19 @@
     place-items: center;
 
     @media(max-width: 1000px) {
-      height: 80px;
+      height: 100px;
     }
 
     h2 {
       @include mixins.title-block;
+
+      @media(max-width: 950px) {
+        font-size: 42px !important;
+      }
+
+      @media(max-width: 480px) {
+        font-size: 36px !important;
+      }
     }
   }
 
@@ -78,7 +86,7 @@
       will-change: transform;
 
       @media(max-width: 768px) {
-        background-image: url("/assets/images/formats/formats-background-3-768.webp");
+        background-image: url("/assets/images/formats/formats-background-1-768.webp");
       }
     }
 

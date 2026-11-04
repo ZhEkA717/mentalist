@@ -31,9 +31,9 @@ export class FormatsComponent implements AfterViewInit, OnDestroy {
   mentalismBg = viewChild<ElementRef<HTMLElement>>('mentalismBg');
   sectionClick = output<{id: string; block: ScrollLogicalPosition; offset: number}>();
 
-  readonly descriptionOpenScene = signal(false);
-  readonly descriptionOpenMentalism = signal(false);
-  readonly descriptionOpenTable = signal(false);
+  readonly descriptionOpenScene = signal(true);
+  readonly descriptionOpenMentalism = signal(true);
+  readonly descriptionOpenTable = signal(true);
 
   toggleDescriptionScene(): void {
     this.descriptionOpenScene.update(open => !open);

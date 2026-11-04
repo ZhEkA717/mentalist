@@ -6,4 +6,10 @@
     <h1 appHeaderStart class="visually-hidden">Александр Шишук — менталист, психологический иллюзионист</h1>
   </app-header>
   <app-wedding-hero (sectionClick)="onSectionClick($event.id, $event.block, $event.offset)"/>
+  <app-formats/>
+  <app-combination-program/>
+  <app-reviews-section [items]="reviewsItems"/>
+  <app-media [background]="'linear-gradient(180deg, #000000 0%, #23090A 46%, #000000 100%)'"/>
+  <app-faq-section [items]="faqItems"/>
+  <app-contacts/>
 </main>

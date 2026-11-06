@@ -50,6 +50,49 @@
           </div>
         }
       </div>
+      @if (isShowPromo()) {
+        <div class="promo__content__image" (click)="openVideo()">
+          <img ngSrc="/assets/images/promo.webp" alt="Шоу психологических иллюзий — Александр Шишук" class="dim-on-scroll" loading="lazy" decoding="async" width="574" height="323">
+          <div class="promo__content__image-overlay">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="23" stroke="white" stroke-width="2" opacity="0.8"/>
+              <path d="M19 15L35 24L19 33V15Z" fill="white" opacity="0.9"/>
+            </svg>
+          </div>
+          @if (videoLoading()) {
+            <div class="promo__content__image-loading" aria-hidden="true">
+              <span class="promo__content__image-loading__ring"></span>
+            </div>
+          }
+        </div>
+      }
     </div>
   </div>
+
+  @if (isMobile()) {
+    <app-drawer [isOpen]="videoOpen()" (closingStart)="onDrawerClosingStart()" (closed)="onDrawerClosed()">
+      @if (videoLoading() || videoOpen()) {
+        <iframe
+          class="video-iframe"
+          [src]="videoUrl"
+          allow="autoplay; fullscreen; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          (load)="onModalVideoLoaded()">
+        </iframe>
+      }
+    </app-drawer>
+  } @else {
+    @if (videoRendered() || videoLoading()) {
+      <div class="video-backdrop" [class.video-backdrop--closing]="videoClosing()" [class.video-backdrop--loading]="videoLoading()" (click)="closeVideo()" (touchmove)="$event.preventDefault()"></div>
+      <div class="video-overlay" [class.video-overlay--closing]="videoClosing()" [class.video-overlay--loading]="videoLoading()">
+        <button class="video-overlay__close" (click)="closeVideo()">✕</button>
+        <iframe
+          [src]="videoUrl"
+          allow="autoplay; fullscreen; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          (load)="onModalVideoLoaded()">
+        </iframe>
+      </div>
+    }
+  }
 </section>

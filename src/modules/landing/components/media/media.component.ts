@@ -2,22 +2,27 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
-  inject, input,
+  inject,
+  input,
   OnDestroy,
   PLATFORM_ID,
   signal,
   viewChild,
-  viewChildren
+  viewChildren,
 } from '@angular/core';
 import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
+import {BreakpointObserver} from '@angular/cdk/layout';
 import {CarouselComponent} from '../../components/carousel/carousel.component';
+import {DrawerComponent} from '../drawer/drawer.component';
 import {SliderItem} from '@modules/landing/models/slider-item';
 import {initRevealOnScroll} from '../../utils/scroll-animations';
 import {killGsapTweens, loadGsap} from '../../utils/gsap';
 import type {ScrollTrigger} from '../../utils/gsap';
+import {createModalClose} from '../../utils/modal-close';
 import {environment} from '@environment/environment';
 
 const galleryPhoto = (id: number): SliderItem => ({
@@ -30,13 +35,14 @@ const galleryPhoto = (id: number): SliderItem => ({
 @Component({
   selector: 'app-media',
   standalone: true,
-  imports: [CarouselComponent, NgOptimizedImage],
+  imports: [CarouselComponent, DrawerComponent, NgOptimizedImage],
   templateUrl: './media.component.html',
   styleUrl: './media.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   background = input<string>('#000000');
+  isShowPromo = input<boolean>(true);
 
   private platformId = inject(PLATFORM_ID);
   private readonly sanitizer = inject(DomSanitizer);
@@ -93,6 +99,22 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
   protected readonly activeFlags = signal<boolean[]>(this.videoUrls.map(() => false));
   protected readonly loadingFlags = signal<boolean[]>(this.videoUrls.map(() => false));
 
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly destroyRef = inject(DestroyRef);
+  protected readonly isMobile = signal(false);
+
+  private readonly VIDEO_URL = 'https://vk.com/video_ext.php?oid=-65614643&id=456239031&autoplay=1';
+  private readonly blankUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+  protected videoUrl: SafeResourceUrl = this.blankUrl;
+  protected videoOpen = signal(false);
+  protected videoLoading = signal(false);
+  private promoLoadingStartedAt = 0;
+  private videoLoadPending = false;
+
+  private readonly videoModal = createModalClose({lockScroll: true});
+  protected videoClosing = this.videoModal.closing;
+  protected videoRendered = this.videoModal.rendered;
+
   protected sliderItems: SliderItem[] = [
     ...Array.from({length: 24}, (_, i) => galleryPhoto(i + 1)),
     galleryPhoto(26),
@@ -108,9 +130,15 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
     const id = setTimeout(() => this.initScrollToSecondVideo(), 2200);
     this.setTimeoutIds.push(id);
     this.initVideoObserver();
+
+    const sub = this.breakpointObserver.observe('(max-width: 950px)').subscribe(result => {
+      this.isMobile.set(result.matches);
+    });
+    this.destroyRef.onDestroy(() => sub.unsubscribe());
   }
 
   ngOnDestroy(): void {
+    this.videoModal.destroy();
     this.observer?.disconnect();
     this.setTimeoutIds.forEach(id => clearTimeout(id));
     this.loadingTimeoutIds.forEach(id => clearTimeout(id));
@@ -342,6 +370,72 @@ export class MediaSectionComponent implements AfterViewInit, OnDestroy {
     }
     document.documentElement.style.overflow = this.previousDocumentOverflow;
     this.scrollLocked = false;
+  }
+
+  protected openVideo(): void {
+    if (this.videoLoadPending) return;
+    this.videoLoadPending = true;
+    this.promoLoadingStartedAt = Date.now();
+    this.videoLoading.set(true);
+    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.VIDEO_URL);
+    const id = setTimeout(() => this.finishVideoOpen(), 8000);
+    this.setTimeoutIds.push(id);
+  }
+
+  protected onModalVideoLoaded(): void {
+    if (!this.videoLoadPending) return;
+    const elapsed = Date.now() - this.promoLoadingStartedAt;
+    const remaining = this.MIN_SPINNER_MS - elapsed;
+    if (remaining <= 0) {
+      this.finishVideoOpen();
+      return;
+    }
+    const id = setTimeout(() => this.finishVideoOpen(), remaining);
+    this.setTimeoutIds.push(id);
+  }
+
+  private finishVideoOpen(): void {
+    if (!this.videoLoadPending) return;
+    this.videoLoadPending = false;
+    this.videoLoading.set(false);
+    if (this.isMobile()) {
+      this.videoOpen.set(true);
+    } else {
+      this.videoModal.prepareOpen();
+      this.videoOpen.set(true);
+    }
+  }
+
+  protected closeVideo(): void {
+    this.stopVideo();
+    if (this.isMobile()) {
+      this.videoOpen.set(false);
+      this.clearVideoSource();
+    } else {
+      this.videoModal.close(() => {
+        this.videoOpen.set(false);
+        this.clearVideoSource();
+      });
+    }
+  }
+
+  protected onDrawerClosingStart(): void {
+    this.stopVideo();
+  }
+
+  protected onDrawerClosed(): void {
+    this.videoOpen.set(false);
+    this.stopVideo();
+    this.clearVideoSource();
+  }
+
+  private stopVideo(): void {
+    this.videoLoadPending = false;
+    this.videoLoading.set(false);
+  }
+
+  private clearVideoSource(): void {
+    this.videoUrl = this.blankUrl;
   }
 
   protected readonly environment = environment;

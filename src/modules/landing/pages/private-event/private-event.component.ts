@@ -36,7 +36,7 @@ export class PrivateEventComponent implements AfterViewInit, OnDestroy {
 
   protected items: HeaderItem[] = [
     {label: 'Главная', route: '/'},
-    {label: 'Частное меропритие', href: '#privateEvent', route: '/private-event'},
+    {label: 'Частное меропритие', href: '#private-event', route: '/private-event'},
     {label: 'Форматы', href: '#formats'},
     {label: 'Отзывы', href: '#reviews'},
     {label: 'Медиа', href: '#media'},

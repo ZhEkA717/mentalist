@@ -1,11 +1,11 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, inject, OnDestroy, PLATFORM_ID} from '@angular/core';
 import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
-import {Title} from '@angular/platform-browser';
 import {HeaderComponent, HeaderItem} from '../../components/header/header.component';
 import {CorporateHeroSectionComponent} from '../../components/corporate-hero/corporate-hero.component';
 import {CorporateAboutSectionComponent} from '../../components/corporate-about/corporate-about.component';
 import {ContactsSectionComponent} from '../../components/contacts/contacts.component';
 import {corporateMetaConfig} from '../../config/corporate-meta.config';
+import {SeoService} from '../../services/seo.service';
 import {MediaSectionComponent} from '@modules/landing/components/media/media.component';
 import {FaqItem, FaqSectionComponent} from '@modules/landing/components/faq-section/faq-section.component';
 import {ReviewsSectionComponent} from '@modules/landing/components/reviews-section/reviews-section.component';
@@ -18,6 +18,7 @@ import {FormatsComponent} from '@modules/landing/components/formats/formats.comp
 @Component({
   selector: 'app-corporate',
   standalone: true,
+  providers: [SeoService],
   templateUrl: './corporate.component.html',
   styleUrl: './corporate.component.scss',
   imports: [
@@ -36,7 +37,6 @@ import {FormatsComponent} from '@modules/landing/components/formats/formats.comp
 })
 export class CorporateComponent implements AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
-  private readonly title = inject(Title);
   private setTimeoutIds: ReturnType<typeof setTimeout>[] = [];
 
   protected items: HeaderItem[] = [
@@ -150,7 +150,7 @@ export class CorporateComponent implements AfterViewInit, OnDestroy {
   ];
 
   constructor() {
-    this.title.setTitle(corporateMetaConfig.title);
+    inject(SeoService).apply(corporateMetaConfig);
   }
 
   protected onSectionClick(id: string, block: ScrollLogicalPosition = 'start', offset = 0): void {

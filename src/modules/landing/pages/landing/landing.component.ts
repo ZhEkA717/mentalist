@@ -1,7 +1,7 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, PLATFORM_ID, Renderer2, signal} from '@angular/core';
-import {DOCUMENT, isPlatformBrowser, NgOptimizedImage} from '@angular/common';
-import {Meta, Title} from '@angular/platform-browser';
+import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, PLATFORM_ID, signal} from '@angular/core';
+import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {landingMetaConfig} from '../../config/landing-meta.config';
+import {SeoService} from '../../services/seo.service';
 import {isGsapLoaded, loadGsap, onGsapLoaded} from '../../utils/gsap';
 import {MarqueeDirective} from '../../directives/marquee.directive';
 import {HeaderComponent} from '../../components/header/header.component';
@@ -15,6 +15,7 @@ import {ContactsSectionComponent} from '../../components/contacts/contacts.compo
 @Component({
   selector: 'app-landing',
   standalone: true,
+  providers: [SeoService],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',
   imports: [
@@ -32,13 +33,8 @@ import {ContactsSectionComponent} from '../../components/contacts/contacts.compo
 })
 export class LandingComponent implements AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
-  private readonly title = inject(Title);
-  private readonly meta = inject(Meta);
-  private readonly renderer = inject(Renderer2);
-  private readonly document = inject<Document>(DOCUMENT);
   private styleObserver: MutationObserver | null = null;
   private setTimeoutIds: ReturnType<typeof setTimeout>[] = [];
-  private structuredDataScript: HTMLScriptElement | null = null;
 
   protected showPromo = signal(false);
   protected showAbout = signal(false);
@@ -74,7 +70,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   ];
 
   constructor() {
-    this.title.setTitle(landingMetaConfig.title);
+    inject(SeoService).apply(landingMetaConfig);
 
     if (isPlatformBrowser(this.platformId)) {
       if (window.location.hash) {
@@ -85,21 +81,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     inject(DestroyRef).onDestroy(() => {
       this.styleObserver?.disconnect();
     });
-  }
-
-  private setStructuredData(data: Record<string, unknown>): void {
-    this.removeStructuredData();
-    const script = this.renderer.createElement('script');
-    this.renderer.setAttribute(script, 'type', 'application/ld+json');
-    this.renderer.setProperty(script, 'textContent', JSON.stringify(data));
-    this.renderer.appendChild(this.document.head, script);
-    this.structuredDataScript = script;
-  }
-
-  private removeStructuredData(): void {
-    if (!this.structuredDataScript) return;
-    this.renderer.removeChild(this.document.head, this.structuredDataScript);
-    this.structuredDataScript = null;
   }
 
   protected onSectionClick(id: string, block: ScrollLogicalPosition = 'start', offset = 0): void {
@@ -183,7 +164,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.removeStructuredData();
     this.styleObserver?.disconnect();
     this.setTimeoutIds.forEach(id => clearTimeout(id));
     if (isPlatformBrowser(this.platformId) && isGsapLoaded()) {

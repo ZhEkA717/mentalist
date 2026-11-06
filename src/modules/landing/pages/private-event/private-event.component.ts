@@ -9,7 +9,8 @@ import {HeaderComponent, HeaderItem} from "@modules/landing/components/header/he
 import {MediaSectionComponent} from "@modules/landing/components/media/media.component";
 import {isPlatformBrowser, NgOptimizedImage} from "@angular/common";
 import {ReviewsSectionComponent} from "@modules/landing/components/reviews-section/reviews-section.component";
-import {Title} from '@angular/platform-browser';
+import {privateEventMetaConfig} from '@modules/landing/config/private-event-meta.config';
+import {SeoService} from '@modules/landing/services/seo.service';
 import {ReviewCardData} from '@modules/landing/components/review-card/review-card.component';
 import {PrivateEventHeroComponent} from '@modules/landing/components/private-event-hero/private-event-hero.component';
 import {
@@ -18,6 +19,7 @@ import {
 
 @Component({
   selector: 'app-private-event',
+  providers: [SeoService],
   imports: [
     CombinationProgramComponent,
     ContactsSectionComponent,
@@ -35,8 +37,11 @@ import {
 })
 export class PrivateEventComponent implements AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
-  private readonly title = inject(Title);
   private setTimeoutIds: ReturnType<typeof setTimeout>[] = [];
+
+  constructor() {
+    inject(SeoService).apply(privateEventMetaConfig);
+  }
 
   protected items: HeaderItem[] = [
     {label: 'Главная', route: '/'},

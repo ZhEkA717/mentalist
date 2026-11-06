@@ -12,9 +12,12 @@ import {MediaSectionComponent} from '@modules/landing/components/media/media.com
 import {ReviewsSectionComponent} from '@modules/landing/components/reviews-section/reviews-section.component';
 import {ReviewCardData} from '@modules/landing/components/review-card/review-card.component';
 import {WeddingAboutComponent} from '@modules/landing/components/wedding-about/wedding-about.component';
+import {weddingMetaConfig} from '@modules/landing/config/wedding-meta.config';
+import {SeoService} from '@modules/landing/services/seo.service';
 
 @Component({
   selector: 'app-wedding',
+  providers: [SeoService],
   imports: [
     HeaderComponent,
     NgOptimizedImage,
@@ -33,6 +36,10 @@ import {WeddingAboutComponent} from '@modules/landing/components/wedding-about/w
 export class WeddingComponent implements AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private setTimeoutIds: ReturnType<typeof setTimeout>[] = [];
+
+  constructor() {
+    inject(SeoService).apply(weddingMetaConfig);
+  }
 
   protected items: HeaderItem[] = [
     {label: 'Главная', route: '/'},

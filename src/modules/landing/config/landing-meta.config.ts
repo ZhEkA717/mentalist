@@ -1,34 +1,13 @@
 import {environment} from '@environment/environment';
+import {PageMetaConfig} from './meta-config.types';
 
-export interface LandingMetaConfig {
-  title: string;
-  description: string;
-  robots: string;
-  siteUrl: string;
-  og: {
-    type: string;
-    locale: string;
-    siteName: string;
-    title: string;
-    description: string;
-    url: string;
-    image: string;
-  };
-  twitter: {
-    card: string;
-    title: string;
-    description: string;
-    image: string;
-  };
-  structuredData: Record<string, unknown>;
-}
-
-export const landingMetaConfig: LandingMetaConfig = {
+export const landingMetaConfig: PageMetaConfig = {
   title: 'Александр Шишук — менталист, психологический иллюзионист',
   description:
     'Александр Шишук — один из лучших менталистов России и Беларуси, психологический иллюзионист. Более 15 лет на сцене, дипломированный психолог, автор интерактивных шоу и спикер международных фестивалей.',
   robots: 'index, follow',
   siteUrl: environment.baseUrl,
+  path: '',
   og: {
     type: 'website',
     locale: 'ru_RU',
@@ -46,22 +25,50 @@ export const landingMetaConfig: LandingMetaConfig = {
       'Менталист Александр Шишук — шоу психологических иллюзий на корпоратив, свадьбу и частные мероприятия.',
     image: environment.baseUrl + '/og-image.jpg',
   },
-  structuredData: {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: 'Александр Шишук',
-    alternateName: 'Менталист Александр Шишук',
-    description:
-      'Менталист, психологический иллюзионист, дипломированный психолог, гипнотизёр. Более 15 лет опыта выступлений.',
-    url: environment.baseUrl,
-    image: environment.baseUrl +'/og-image.jpg',
-    jobTitle: 'Менталист',
-    telephone: ['+7 (915) 442-28-54', '+375 (29) 857-60-57'],
-    email: 'alex.mentalist@yandex.by',
-    sameAs: [
-      'https://t.me/alexshishuk',
-      'https://www.youtube.com/@alexshishuk',
-      'https://vk.ru/alexshishuk',
-    ],
-  },
+  structuredData: [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Главная', item: environment.baseUrl + '/' },
+        { '@type': 'ListItem', position: 2, name: 'О менталисте', item: environment.baseUrl + '/#about' },
+        { '@type': 'ListItem', position: 3, name: 'Шоу на корпоратив', item: environment.baseUrl + '/#shows' },
+        { '@type': 'ListItem', position: 4, name: 'Медиа', item: environment.baseUrl + '/#media' },
+        { '@type': 'ListItem', position: 5, name: 'Контакты', item: environment.baseUrl + '/#contacts' },
+      ],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      serviceType: 'Шоу психологических иллюзий на корпоратив',
+      name: 'Шоу менталиста на корпоратив',
+      description:
+        'Интерактивное шоу психологических иллюзий для корпоративных мероприятий: чтение мыслей, предсказание решений, психологические эксперименты со зрителями.',
+      provider: { '@id': environment.baseUrl + '/#person' },
+      areaServed: ['Москва', 'Санкт-Петербург', 'Минск', 'Россия', 'Беларусь', 'Весь мир'],
+      url: environment.baseUrl + '/#shows',
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      serviceType: 'Шоу менталиста на свадьбу',
+      name: 'Свадебное шоу менталиста',
+      description:
+        'Уникальное интерактивное шоу психологических иллюзий для свадебного торжества: гадания, предсказания, чтение мыслей молодожёнов и гостей.',
+      provider: { '@id': environment.baseUrl + '/#person' },
+      areaServed: ['Москва', 'Санкт-Петербург', 'Минск', 'Россия', 'Беларусь', 'Весь мир'],
+      url: environment.baseUrl + '/#shows',
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      serviceType: 'Шоу на частные мероприятия',
+      name: 'Шоу менталиста на день рождения и юбилей',
+      description:
+        'Интерактивное шоу психологических иллюзий для частных праздников: день рождения, юбилей, корпоратив частный. Индивидуальный сценарий под аудиторию гостей.',
+      provider: { '@id': environment.baseUrl + '/#person' },
+      areaServed: ['Москва', 'Санкт-Петербург', 'Минск', 'Россия', 'Беларусь', 'Весь мир'],
+      url: environment.baseUrl + '/#shows',
+    },
+  ],
 };

@@ -1,0 +1,44 @@
+<section class="private-event-about" id="about">
+  <picture class="private-event-about__bg">
+    <source media="(max-width: 768px)" srcset="/assets/images/private-event/background-private-event-about-768.webp">
+    <source media="(max-width: 615px)" srcset="/assets/images/private-event/background-private-event-about-520.webp">
+    <img ngSrc="/assets/images/private-event/background-private-event-about.webp" alt="background-private-event-about" aria-hidden="true" height="605"
+         width="1920">
+  </picture>
+  <picture class="private-event-about__character">
+    <source media="(max-width: 768px)" srcset="/assets/images/private-event/private-event-about-hero-768.webp">
+    <img ngSrc="/assets/images/private-event/private-event-about-hero.webp"
+         alt="Менталист Александр Шишук на корпоративе"
+         width="381" height="475">
+  </picture>
+  <div class="container">
+    <h2 class="private-event-about__title">
+      <span>ШОУ МЕНТАЛИСТА НА</span><br>
+      ДЕНЬ РОЖДЕНИЯ, ЮБИЛЕЙ И ЧАСТНЫЙ ПРАЗДНИК
+    </h2>
+    <div class="private-event-about__content">
+      <ng-container *ngTemplateOutlet="description"></ng-container>
+      <div class="private-event-about__items">
+        @for (item of items; track item.icon) {
+          <div class="private-event-about__item">
+            <div class="private-event-about__item__image">
+              <img [src]="item.icon" class="private-event-about__item__image" width="174" height="140"  [alt]="'иконка с текстом ' + item.icon"/>
+            </div>
+            <div class="private-event-about__item__subtitle">{{ item.text }}</div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+<div class="private-event-about__mobile-description">
+  <ng-container *ngTemplateOutlet="description"></ng-container>
+</div>
+
+<ng-template #description>
+  <p class="private-event-about__description">
+    Ищете фокусника на день рождения или юбилей, но хотите удивить гостей чем-то действительно необычным? Шоу менталиста объединяет зрелищные иллюзии, чтение мыслей, неожиданные предсказания и живой интерактив.  </p>
+  <p class="private-event-about__description">
+    Моё шоу — современный развлекательный формат для дней рождения, юбилеев, семейных торжеств и частных вечеринок. Программа подбирается с учётом атмосферы праздника, количества гостей и ваших пожеланий.
+  </p>
+</ng-template>

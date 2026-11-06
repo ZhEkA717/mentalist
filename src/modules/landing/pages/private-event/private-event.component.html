@@ -5,7 +5,7 @@
          width="124">
     <h1 appHeaderStart class="visually-hidden">Александр Шишук — менталист, психологический иллюзионист</h1>
   </app-header>
-  <app-private-event-hero/>
+  <app-private-event-hero (sectionClick)="onSectionClick($event.id, $event.block, $event.offset)"/>
   <app-private-event-about/>
   <app-formats/>
   <app-combination-program/>

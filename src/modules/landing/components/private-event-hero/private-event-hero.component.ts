@@ -15,6 +15,7 @@ export class PrivateEventHeroComponent {
   private scrollTriggers: ScrollTrigger[] = [];
 
   bg = viewChild<ElementRef<HTMLElement>>('bg');
+  character = viewChild<ElementRef<HTMLElement>>('character');
   sectionClick = output<{id: string; block: ScrollLogicalPosition; offset: number}>();
 
   ngAfterViewInit(): void {
@@ -31,7 +32,8 @@ export class PrivateEventHeroComponent {
   private initParallax(gsap: Gsap): void {
     const heroEl = document.getElementById('private-event');
     const bgEl = this.bg()?.nativeElement;
-    if (!heroEl || !bgEl) return;
+    const characterEl = this.character()?.nativeElement;
+    if (!heroEl || !bgEl || !characterEl) return;
 
     const bgTrigger = gsap.to(bgEl, {
       y: 300,
@@ -44,6 +46,18 @@ export class PrivateEventHeroComponent {
       },
     });
     if (bgTrigger.scrollTrigger) this.scrollTriggers.push(bgTrigger.scrollTrigger);
+
+    const characterTrigger = gsap.to(characterEl, {
+      y: 300,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: heroEl,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+    });
+    if (characterTrigger.scrollTrigger) this.scrollTriggers.push(characterTrigger.scrollTrigger);
   }
 
   protected scrollTo(event: Event, id: string, block: ScrollLogicalPosition = 'start'): void {

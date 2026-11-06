@@ -1,0 +1,35 @@
+<section class="private-event-hero" id="private-event">
+  <div class="private-event-hero__bg" #bg></div>
+  <picture class="private-event-hero__character">
+    <source media="(max-width: 520px)" srcset="/assets/images/private-event/private-event-hero-520.webp">
+    <source media="(max-width: 768px)" srcset="/assets/images/private-event/private-event-hero-768.webp">
+    <img src="/assets/images/private-event/private-event-hero.webp" alt="Корпоративы с менталистом" width="548" height="736">
+  </picture>
+  <div class="container">
+    <div class="private-event-hero__content">
+      <h1 class="private-event-hero__title">Иллюзионно-ментальное шоу
+        на частное мероприятие</h1>
+      <div class="private-event-hero__subtitle">
+        <p>Александр Шишук</p>
+        <span class="mdash"> &mdash; </span>
+        <span class="line"></span>
+        <p>Менталист, психологический иллюзионист с 15-летним опытом выступлений</p>
+      </div>
+      <div class="line"></div>
+      <p class="private-event-hero__description">
+        Превратите день рождения, юбилей или частный праздник в событие, которое запомнится надолго!
+        Интерактивное шоу Александра Шишука объединяет чтение мыслей, неожиданные предсказания, психологические иллюзии и зрелищные визуальные эффекты.
+        Это больше, чем привычное выступление фокусника на празднике. Гости не просто наблюдают за трюками, а сами становятся главными героями происходящего.
+      </p>
+      <button (click)="scrollTo($event, 'contacts-form', 'center')"
+              class="private-event-hero__button" #button>
+        <span>обсудить мероприятие</span>
+      </button>
+      <div class="private-event-hero__note">
+        <img ngSrc="/assets/icons/globe-hero-icon.svg" alt="Иконка земного шара весь мир" height="46" width="46">
+        <p>Москва · Санкт-Петербург · Минск ·<br>
+          Выступления по всему миру</p>
+      </div>
+    </div>
+  </div>
+</section>

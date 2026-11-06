@@ -11,6 +11,7 @@ import {isPlatformBrowser, NgOptimizedImage} from "@angular/common";
 import {ReviewsSectionComponent} from "@modules/landing/components/reviews-section/reviews-section.component";
 import {Title} from '@angular/platform-browser';
 import {ReviewCardData} from '@modules/landing/components/review-card/review-card.component';
+import {PrivateEventHeroComponent} from '@modules/landing/components/private-event-hero/private-event-hero.component';
 
 @Component({
   selector: 'app-private-event',
@@ -22,7 +23,8 @@ import {ReviewCardData} from '@modules/landing/components/review-card/review-car
     HeaderComponent,
     MediaSectionComponent,
     NgOptimizedImage,
-    ReviewsSectionComponent
+    ReviewsSectionComponent,
+    PrivateEventHeroComponent
   ],
   templateUrl: './private-event.component.html',
   styleUrl: './private-event.component.scss',

@@ -1,4 +1,4 @@
-import {Component, inject, PLATFORM_ID} from '@angular/core';
+import {AfterViewInit, Component, inject, OnDestroy, PLATFORM_ID} from '@angular/core';
 import {HeaderComponent, HeaderItem} from "@modules/landing/components/header/header.component";
 import {isPlatformBrowser, NgOptimizedImage} from "@angular/common";
 import {WeddingHeroComponent} from '@modules/landing/components/wedding-hero/wedding-hero.component';
@@ -30,7 +30,7 @@ import {WeddingAboutComponent} from '@modules/landing/components/wedding-about/w
   templateUrl: './wedding.component.html',
   styleUrl: './wedding.component.scss',
 })
-export class WeddingComponent {
+export class WeddingComponent implements AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private setTimeoutIds: ReturnType<typeof setTimeout>[] = [];
 
@@ -186,5 +186,15 @@ export class WeddingComponent {
     };
     const t = setTimeout(retry, 50);
     this.setTimeoutIds.push(t);
+  }
+
+  ngAfterViewInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.setTimeoutIds.forEach(id => clearTimeout(id));
   }
 }

@@ -77,7 +77,7 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
       imgSmall: '/assets/images/card_3-274x311.webp',
       title: 'Частные мероприятия',
       description: 'Формат для дней рождения, юбилеев, закрытых вечеров, семейных праздников и других частных событий.',
-      link: null,
+      link: '/private-event',
     },
   ];
 

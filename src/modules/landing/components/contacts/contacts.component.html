@@ -68,7 +68,7 @@
               </div>
               <div class="contacts__form__row">
                 <div class="form-field form-field--date">
-                  <input id="eventDate" [value]="formatDate(form.get('eventDate')?.value ?? null)" placeholder=" " readonly tabindex="-1" />
+                  <input  (click)="toggleCalendar()" id="eventDate" [value]="formatDate(form.get('eventDate')?.value ?? null)" placeholder=" " readonly tabindex="-1" />
                   <label for="eventDate">Дата мероприятия</label>
                   <button
                     type="button"

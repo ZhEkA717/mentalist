@@ -1,5 +1,17 @@
-import {ChangeDetectionStrategy, Component, inject,} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  OnDestroy,
+  PLATFORM_ID,
+} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
 import {Router} from '@angular/router';
+import {initRevealOnScroll} from '../../utils/scroll-animations';
+import {killGsapTweens} from '../../utils/gsap';
+import type {ScrollTrigger} from '../../utils/gsap';
 
 interface CombinationProgram {
   photo: string;
@@ -16,8 +28,25 @@ interface CombinationProgram {
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CombinationProgramComponent {
+export class CombinationProgramComponent implements AfterViewInit, OnDestroy {
+  private platformId = inject(PLATFORM_ID);
+  private readonly el = inject(ElementRef);
   private readonly router = inject(Router);
+  private triggers: ScrollTrigger[] = [];
+
+  ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    void initRevealOnScroll(this.el.nativeElement).then(triggers => {
+      this.triggers.push(...triggers);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.triggers.forEach(t => t.kill());
+    if (isPlatformBrowser(this.platformId)) {
+      killGsapTweens(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
+    }
+  }
 
   protected readonly combinationPrograms: CombinationProgram[] = [
     {

@@ -9,8 +9,9 @@ import {
   signal,
   viewChild
 } from '@angular/core';
-import {Gsap, loadGsap, ScrollTrigger} from '@modules/landing/utils/gsap';
+import {Gsap, killGsapTweens, loadGsap, ScrollTrigger} from '@modules/landing/utils/gsap';
 import {isPlatformBrowser, NgOptimizedImage, NgTemplateOutlet} from '@angular/common';
+import {initRevealOnScroll} from '../../utils/scroll-animations';
 
 @Component({
   selector: 'app-formats',
@@ -24,6 +25,7 @@ import {isPlatformBrowser, NgOptimizedImage, NgTemplateOutlet} from '@angular/co
 })
 export class FormatsComponent implements AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
+  private readonly el = inject(ElementRef);
   private scrollTriggers: ScrollTrigger[] = [];
 
   sceneBg = viewChild<ElementRef<HTMLElement>>('sceneBg');
@@ -49,6 +51,11 @@ export class FormatsComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
+
+    void initRevealOnScroll(this.el.nativeElement).then(triggers => {
+      this.scrollTriggers.push(...triggers);
+    });
+
     if (window.innerWidth < 768) return;
 
     void loadGsap().then(({gsap}) => this.initParallax(gsap));
@@ -79,5 +86,8 @@ export class FormatsComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.scrollTriggers.forEach(t => t.kill());
+    if (isPlatformBrowser(this.platformId)) {
+      killGsapTweens(this.el.nativeElement.querySelectorAll('.reveal-on-scroll'));
+    }
   }
 }

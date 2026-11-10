@@ -12,13 +12,13 @@
          width="381" height="475">
   </picture>
   <div class="container">
-    <h2 class="private-event-about__title">
+    <h2 class="private-event-about__title reveal-on-scroll">
       <span>ШОУ МЕНТАЛИСТА НА</span><br>
       ДЕНЬ РОЖДЕНИЯ, ЮБИЛЕЙ И ЧАСТНЫЙ ПРАЗДНИК
     </h2>
     <div class="private-event-about__content">
       <ng-container *ngTemplateOutlet="description"></ng-container>
-      <div class="private-event-about__items">
+      <div class="private-event-about__items reveal-on-scroll">
         @for (item of items; track item.icon) {
           <div class="private-event-about__item">
             <div class="private-event-about__item__image">

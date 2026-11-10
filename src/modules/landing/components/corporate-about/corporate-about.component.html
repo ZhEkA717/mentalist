@@ -13,12 +13,12 @@
   </picture>
   <div class="container">
     <div class="corporate-about__content">
-      <h2 class="corporate-about__title">
+      <h2 class="corporate-about__title reveal-on-scroll">
         <span>Шоу менталиста для</span><br>
         корпоративного мероприятия
       </h2>
       <ng-container *ngTemplateOutlet="description"></ng-container>
-      <div class="corporate-about__items">
+      <div class="corporate-about__items reveal-on-scroll">
         @for (item of items; track item.icon) {
           <div class="corporate-about__item">
             <div class="corporate-about__item__image">

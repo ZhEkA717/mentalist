@@ -20,6 +20,8 @@ import {killGsapTweens, loadGsap} from '../../utils/gsap';
 import {createModalClose} from '../../utils/modal-close';
 import {ImagePreloadService} from '../../services/image-preload.service';
 import {CORPORATE_HERO_BACKGROUNDS, CORPORATE_HERO_CHARACTERS} from '../../config/corporate-hero-assets';
+import {WEDDING_HERO_BACKGROUNDS, WEDDING_HERO_CHARACTERS} from '../../config/wedding-hero-assets';
+import {PRIVATE_EVENT_HERO_BACKGROUNDS, PRIVATE_EVENT_HERO_CHARACTERS} from '../../config/private-event-hero-assets';
 import {DrawerComponent} from '../drawer/drawer.component';
 
 @Component({
@@ -108,6 +110,12 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
     if (link === '/corporate') {
       this.imagePreload.preloadResponsive(CORPORATE_HERO_BACKGROUNDS);
       this.imagePreload.preloadResponsive(CORPORATE_HERO_CHARACTERS);
+    } else if (link === '/wedding') {
+      this.imagePreload.preloadResponsive(WEDDING_HERO_BACKGROUNDS);
+      this.imagePreload.preloadResponsive(WEDDING_HERO_CHARACTERS);
+    } else if (link === '/private-event') {
+      this.imagePreload.preloadResponsive(PRIVATE_EVENT_HERO_BACKGROUNDS);
+      this.imagePreload.preloadResponsive(PRIVATE_EVENT_HERO_CHARACTERS);
     }
   }
 

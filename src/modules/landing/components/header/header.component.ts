@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
 import {Router} from '@angular/router';
-import {TuiDropdownDirective, TuiDropdownHover} from '@taiga-ui/core';
+import {TuiDropdownDirective, TuiDropdownHover, TuiDropdownOptionsDirective} from '@taiga-ui/core';
 import {DrawerComponent} from '../drawer/drawer.component';
 import {ImagePreloadService} from '../../services/image-preload.service';
 import {CORPORATE_HERO_BACKGROUNDS, CORPORATE_HERO_CHARACTERS} from '../../config/corporate-hero-assets';
@@ -34,7 +34,13 @@ const LOGO_HIDE_THRESHOLD_PX = 240;
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [DrawerComponent, IsActivePipe, TuiDropdownDirective, TuiDropdownHover],
+  imports: [
+    DrawerComponent,
+    IsActivePipe,
+    TuiDropdownDirective,
+    TuiDropdownHover,
+    TuiDropdownOptionsDirective,
+  ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

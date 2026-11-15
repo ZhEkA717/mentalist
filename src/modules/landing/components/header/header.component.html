@@ -36,11 +36,12 @@
               </ng-template>
               <a [href]="item.href ?? item.route"
                  class="header__nav__link--dropdown"
-                 #sectionsDropdown="tuiDropdown"
                  [class.active]="item | isActive: activeSection()"
                  [tuiDropdown]="sectionsMenu"
                  tuiDropdownHover
-                 (click)="sectionsDropdown.toggle(false); scrollTo($event, item)"
+                 tuiDropdownAppearance="headerMenu"
+                 [tuiDropdownOffset]="6"
+                 (click)="scrollTo($event, item)"
                  (mouseenter)="preloadOnHover(item.route)"
                  (touchstart)="preloadOnHover(item.route)">{{ item.label }}
                 <svg

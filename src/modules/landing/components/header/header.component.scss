@@ -108,6 +108,13 @@
     display: flex;
     align-items: center;
     gap: 6px;
+
+    // Items with children: dropdown opens on hover instead of underline
+    @media (hover: hover) {
+      &:hover::after {
+        transform: scaleX(0);
+      }
+    }
   }
 }
 
@@ -126,7 +133,7 @@
 .header__dropdown {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0;
   min-width: 260px;
   margin: 0;
   padding: 0;
@@ -160,6 +167,14 @@
         background-color: rgba(255, 255, 255, 0.1);
       }
     }
+  }
+
+  &:first-child a {
+    border-radius: 8px 8px 0 0;
+  }
+
+  &:last-child a {
+    border-radius: 0 0 8px 8px;
   }
 }
 
@@ -262,6 +277,10 @@
     opacity: 0.8;
     transition: opacity 0.3s ease;
     position: relative;
+
+    @media(max-width: 768px) {
+      padding: 8px 0;
+    }
 
     &.active {
       opacity: 1;

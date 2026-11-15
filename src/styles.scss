@@ -172,3 +172,11 @@ tui-dropdown[data-appearance='headerMenu'] {
     margin: 0;
   }
 }
+
+body:has(tui-dropdown[data-appearance='headerMenu']) .header__nav__items .header__nav__item a.header__nav__link--dropdown::after {
+  transform: scaleX(0);
+}
+
+body:has(tui-dropdown[data-appearance='headerMenu']) .header__nav__link--dropdown .header__nav__caret {
+  transform: rotate(180deg);
+}

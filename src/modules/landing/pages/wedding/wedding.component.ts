@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, inject, OnDestroy, PLATFORM_ID} from '@angular/core';
 import {HeaderComponent, HeaderItem} from "@modules/landing/components/header/header.component";
+import {headerSectionChildren} from "@modules/landing/config/header-nav.config";
 import {isPlatformBrowser, NgOptimizedImage} from "@angular/common";
 import {WeddingHeroComponent} from '@modules/landing/components/wedding-hero/wedding-hero.component';
 import {
@@ -43,7 +44,12 @@ export class WeddingComponent implements AfterViewInit, OnDestroy {
 
   protected items: HeaderItem[] = [
     {label: 'Главная', route: '/'},
-    {label: 'Свадьба', href: '#wedding', route: '/wedding'},
+    {
+      label: 'Свадьба',
+      href: '#wedding',
+      route: '/wedding',
+      children: headerSectionChildren('/wedding'),
+    },
     {label: 'Форматы', href: '#formats'},
     {label: 'Отзывы', href: '#reviews'},
     {label: 'Медиа', href: '#media'},

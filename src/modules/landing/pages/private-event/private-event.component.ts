@@ -6,6 +6,7 @@ import {ContactsSectionComponent} from "@modules/landing/components/contacts/con
 import {FaqItem, FaqSectionComponent} from "@modules/landing/components/faq-section/faq-section.component";
 import {FormatsComponent} from "@modules/landing/components/formats/formats.component";
 import {HeaderComponent, HeaderItem} from "@modules/landing/components/header/header.component";
+import {headerSectionChildren} from "@modules/landing/config/header-nav.config";
 import {MediaSectionComponent} from "@modules/landing/components/media/media.component";
 import {isPlatformBrowser, NgOptimizedImage} from "@angular/common";
 import {ReviewsSectionComponent} from "@modules/landing/components/reviews-section/reviews-section.component";
@@ -45,7 +46,12 @@ export class PrivateEventComponent implements AfterViewInit, OnDestroy {
 
   protected items: HeaderItem[] = [
     {label: 'Главная', route: '/'},
-    {label: 'Частное меропритие', href: '#private-event', route: '/private-event'},
+    {
+      label: 'Частное мероприятие',
+      href: '#private-event',
+      route: '/private-event',
+      children: headerSectionChildren('/private-event'),
+    },
     {label: 'Форматы', href: '#formats'},
     {label: 'Отзывы', href: '#reviews'},
     {label: 'Медиа', href: '#media'},

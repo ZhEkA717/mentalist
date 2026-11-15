@@ -1,6 +1,7 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, inject, OnDestroy, PLATFORM_ID} from '@angular/core';
 import {isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {HeaderComponent, HeaderItem} from '../../components/header/header.component';
+import {headerSectionChildren} from '../../config/header-nav.config';
 import {CorporateHeroSectionComponent} from '../../components/corporate-hero/corporate-hero.component';
 import {CorporateAboutSectionComponent} from '../../components/corporate-about/corporate-about.component';
 import {ContactsSectionComponent} from '../../components/contacts/contacts.component';
@@ -41,7 +42,12 @@ export class CorporateComponent implements AfterViewInit, OnDestroy {
 
   protected items: HeaderItem[] = [
     {label: 'Главная', route: '/'},
-    {label: 'Корпоратив', href: '#corporate', route: '/corporate'},
+    {
+      label: 'Корпоратив',
+      href: '#corporate',
+      route: '/corporate',
+      children: headerSectionChildren('/corporate'),
+    },
     {label: 'Форматы', href: '#formats'},
     {label: 'Отзывы', href: '#reviews'},
     {label: 'Медиа', href: '#media'},

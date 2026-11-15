@@ -103,6 +103,68 @@
       transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
+
+  a.header__nav__link--dropdown {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+}
+
+.header__nav__caret {
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+
+  @media (hover: hover) {
+    .header__nav__link--dropdown:hover & {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+// Desktop hover dropdown with section subitems
+.header__dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 260px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.header__dropdown__item {
+  a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    color: #ffffff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    opacity: 0.8;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+
+    &.active {
+      opacity: 1;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        opacity: 1;
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+}
+
+.header__dropdown__back {
+  flex-shrink: 0;
 }
 
 // Mobile left content slot (visible only on mobile)
@@ -192,7 +254,7 @@
   text-transform: uppercase;
   color: #ffffff;
 
-  a {
+  > a {
     color: inherit;
     text-decoration: none;
     display: inline-block;
@@ -232,6 +294,50 @@
       transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
+}
+
+// Drawer subitems (indented to show they are child sections)
+.drawer__nav__subitems {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 28px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.drawer__nav__subitem {
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #ffffff;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: inherit;
+    text-decoration: none;
+    padding: 8px 0;
+    opacity: 0.65;
+    transition: opacity 0.3s ease;
+
+    &.active {
+      opacity: 1;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.drawer__nav__subitem-back {
+  flex-shrink: 0;
 }
 
 @media (max-width: 950px) {

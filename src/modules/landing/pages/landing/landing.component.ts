@@ -4,7 +4,8 @@ import {landingMetaConfig} from '../../config/landing-meta.config';
 import {SeoService} from '../../services/seo.service';
 import {isGsapLoaded, loadGsap, onGsapLoaded} from '../../utils/gsap';
 import {MarqueeDirective} from '../../directives/marquee.directive';
-import {HeaderComponent} from '../../components/header/header.component';
+import {HeaderComponent, HeaderItem} from '../../components/header/header.component';
+import {headerSectionChildren} from '../../config/header-nav.config';
 import {HeroSectionComponent} from '../../components/hero/hero.component';
 import {PromoShowSectionComponent} from '../../components/promo-show/promo-show.component';
 import {AboutSectionComponent} from '../../components/about/about.component';
@@ -51,9 +52,9 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     contacts: () => this.showContacts.set(true),
   };
 
-  protected items: {label: string; href: string; route?: string; block?: ScrollLogicalPosition; offset?: number}[] = [
+  protected items: HeaderItem[] = [
     {label: 'Главная', href: '#hero', route: '/'},
-    {label: 'Выступления', href: '#shows', offset: 100},
+    {label: 'Выступления', href: '#shows', offset: 100, children: headerSectionChildren('/')},
     {label: 'Об александре', href: '#about'},
     {label: 'Шоу и лекции', href: '#lectures'},
     {label: 'Медиа', href: '#media'},

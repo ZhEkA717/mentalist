@@ -9,11 +9,9 @@
           Авторские ментальные шоу, театральные проекты<br>и программы, созданные на пересечении<br>психологии, фокусов
           и иллюзий
         </div>
-        @if (environment.mode === 'DEV') {
-          <div class="button reveal-on-scroll">
-            <span>СМОТРЕТЬ АВТОРСКИЕ ШОУ</span>
-          </div>
-        }
+        <div class="button reveal-on-scroll" [style.opacity]="0">
+          <span>СМОТРЕТЬ АВТОРСКИЕ ШОУ</span>
+        </div>
       </div>
       <div class="lectures__content__right">
         <h2 class="title reveal-on-scroll">
@@ -23,11 +21,9 @@
           Интерактивные лекции и тренинги о психологии<br>восприятия, профайлинге, невербальном<br>поведении, гипнозе и
           ментализме
         </div>
-        @if (environment.mode === 'DEV') {
-          <div class="button reveal-on-scroll">
-            <span>подробнее о лекциях</span>
-          </div>
-        }
+        <div class="button reveal-on-scroll" [style.opacity]="0">
+          <span>подробнее о лекциях</span>
+        </div>
       </div>
     </div>
   </div>

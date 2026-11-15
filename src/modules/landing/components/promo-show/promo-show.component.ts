@@ -93,7 +93,7 @@ export class PromoShowSectionComponent implements AfterViewInit, OnDestroy {
     void initDimOnScroll(container).then(triggers => {
       this.scrollTriggers.push(...triggers);
     });
-    const id = setTimeout(() => this.initCardFlip(), 2200);
+    const id = setTimeout(() => this.initCardFlip(), 1200);
     this.setTimeoutIds.push(id);
 
     const sub = this.breakpointObserver.observe('(max-width: 950px)').subscribe(result => {

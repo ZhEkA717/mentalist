@@ -3,7 +3,6 @@ import type {HeaderItem} from '../components/header/header.component';
 export type HeaderSectionRoute = '/' | '/corporate' | '/wedding' | '/private-event';
 
 const SECTIONS: readonly HeaderItem[] = [
-  {label: 'Главная', route: '/', href: '#hero', offset: 100},
   {label: 'Корпоратив', route: '/corporate', href: '#corporate'},
   {label: 'Свадьба', route: '/wedding', href: '#wedding'},
   {label: 'Частное мероприятие', route: '/private-event', href: '#private-event'},

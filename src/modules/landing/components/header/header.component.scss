@@ -313,17 +313,88 @@
       transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
+
+  // Accordion header: tap only expands/collapses children
+  button.drawer__nav__accordion {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    inline-size: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 16px 0;
+    border: none;
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+    color: inherit;
+    font-family: Montserrat, sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: normal;
+    opacity: 0.8;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+
+    @media(max-width: 768px) {
+      padding: 8px 0;
+    }
+
+    &.active {
+      opacity: 1;
+    }
+
+    // Taiga renders its chevron as ::after with an icon font that is not
+    // loaded in this project — hide it in favor of the desktop caret SVG
+    &::after {
+      content: none;
+      display: none;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// Mobile accordion wrapper for items with children
+.drawer__accordion {
+  inline-size: 100%;
+}
+
+// Animated caret in the accordion header — same icon as the desktop
+// dropdown, rotates when the section is expanded
+.drawer__nav__caret {
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.drawer__nav__accordion[aria-expanded=true] .drawer__nav__caret {
+  transform: rotate(180deg);
 }
 
 // Drawer subitems (indented to show they are child sections)
+// Rendered inside <tui-expand> of the accordion
 .drawer__nav__subitems {
-  list-style: none;
-  margin: 0;
-  padding: 0 0 0 28px;
   text-align: left;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  padding-left: 28px;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .drawer__nav__subitem {

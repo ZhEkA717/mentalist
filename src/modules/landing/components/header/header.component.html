@@ -111,6 +111,7 @@
                 tuiAccordion
                 class="drawer__nav__accordion"
                 [class.active]="item | isActive: activeSection()"
+                [style.height.px]="40"
               >
                 {{ item.label }}
                 <svg

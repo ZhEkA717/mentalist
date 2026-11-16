@@ -244,7 +244,7 @@
 
 // Drawer nav styles (applied to projected content)
 .drawer__nav {
-  padding: 40px 30px 0;
+  padding: 40px 0 0;
   flex: 1;
   overflow-y: auto;
   display: flex;
@@ -384,8 +384,11 @@
 // Drawer subitems (indented to show they are child sections)
 // Rendered inside <tui-expand> of the accordion
 .drawer__nav__subitems {
-  text-align: left;
-  padding-left: 28px;
+  padding: 0;
+  text-align: center;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 
   ul {
     display: flex;
@@ -394,11 +397,40 @@
     list-style: none;
     margin: 0;
     padding: 0;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
   }
 }
 
+// Also target the tui-expand host element and its internals
+tui-expand.drawer__nav__subitems,
+tui-expand.drawer__nav__subitems * {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+// Target common Taiga UI expand content selectors
+.drawer__nav__subitems ::ng-deep .t-expand__content,
+.drawer__nav__subitems ::ng-deep .t-expand__header,
+.drawer__nav__subitems ::ng-deep [data-tui-expand] {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+// Target focus-visible outline that might look like border
+.drawer__nav__subitems ::ng-deep *:focus,
+.drawer__nav__subitems ::ng-deep *:focus-visible,
+.drawer__nav__subitems ::ng-deep *:focus-within {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
 .drawer__nav__subitem {
-  font-size: 16px;
+  font-size: 20px;
   line-height: 100%;
   letter-spacing: 0.5px;
   text-transform: uppercase;
